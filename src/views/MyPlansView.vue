@@ -8,12 +8,14 @@
 
       <!-- Empty State Card -->
       <EmptyPlan />
+      <PlansList />
     </div>
   </div>
 </template>
 
 <script setup>
 import EmptyPlan from '@/components/EmptyPlan.vue'
+import PlansList from '@/components/PlansList.vue';
 // No additional imports needed
 </script>
 
