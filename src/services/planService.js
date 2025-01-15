@@ -7,19 +7,19 @@ export const planService = {
     return plans
   },
   getPlanById(id) {
-    console.log('Buscando plan con id:', id)
-    const foundPlan = plans.value.find(plan => plan.id === id)
-    console.log('Plan encontrado:', foundPlan)
-    return foundPlan
+    return new Promise((resolve) => {
+      const foundPlan = plans.value.find(plan => plan.id === id)
+      resolve(foundPlan || null)
+    })
   },
   addPlan(plan) {
     const newPlan = {
-      id: Date.now(),
+      id: Date.now().toString(), // Aseguramos que el ID sea una cadena
       ...plan,
       createdAt: new Date().toISOString()
     }
     plans.value.push(newPlan)
     return newPlan
-  }
+  },
 }
 

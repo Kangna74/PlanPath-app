@@ -1,30 +1,49 @@
 <template>
-  <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Itinerario del Plan</h1>
-    <div v-if="plan">
-      <h2 class="text-xl mb-2">{{ plan.destination }}</h2>
-      <p class="text-gray-600 mb-4">{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
-      <h3 class="text-lg font-semibold mb-2">Actividades:</h3>
-      <ul class="space-y-2">
-        <li v-for="activity in plan.activities" :key="activity.id" class="bg-white shadow rounded-lg p-4">
-          <h4 class="font-medium">{{ activity.name }}</h4>
-          <p class="text-sm text-gray-600">{{ activity.date }} - {{ activity.time }}</p>
-          <p class="text-sm text-gray-600">{{ activity.location }}</p>
-        </li>
-      </ul>
-    </div>
-    <div v-else class="text-center text-gray-600">
-      Cargando itinerario...
-    </div>
+  <div class="min-h-screen bg-[#fafafa]">
+    <main class="container mx-auto px-4 py-8">
+      <div v-if="plan" class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-3xl font-bold text-[#000000]">{{ plan.destination }}</h1>
+          <button @click="goBack" class="text-[#0b64ad] hover:text-[#094a80] transition-colors">
+            <ArrowLeft class="h-6 w-6" />
+          </button>
+        </div>
+        <div class="flex items-center text-[#828282] text-sm mb-6">
+          <Calendar class="h-5 w-5 mr-2" />
+          <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
+        </div>
+        <h2 class="text-xl font-semibold mb-4">Actividades:</h2>
+        <ul class="space-y-4">
+          <li v-for="activity in plan.activities" :key="activity.id" class="bg-gray-50 rounded-lg p-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-medium text-[#000000]">{{ activity.name }}</h3>
+                <p class="text-sm text-[#828282]">{{ formatDateTime(activity.date, activity.time) }}</p>
+              </div>
+              <div class="flex items-center">
+                <MapPin class="h-5 w-5 text-[#0b64ad] mr-1" />
+                <p class="text-sm text-[#828282]">{{ activity.location }}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div v-else class="text-center text-[#828282] mt-8">
+        <Loader2 class="h-8 w-8 animate-spin mx-auto mb-4" />
+        <p>Cargando itinerario...</p>
+      </div>
+    </main>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { planService } from '../services/planService';
+import { Calendar, MapPin, ArrowLeft, Loader2 } from 'lucide-vue-next';
 
 const route = useRoute();
+const router = useRouter();
 const plan = ref(null);
 
 onMounted(async () => {
@@ -33,7 +52,19 @@ onMounted(async () => {
 });
 
 const formatDateRange = (startDate, endDate) => {
-  // Implementa la lógica de formateo de fechas aquí
-  return `${startDate} - ${endDate}`;
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const options = { day: 'numeric', month: 'long', year: 'numeric' };
+  return `${start.toLocaleDateString('es-ES', options)} - ${end.toLocaleDateString('es-ES', options)}`;
+};
+
+const formatDateTime = (date, time) => {
+  const dateObj = new Date(`${date}T${time}`);
+  const options = { weekday: 'long', hour: 'numeric', minute: 'numeric' };
+  return dateObj.toLocaleDateString('es-ES', options);
+};
+
+const goBack = () => {
+  router.push('/my-plans');
 };
 </script>
