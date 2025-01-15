@@ -20,14 +20,14 @@
 
     <!-- Navigation Buttons -->
     <div class="flex justify-between gap-4 mt-6">
-      <button 
-        
+      <button
+
         class="px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200"
       >
         Volver
       </button>
-      <button 
-  
+      <button
+
         class="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors duration-200"
       >
         ¡Ver tu itinerario!

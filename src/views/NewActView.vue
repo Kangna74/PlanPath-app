@@ -8,12 +8,12 @@
       </div>
 
       <!-- Form -->
-      <form class="space-y-4">
+      <form @submit.prevent="submitActivity" class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Nombre de la Actividad
           </label>
-          <input type="text" required
+          <input v-model="activity.name" type="text" required
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400" />
         </div>
 
@@ -21,7 +21,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Fecha
           </label>
-          <input type="date" required
+          <input v-model="activity.date" type="date" required
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             placeholder="Selecciona una fecha" />
         </div>
@@ -30,7 +30,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Hora
           </label>
-          <input type="time" required
+          <input v-model="activity.time" type="time" required
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400" />
         </div>
 
@@ -38,7 +38,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Ubicación
           </label>
-          <input type="text" required
+          <input v-model="activity.location" type="text" required
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400" />
         </div>
 
@@ -46,7 +46,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Notas (opcional)
           </label>
-          <textarea rows="4"
+          <textarea v-model="activity.notes" rows="4"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"></textarea>
         </div>
 
@@ -66,8 +66,25 @@ export default {
   components: {
     IconX,
   },
+  data() {
+    return {
+      activity: {
+        name: '',
+        date: '',
+        time: '',
+        location: '',
+        notes: ''
+      }
+    }
+  },
   methods: {
-    close() { },
+    close() {
+      this.$emit('close');
+    },
+    submitActivity() {
+      this.$emit('add-activity', { ...this.activity });
+      this.close();
+    }
   }
 }
 </script>
