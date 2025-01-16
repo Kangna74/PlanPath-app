@@ -4,7 +4,7 @@
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0">
-          <IconMiniPP class="h-8 w-8" />
+          <IconLogoPP class="h-8" />
         </div>
 
         <!-- Desktop Navigation -->
@@ -47,7 +47,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import IconBurger from './components/icons/IconBurger.vue';
 import IconX from './components/icons/IconX.vue';
-import IconMiniPP from './components/icons/IconMiniPP.vue';
+import IconLogoPP from './components/icons/IconLogoPP.vue';
 
 export default {
   components: {
@@ -55,7 +55,7 @@ export default {
     RouterView,
     IconBurger,
     IconX,
-    IconMiniPP,
+    IconLogoPP
   },
   data() {
     return {
