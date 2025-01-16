@@ -1,5 +1,8 @@
 <script>
-import { signInWithEmailAndPassword } from 'firebase/auth'
+
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase'
+import { useCurrentUser } from 'vuefire';
 
 export default {
   data() {
@@ -15,10 +18,24 @@ export default {
         return
       }
 
-      //const result = await signInWithEmailAndPassword(this.username.trim(), this.password)
+      console.log(this.username, this.password)
 
-      //console.log(result)
+      const result = await signInWithEmailAndPassword(auth, this.username.trim(), this.password)
+      console.log(result)
+    },
+    async dameInfo() {
+      const currentUser = auth.currentUser
+      const uid = currentUser?.uid
+      console.log("currentUser", uid)
     }
+  },
+  mounted() {
+    const currentUser = auth.currentUser
+    const uid = currentUser?.uid
+    console.log("currentUser", uid)
+  },
+  beforeMount() {
+
   }
 }
 
@@ -30,6 +47,7 @@ export default {
     <input type="password" v-model="password" placeholder="Password" />
     <button @click="login">Login</button>
 
+    <button @click="dameInfo">Dame info</button>
   </div>
 </template>
 
