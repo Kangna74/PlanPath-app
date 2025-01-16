@@ -155,7 +155,7 @@
         <button
           v-else
           @click="createItinerary"
-          class="ml-auto rounded-md bg-black px-6 py-2 text-white hover:bg-gray-800"
+          class="ml-auto rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-gray-800"
         >
           ¡Crea tu Itinerario!
         </button>
