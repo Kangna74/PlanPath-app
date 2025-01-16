@@ -13,6 +13,7 @@
           <RouterLink to="/my-plans" class="text-gray-900 hover:text-gray-900">Mis Planes</RouterLink>
           <RouterLink to="/create" class="text-gray-900 hover:text-gray-900">Crear</RouterLink>
           <RouterLink to="/new-activity" class="text-gray-900 hover:text-gray-900">Nuevo</RouterLink>
+          <RouterLink to="/login" class="text-gray-900 hover:text-gray-900">Login</RouterLink>
         </nav>
 
         <!-- Mobile menu button -->
