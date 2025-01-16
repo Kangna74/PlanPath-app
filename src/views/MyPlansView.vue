@@ -1,3 +1,44 @@
+<script setup>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { planService } from '../services/planService'
+import { Search, Trash2, Calendar } from 'lucide-vue-next'
+
+const router = useRouter()
+const searchQuery = ref('')
+const plans = planService.getPlans()
+
+const filteredPlans = computed(() => {
+  return plans.value.filter(plan =>
+    plan.destination.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
+
+const createNewPlan = () => {
+  router.push('/create')
+}
+
+const viewPlan = (planId) => {
+  console.log(`Navegando al plan ${planId}`)
+  router.push({ name: 'Itinerary', params: { id: planId.toString() } })
+}
+
+const deletePlan = (planId) => {
+  planService.deletePlan(planId)
+}
+
+const formatDateRange = (startDate, endDate) => {
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+  const options = { day: 'numeric', month: 'short' }
+  return `${start.toLocaleDateString('es-ES', options)} - ${end.toLocaleDateString('es-ES', options)}, ${end.getFullYear()}`
+}
+
+const formatTime = (date, time) => {
+  return `${time}`
+}
+</script>
+
 <template>
   <div class="min-h-screen bg-[#fafafa]">
     <main class="container mx-auto px-4 py-8">
@@ -44,7 +85,7 @@
                   <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
                 </div>
               </div>
-              <button @click="deletePlan(plan.id)" class="text-[#828282] hover:text-[#000000] transition-colors">
+              <button @click="deletePlan(plan.id)" class="text-[#828282] hover:text-[#812727] transition-colors">
                 <Trash2 class="h-5 w-5" />
               </button>
             </div>
@@ -86,45 +127,5 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { planService } from '../services/planService'
-import { Search, Trash2, Calendar } from 'lucide-vue-next'
 
-const router = useRouter()
-const searchQuery = ref('')
-const plans = planService.getPlans()
-
-const filteredPlans = computed(() => {
-  return plans.value.filter(plan =>
-    plan.destination.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-})
-
-const createNewPlan = () => {
-  router.push('/create')
-}
-
-const viewPlan = (planId) => {
-  console.log(`Navegando al plan ${planId}`)
-  router.push({ name: 'Itinerary', params: { id: planId.toString() } })
-}
-
-// const deletePlan = (planId) => {
-//   // Implementar la lógica para eliminar el plan
-//   console.log(`Eliminar plan ${planId}`)
-// }
-
-const formatDateRange = (startDate, endDate) => {
-  const start = new Date(startDate)
-  const end = new Date(endDate)
-  const options = { day: 'numeric', month: 'short' }
-  return `${start.toLocaleDateString('es-ES', options)} - ${end.toLocaleDateString('es-ES', options)}, ${end.getFullYear()}`
-}
-
-const formatTime = (date, time) => {
-  return `${time}`
-}
-</script>
 

@@ -21,5 +21,11 @@ export const planService = {
     plans.value.push(newPlan)
     return newPlan
   },
+  deletePlan(id) {
+    const index = plans.value.findIndex(plan => plan.id === id)
+    if (index !== -1) {
+      plans.value.splice(index, 1)
+    }
+  }
 }
 

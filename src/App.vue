@@ -1,3 +1,26 @@
+
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+import IconBurger from './components/icons/IconBurger.vue';
+import IconX from './components/icons/IconX.vue';
+import IconLogoPP from './components/icons/IconLogoPP.vue';
+
+export default {
+  components: {
+    RouterLink,
+    RouterView,
+    IconBurger,
+    IconX,
+    IconLogoPP
+  },
+  data() {
+    return {
+      isOpen: false
+    }
+  }
+}
+</script>
+
 <template>
   <header class="bg-blue-100/25 text-white border-b-2 border-blue-500">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,24 +62,3 @@
   <RouterView />
 </template>
 
-<script>
-import { RouterLink, RouterView } from 'vue-router'
-import IconBurger from './components/icons/IconBurger.vue';
-import IconX from './components/icons/IconX.vue';
-import IconLogoPP from './components/icons/IconLogoPP.vue';
-
-export default {
-  components: {
-    RouterLink,
-    RouterView,
-    IconBurger,
-    IconX,
-    IconLogoPP
-  },
-  data() {
-    return {
-      isOpen: false
-    }
-  }
-}
-</script>

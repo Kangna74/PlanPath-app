@@ -1,3 +1,15 @@
+
+<script>
+import IconLogoPP from '@/components/icons/IconLogoPP.vue';
+
+export default {
+  name: 'HomeView',
+  components: {
+    IconLogoPP,
+  },
+};
+</script>
+
 <template>
   <main>
 
@@ -13,15 +25,3 @@
   </main>
 </template>
 
-<script>
-import DestinyItem from '@/components/DestinyItem.vue';
-import IconLogoPP from '@/components/icons/IconLogoPP.vue';
-
-export default {
-  name: 'HomeView',
-  components: {
-    IconLogoPP,
-    DestinyItem,
-  },
-};
-</script>

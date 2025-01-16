@@ -1,3 +1,42 @@
+<script setup>
+import { ref, reactive } from 'vue'
+
+const props = defineProps({
+  isOpen: {
+    type: Boolean,
+    required: true
+  }
+})
+
+const emit = defineEmits(['close', 'submit'])
+
+const formData = reactive({
+  name: '',
+  date: '',
+  time: '',
+  location: '',
+  notes: ''
+})
+
+const handleSubmit = () => {
+  emit('submit', { ...formData })
+  resetForm()
+  close()
+}
+
+const close = () => {
+  emit('close')
+}
+
+const resetForm = () => {
+  formData.name = ''
+  formData.date = ''
+  formData.time = ''
+  formData.location = ''
+  formData.notes = ''
+}
+</script>
+
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
     <!-- Overlay -->
@@ -95,41 +134,4 @@
   </div>
 </template>
 
-<script setup>
-import { ref, reactive } from 'vue'
 
-const props = defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true
-  }
-})
-
-const emit = defineEmits(['close', 'submit'])
-
-const formData = reactive({
-  name: '',
-  date: '',
-  time: '',
-  location: '',
-  notes: ''
-})
-
-const handleSubmit = () => {
-  emit('submit', { ...formData })
-  resetForm()
-  close()
-}
-
-const close = () => {
-  emit('close')
-}
-
-const resetForm = () => {
-  formData.name = ''
-  formData.date = ''
-  formData.time = ''
-  formData.location = ''
-  formData.notes = ''
-}
-</script>

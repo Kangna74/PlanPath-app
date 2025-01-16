@@ -1,3 +1,8 @@
+
+<script setup>
+defineEmits(['create-plan'])
+</script>
+
 <template>
   <div class="bg-white rounded-lg shadow-sm p-8 text-center">
     <div class="space-y-4">
@@ -12,6 +17,3 @@
   </div>
 </template>
 
-<script setup>
-defineEmits(['create-plan'])
-</script>

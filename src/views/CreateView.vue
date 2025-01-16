@@ -1,3 +1,59 @@
+
+<script setup>
+import { ref, reactive } from 'vue'
+import { MapPin, Calendar, Eye } from 'lucide-vue-next'
+import AddActivityModal from '../components/AddActivityModal.vue'
+import { planService } from '../services/planService'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const steps = [
+  { name: 'Planificar', icon: MapPin },
+  { name: 'Actividades', icon: Calendar },
+  { name: 'Visualizar', icon: Eye }
+]
+
+const showAddActivityModal = ref(false)
+
+const handleAddActivity = (activity) => {
+  formData.activities.push({
+    ...activity,
+    id: Date.now() // Añadir un ID único
+  })
+}
+
+const currentStep = ref(0)
+const formData = reactive({
+  destination: '',
+  startDate: '',
+  endDate: '',
+  activities: []
+})
+
+const nextStep = () => {
+  if (currentStep.value < steps.length - 1) {
+    currentStep.value++
+  }
+}
+
+const previousStep = () => {
+  if (currentStep.value > 0) {
+    currentStep.value--
+  }
+}
+
+const createItinerary = () => {
+  planService.addPlan({
+    destination: formData.destination,
+    startDate: formData.startDate,
+    endDate: formData.endDate,
+    activities: formData.activities
+  })
+  router.push('/my-plans')
+}
+</script>
+
 <template>
   <div class="min-h-screen bg-white p-4">
     <div class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg">
@@ -170,57 +226,3 @@
   </div>
 </template>
 
-<script setup>
-import { ref, reactive } from 'vue'
-import { MapPin, Calendar, Eye } from 'lucide-vue-next'
-import AddActivityModal from '../components/AddActivityModal.vue'
-import { planService } from '../services/planService'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-const steps = [
-  { name: 'Planificar', icon: MapPin },
-  { name: 'Actividades', icon: Calendar },
-  { name: 'Visualizar', icon: Eye }
-]
-
-const showAddActivityModal = ref(false)
-
-const handleAddActivity = (activity) => {
-  formData.activities.push({
-    ...activity,
-    id: Date.now() // Añadir un ID único
-  })
-}
-
-const currentStep = ref(0)
-const formData = reactive({
-  destination: '',
-  startDate: '',
-  endDate: '',
-  activities: []
-})
-
-const nextStep = () => {
-  if (currentStep.value < steps.length - 1) {
-    currentStep.value++
-  }
-}
-
-const previousStep = () => {
-  if (currentStep.value > 0) {
-    currentStep.value--
-  }
-}
-
-const createItinerary = () => {
-  planService.addPlan({
-    destination: formData.destination,
-    startDate: formData.startDate,
-    endDate: formData.endDate,
-    activities: formData.activities
-  })
-  router.push('/my-plans')
-}
-</script>

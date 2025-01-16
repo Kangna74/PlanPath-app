@@ -1,3 +1,36 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { planService } from '../services/planService';
+import { Calendar, MapPin, ArrowLeft} from 'lucide-vue-next';
+
+const route = useRoute();
+const router = useRouter();
+const plan = ref(null);
+
+onMounted(async () => {
+  const planId = route.params.id;
+  plan.value = await planService.getPlanById(planId);
+});
+
+const formatDateRange = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const options = { day: 'numeric', month: 'long', year: 'numeric' };
+  return `${start.toLocaleDateString('es-ES', options)} - ${end.toLocaleDateString('es-ES', options)}`;
+};
+
+const formatDateTime = (date, time) => {
+  const dateObj = new Date(`${date}T${time}`);
+  const options = { weekday: 'long', hour: 'numeric', minute: 'numeric' };
+  return dateObj.toLocaleDateString('es-ES', options);
+};
+
+const goBack = () => {
+  router.push('/my-plans');
+};
+</script>
+
 <template>
   <div class="min-h-screen bg-[#fafafa]">
     <main class="container mx-auto px-4 py-8">
@@ -32,35 +65,4 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { planService } from '../services/planService';
-import { Calendar, MapPin, ArrowLeft} from 'lucide-vue-next';
 
-const route = useRoute();
-const router = useRouter();
-const plan = ref(null);
-
-onMounted(async () => {
-  const planId = route.params.id;
-  plan.value = await planService.getPlanById(planId);
-});
-
-const formatDateRange = (startDate, endDate) => {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const options = { day: 'numeric', month: 'long', year: 'numeric' };
-  return `${start.toLocaleDateString('es-ES', options)} - ${end.toLocaleDateString('es-ES', options)}`;
-};
-
-const formatDateTime = (date, time) => {
-  const dateObj = new Date(`${date}T${time}`);
-  const options = { weekday: 'long', hour: 'numeric', minute: 'numeric' };
-  return dateObj.toLocaleDateString('es-ES', options);
-};
-
-const goBack = () => {
-  router.push('/my-plans');
-};
-</script>
