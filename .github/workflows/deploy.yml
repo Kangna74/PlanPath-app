@@ -32,8 +32,10 @@ jobs:
         key: ${{ secrets.SERVER_PRIVATE_KEY }}
         port: 22
         script: |
-          cd /var/www/app
+          cd /var/www/app/dist
+          mv ./.env ../
           rm -rf *
+          mv ../.env ./
 
     - name: Upload build files
       uses: appleboy/scp-action@v0.1.7
