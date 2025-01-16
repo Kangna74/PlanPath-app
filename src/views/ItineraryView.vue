@@ -12,7 +12,7 @@
           <Calendar class="h-5 w-5 mr-2" />
           <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
         </div>
-        <h2 class="text-xl font-semibold mb-4">Actividades:</h2>
+        <h2 class="text-xl font-semibold mb-4">Tus Actividades:</h2>
         <ul class="space-y-4">
           <li v-for="activity in plan.activities" :key="activity.id" class="bg-gray-50 rounded-lg p-4">
             <div class="flex justify-between items-start">
@@ -28,10 +28,6 @@
           </li>
         </ul>
       </div>
-      <div v-else class="text-center text-[#828282] mt-8">
-        <Loader2 class="h-8 w-8 animate-spin mx-auto mb-4" />
-        <p>Cargando itinerario...</p>
-      </div>
     </main>
   </div>
 </template>
@@ -40,7 +36,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { planService } from '../services/planService';
-import { Calendar, MapPin, ArrowLeft, Loader2 } from 'lucide-vue-next';
+import { Calendar, MapPin, ArrowLeft} from 'lucide-vue-next';
 
 const route = useRoute();
 const router = useRouter();
