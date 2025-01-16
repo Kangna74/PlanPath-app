@@ -1,10 +1,10 @@
 <template>
-  <header class="bg-white shadow-sm">
+  <header class="bg-blue-100/25 text-white border-b-2 border-blue-500">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0">
-          <IconMiniPP class="h-8 w-8" />
+          <IconLogoPP class="h-8" />
         </div>
 
         <!-- Desktop Navigation -->
@@ -43,7 +43,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import IconBurger from './components/icons/IconBurger.vue';
 import IconX from './components/icons/IconX.vue';
-import IconMiniPP from './components/icons/IconMiniPP.vue';
+import IconLogoPP from './components/icons/IconLogoPP.vue';
 
 export default {
   components: {
@@ -51,7 +51,7 @@ export default {
     RouterView,
     IconBurger,
     IconX,
-    IconMiniPP,
+    IconLogoPP
   },
   data() {
     return {
