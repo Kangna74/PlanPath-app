@@ -8,7 +8,10 @@
           <button class="text-gray-400 hover:text-gray-600 p-1" @click="editActivity(activity.id)">
             <PencilIcon class="h-4 w-4" />
           </button>
-          <button class="text-gray-400 hover:text-gray-600 p-1" @click="deleteActivity(activity.id)">
+          <button
+            class="text-gray-400 hover:text-gray-600 p-1"
+            @click="deleteActivity(activity.id)"
+          >
             <TrashIcon class="h-4 w-4" />
           </button>
         </div>
@@ -36,7 +39,7 @@ export default {
       console.log('Deleting activity:', activityId)
     }
     return { editActivity, deleteActivity }
-  }
+  },
 }
 </script>
 <!-- <script>

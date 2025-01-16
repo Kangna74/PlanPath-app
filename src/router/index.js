@@ -4,33 +4,39 @@ import HomeView from '../views/HomeView.vue'
 import CreateView from '../views/CreateView.vue'
 import ItineraryView from '../views/ItineraryView.vue'
 import MyPlansView from '../views/MyPlansView.vue'
+import LogIn from '../views/LoginView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomeView
+    component: HomeView,
   },
   {
     path: '/create',
     name: 'Create',
-    component: CreateView
+    component: CreateView,
   },
   {
     path: '/itinerary/:id',
     name: 'Itinerary',
-    component: ItineraryView
+    component: ItineraryView,
   },
   {
     path: '/my-plans',
     name: 'MyPlans',
-    component: MyPlansView
-  }
+    component: MyPlansView,
+  },
+  {
+    path: '/login',
+    name: 'LogIn',
+    component: LogIn,
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
 })
 
 export default router

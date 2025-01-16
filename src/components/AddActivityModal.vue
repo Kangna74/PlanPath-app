@@ -8,12 +8,14 @@
       <!-- Header -->
       <div class="mb-6 flex items-center justify-between">
         <h2 class="text-xl font-bold">Añadir Nueva Actividad</h2>
-        <button
-          @click="close"
-          class="text-gray-400 hover:text-gray-600"
-        >
+        <button @click="close" class="text-gray-400 hover:text-gray-600">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
@@ -34,9 +36,7 @@
         </div>
 
         <div>
-          <label for="date" class="block text-sm font-medium text-gray-700">
-            Fecha
-          </label>
+          <label for="date" class="block text-sm font-medium text-gray-700"> Fecha </label>
           <input
             id="date"
             v-model="formData.date"
@@ -47,9 +47,7 @@
         </div>
 
         <div>
-          <label for="time" class="block text-sm font-medium text-gray-700">
-            Hora
-          </label>
+          <label for="time" class="block text-sm font-medium text-gray-700"> Hora </label>
           <input
             id="time"
             v-model="formData.time"
@@ -60,9 +58,7 @@
         </div>
 
         <div>
-          <label for="location" class="block text-sm font-medium text-gray-700">
-            Ubicación
-          </label>
+          <label for="location" class="block text-sm font-medium text-gray-700"> Ubicación </label>
           <input
             id="location"
             v-model="formData.location"
@@ -101,8 +97,8 @@ import { ref, reactive } from 'vue'
 const props = defineProps({
   isOpen: {
     type: Boolean,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const emit = defineEmits(['close', 'submit'])
@@ -112,7 +108,7 @@ const formData = reactive({
   date: '',
   time: '',
   location: '',
-  notes: ''
+  notes: '',
 })
 
 const handleSubmit = () => {

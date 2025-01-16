@@ -1,17 +1,17 @@
 <script>
 import { RouterView } from 'vue-router'
-import NavBar from './components/NavBar.vue';
+import NavBar from './components/NavBar.vue'
 
 export default {
   components: {
     RouterView,
-    NavBar
+    NavBar,
   },
   data() {
     return {
-      isOpen: false
+      isOpen: false,
     }
-  }
+  },
 }
 </script>
 
@@ -19,5 +19,3 @@ export default {
   <NavBar />
   <RouterView />
 </template>
-
-

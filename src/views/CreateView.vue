@@ -7,21 +7,17 @@
       <!-- Progress Steps -->
       <div class="mb-8">
         <div class="relative flex justify-between">
-          <div v-for="(step, index) in steps" :key="step.name"
-               class="flex flex-col items-center">
+          <div v-for="(step, index) in steps" :key="step.name" class="flex flex-col items-center">
             <div
               :class="[
                 'flex h-10 w-10 items-center justify-center rounded-full',
-                currentStep >= index ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                currentStep >= index ? 'bg-blue-500 text-white' : 'bg-gray-200',
               ]"
             >
               <component :is="step.icon" class="h-5 w-5" />
             </div>
             <span
-              :class="[
-                'mt-2 text-sm',
-                currentStep >= index ? 'text-blue-500' : 'text-gray-500'
-              ]"
+              :class="['mt-2 text-sm', currentStep >= index ? 'text-blue-500' : 'text-gray-500']"
             >
               {{ step.name }}
             </span>
@@ -30,17 +26,13 @@
 
         <!-- Progress Bar -->
         <div class="mt-4 flex w-full justify-between">
-          <div
-            v-for="(step, index) in steps"
-            :key="index"
-            class="relative flex-1"
-          >
+          <div v-for="(step, index) in steps" :key="index" class="relative flex-1">
             <div
               :class="[
                 'absolute h-1 w-full',
                 index === 0 ? 'rounded-l-full' : '',
                 index === steps.length - 1 ? 'rounded-r-full' : '',
-                currentStep >= index ? 'bg-blue-500' : 'bg-gray-200'
+                currentStep >= index ? 'bg-blue-500' : 'bg-gray-200',
               ]"
             ></div>
           </div>
@@ -49,20 +41,22 @@
 
       <!-- Carousel Content -->
       <div class="min-h-[400px]">
-    <!-- Step 1: Planificar -->
-    <div v-if="currentStep === 0" class="space-y-6">
-      <div>
-        <label for="destination" class="block text-sm font-medium text-gray-700">Tarea</label>
-        <input
-          id="destination"
-          v-model="formData.destination"
-          type="text"
-          placeholder="¿Qué plan tienes en mente?"
-          class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        />
-      </div>
+        <!-- Step 1: Planificar -->
+        <div v-if="currentStep === 0" class="space-y-6">
           <div>
-            <label for="dates" class="block text-sm font-medium text-gray-700">Fechas de la Tarea</label>
+            <label for="destination" class="block text-sm font-medium text-gray-700">Tarea</label>
+            <input
+              id="destination"
+              v-model="formData.destination"
+              type="text"
+              placeholder="¿Qué plan tienes en mente?"
+              class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label for="dates" class="block text-sm font-medium text-gray-700"
+              >Fechas de la Tarea</label
+            >
             <div class="flex space-x-4">
               <div class="flex-1">
                 <label for="startDate" class="block text-xs text-gray-500">Inicio</label>
@@ -94,20 +88,22 @@
             <p>¡Comienza a planificar!</p>
           </div>
           <div v-else class="space-y-4">
-            <div v-for="(activity, index) in formData.activities"
-                 :key="index"
-                 class="rounded-lg border border-gray-200 p-4">
+            <div
+              v-for="(activity, index) in formData.activities"
+              :key="index"
+              class="rounded-lg border border-gray-200 p-4"
+            >
               <h3 class="font-medium">{{ activity.name }}</h3>
               <p class="text-sm text-gray-500">{{ activity.date }} - {{ activity.time }}</p>
               <p class="text-sm text-gray-500">{{ activity.location }}</p>
             </div>
           </div>
           <button
-    @click="showAddActivityModal = true"
-    class="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-  >
-    + Añadir Actividad
-  </button>
+            @click="showAddActivityModal = true"
+            class="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          >
+            + Añadir Actividad
+          </button>
         </div>
 
         <!-- Step 3: Visualizar -->
@@ -120,10 +116,14 @@
           <div class="rounded-lg bg-gray-50 p-4">
             <h3 class="mb-2 text-sm font-medium text-gray-700">Resumen de Actividades:</h3>
             <div class="space-y-4">
-              <div v-for="(activity, index) in formData.activities"
-                   :key="index"
-                   class="flex items-center gap-4">
-                <span class="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs text-white">
+              <div
+                v-for="(activity, index) in formData.activities"
+                :key="index"
+                class="flex items-center gap-4"
+              >
+                <span
+                  class="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs text-white"
+                >
                   {{ index + 1 }}
                 </span>
                 <div>
@@ -162,10 +162,10 @@
       </div>
 
       <AddActivityModal
-    :is-open="showAddActivityModal"
-    @close="showAddActivityModal = false"
-    @submit="handleAddActivity"
-  />
+        :is-open="showAddActivityModal"
+        @close="showAddActivityModal = false"
+        @submit="handleAddActivity"
+      />
     </div>
   </div>
 </template>
@@ -182,7 +182,7 @@ const router = useRouter()
 const steps = [
   { name: 'Planificar', icon: MapPin },
   { name: 'Actividades', icon: Calendar },
-  { name: 'Visualizar', icon: Eye }
+  { name: 'Visualizar', icon: Eye },
 ]
 
 const showAddActivityModal = ref(false)
@@ -190,7 +190,7 @@ const showAddActivityModal = ref(false)
 const handleAddActivity = (activity) => {
   formData.activities.push({
     ...activity,
-    id: Date.now() // Añadir un ID único
+    id: Date.now(), // Añadir un ID único
   })
 }
 
@@ -199,7 +199,7 @@ const formData = reactive({
   destination: '',
   startDate: '',
   endDate: '',
-  activities: []
+  activities: [],
 })
 
 const nextStep = () => {
@@ -219,7 +219,7 @@ const createItinerary = () => {
     destination: formData.destination,
     startDate: formData.startDate,
     endDate: formData.endDate,
-    activities: formData.activities
+    activities: formData.activities,
   })
   router.push('/my-plans')
 }
