@@ -12,7 +12,6 @@
           <RouterLink to="/" class="text-gray-900 hover:text-gray-900">Inicio</RouterLink>
           <RouterLink to="/my-plans" class="text-gray-900 hover:text-gray-900">Mis Planes</RouterLink>
           <RouterLink to="/create" class="text-gray-900 hover:text-gray-900">Crear</RouterLink>
-          <RouterLink to="/new-activity" class="text-gray-900 hover:text-gray-900">Nuevo</RouterLink>
         </nav>
 
         <!-- Mobile menu button -->
@@ -31,12 +30,9 @@
     <!-- Mobile Navigation -->
     <div v-if="isOpen" class="md:hidden">
       <div class="px-2 pt-2 pb-3 sm:px-3 flex flex-col gap-3 items-end bg-gray-100">
-
         <RouterLink to="/" class="text-gray-900 hover:text-gray-900">Inicio</RouterLink>
         <RouterLink to="/my-plans" class="text-gray-900 hover:text-gray-900">Mis Planes</RouterLink>
         <RouterLink to="/create" class="text-gray-900 hover:text-gray-900">Crear</RouterLink>
-        <RouterLink to="/new-activity" class="text-gray-900 hover:text-gray-900">Nuevo</RouterLink>
-
       </div>
     </div>
   </header>
