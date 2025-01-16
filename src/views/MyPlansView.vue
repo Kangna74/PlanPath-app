@@ -111,10 +111,10 @@ const viewPlan = (planId) => {
   router.push({ name: 'Itinerary', params: { id: planId.toString() } })
 }
 
-const deletePlan = (planId) => {
-  // Implementar la lógica para eliminar el plan
-  console.log(`Eliminar plan ${planId}`)
-}
+// const deletePlan = (planId) => {
+//   // Implementar la lógica para eliminar el plan
+//   console.log(`Eliminar plan ${planId}`)
+// }
 
 const formatDateRange = (startDate, endDate) => {
   const start = new Date(startDate)
