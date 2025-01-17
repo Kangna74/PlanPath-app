@@ -3,7 +3,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import IconBurger from './components/icons/IconBurger.vue';
 import IconX from './components/icons/IconX.vue';
-import IconLogoPP from './components/icons/IconLogoPP.vue';
+import IconLogoPPSmall from './components/icons/IconLogoPPSmall.vue';
 
 export default {
   components: {
@@ -11,7 +11,7 @@ export default {
     RouterView,
     IconBurger,
     IconX,
-    IconLogoPP
+    IconLogoPPSmall
   },
   data() {
     return {
@@ -33,7 +33,7 @@ export default {
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0">
-          <IconLogoPP class="h-8" />
+          <IconLogoPPSmall class="h-8" />
         </div>
 
         <!-- Desktop Navigation -->
