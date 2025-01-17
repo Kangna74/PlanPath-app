@@ -8,10 +8,10 @@
         </div>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex space-x-4">
-          <RouterLink to="/" class="text-gray-900 hover:text-gray-900">Inicio</RouterLink>
-          <RouterLink to="/my-plans" class="text-gray-900 hover:text-gray-900">Mis Planes</RouterLink>
-          <RouterLink to="/create" class="text-gray-900 hover:text-gray-900">Crear</RouterLink>
+        <nav class="hidden md:flex space-x-4 text-lg">
+          <RouterLink to="/" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Inicio</RouterLink>
+          <RouterLink to="/my-plans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Mis Planes</RouterLink>
+          <RouterLink to="/create" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Crear</RouterLink>
         </nav>
 
         <!-- Mobile menu button -->
@@ -28,11 +28,20 @@
     </div>
 
     <!-- Mobile Navigation -->
-    <div v-if="isOpen" class="md:hidden">
-      <div class="px-2 pt-2 pb-3 sm:px-3 flex flex-col gap-3 items-end bg-gray-100">
-        <RouterLink to="/" class="text-gray-900 hover:text-gray-900">Inicio</RouterLink>
-        <RouterLink to="/my-plans" class="text-gray-900 hover:text-gray-900">Mis Planes</RouterLink>
-        <RouterLink to="/create" class="text-gray-900 hover:text-gray-900">Crear</RouterLink>
+    <div v-if="isOpen" class="md:hidden z-10 absolute right-2 mt-2 bg-white rounded-lg shadow-lg">
+      <div class="flex flex-col p-4 space-y-4 text-lg">
+
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('Home')">Inicio</button>
+
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('MyPlans')">Mis Planes</button>
+
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('Create')">Crear</button>
+
+
+        <!-- <RouterLink to="/" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">
+          Inicio</RouterLink>
+        <RouterLink to="/my-plans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Mis Planes</RouterLink>
+        <RouterLink to="/create" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Crear</RouterLink> -->
       </div>
     </div>
   </header>
@@ -56,6 +65,12 @@ export default {
   data() {
     return {
       isOpen: false
+    }
+  },
+  methods: {
+    navigateto(route) {
+      this.$router.push({ name: route });
+      this.isOpen = false;
     }
   }
 }

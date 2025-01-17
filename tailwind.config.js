@@ -23,7 +23,7 @@ export default {
     },
     fontFamily: {
       'merienda': ['merienda', 'serif'],
-      'jost': ['jost', 'sans-serif'],
+      'sans': ['jost', 'sans-serif'],
     },
   },
   plugins: [],
