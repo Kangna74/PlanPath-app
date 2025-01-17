@@ -95,7 +95,11 @@ const formatTime = (date, time) => {
                 {{ plan.activities.length }} actividades planificadas
               </h3>
               <ul class="space-y-2">
-                <li v-for="(activity, index) in plan.activities.slice(0, 2)" :key="index" class="text-[#828282] text-sm">
+                <li
+                  v-for="(activity, index) in plan.activities.slice(0, 2)"
+                  :key="index"
+                  class="text-[#828282] text-sm"
+                >
                   {{ activity.name }} - {{ formatTime(activity.date, activity.time) }}
                 </li>
                 <li v-if="plan.activities.length > 2" class="text-[#4d4949] text-sm font-medium">

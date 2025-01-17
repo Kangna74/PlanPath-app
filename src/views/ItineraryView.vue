@@ -47,11 +47,17 @@ const goBack = () => {
         </div>
         <h2 class="text-xl font-semibold mb-4">Tus Actividades:</h2>
         <ul class="space-y-4">
-          <li v-for="activity in plan.activities" :key="activity.id" class="bg-gray-50 rounded-lg p-4">
+          <li
+            v-for="activity in plan.activities"
+            :key="activity.id"
+            class="bg-gray-50 rounded-lg p-4"
+          >
             <div class="flex justify-between items-start">
               <div>
                 <h3 class="font-medium text-[#000000]">{{ activity.name }}</h3>
-                <p class="text-sm text-[#828282]">{{ formatDateTime(activity.date, activity.time) }}</p>
+                <p class="text-sm text-[#828282]">
+                  {{ formatDateTime(activity.date, activity.time) }}
+                </p>
               </div>
               <div class="flex items-center">
                 <MapPin class="h-5 w-5 text-[#0b64ad] mr-1" />
