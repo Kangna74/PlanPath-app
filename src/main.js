@@ -1,12 +1,10 @@
-import './assets/style.css'
-import { VueFire } from 'vuefire'
-import { firebaseApp } from './firebase.js'
-
+import { VueFire, VueFireFirestoreOptionsAPI, VueFireAuth } from 'vuefire'
+import { firebaseApp } from '@/firebase.js'
 import { createApp } from 'vue'
+
 import App from './App.vue'
 import router from './router'
-import { VueFireFirestoreOptionsAPI } from 'vuefire'
-import { VueFireAuth } from 'vuefire'
+import './assets/style.css'
 
 const app = createApp(App)
 
