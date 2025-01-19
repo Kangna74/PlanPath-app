@@ -38,12 +38,11 @@ const formatTime = (date, time) => {
   return `${time}`
 }
 </script>
-
 <template>
   <div class="min-h-screen bg-[#fafafa]">
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-[#000000]">Mis Itirenarios</h1>
+        <h1 class="text-3xl font-bold text-[#000000]">Mis Itinerarios</h1>
         <p class="text-[#828282]">{{ filteredPlans.length }} itinerarios</p>
       </div>
 
@@ -52,7 +51,7 @@ const formatTime = (date, time) => {
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="Buscar itirenarios..."
+          placeholder="Buscar itinerarios..."
           class="w-full px-12 py-3 border border-[#d9d9d9] rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#0b64ad]"
         />
         <Search class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#828282] h-5 w-5" />
@@ -61,7 +60,7 @@ const formatTime = (date, time) => {
       <!-- Lista de planes -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-if="filteredPlans.length === 0" class="col-span-full text-center py-12">
-          <p class="text-[#828282] mb-8">No tienes ningún itirenario creado</p>
+          <p class="text-[#828282] mb-8">No tienes ningún itinerario creado</p>
           <button
             @click="createNewPlan"
             class="bg-[#0b64ad] text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors"
@@ -118,8 +117,8 @@ const formatTime = (date, time) => {
         </div>
       </div>
 
-      <!-- Botón flotante de crear -->
-      <div class="fixed bottom-8 right-8">
+      <!-- Botón flotante de crear (solo visible cuando hay planes) -->
+      <div v-if="filteredPlans.length > 0" class="fixed bottom-8 right-8">
         <button
           @click="createNewPlan"
           class="bg-[#0b64ad] text-white px-8 py-4 rounded-full shadow-xl hover:bg-[#0b64ad]/90 transition-colors"
