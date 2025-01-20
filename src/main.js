@@ -9,9 +9,9 @@ import './assets/style.css'
 const app = createApp(App)
 
 app.use(router)
-// app.use(VueFire, {
-//   firebaseApp,
-//   modules: [VueFireFirestoreOptionsAPI(), VueFireAuth()],
-// })
+app.use(VueFire, {
+  firebaseApp,
+  modules: [VueFireFirestoreOptionsAPI(), VueFireAuth()],
+})
 
 app.mount('#app')

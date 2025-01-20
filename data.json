@@ -1,0 +1,185 @@
+{
+    "plans": [
+      {
+        "activities": [
+          {
+            "date": "2025-01-20T18:00:00Z",
+            "description": "Concierto de música en vivo para disfrutar de artistas locales.",
+            "location": "Auditorio Alfredo Kraus",
+            "name": "Concierto en vivo",
+            "city": "Las Palmas de Gran Canaria"
+          }
+        ],
+        "date": {
+          "start": "2025-01-20T00:00:00Z",
+          "end": "2025-01-20T23:59:59Z"
+        },
+        "name": "Noche de música",
+        "public": true,
+        "uid": "PLAN001"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-21T10:00:00Z",
+            "description": "Caminata guiada por un parque natural con un experto en flora y fauna local.",
+            "location": "Parque Rural de Doramas",
+            "name": "Senderismo y naturaleza",
+            "city": "Moya"
+          }
+        ],
+        "date": {
+          "start": "2025-01-21T00:00:00Z",
+          "end": "2025-01-21T18:00:00Z"
+        },
+        "name": "Excursión al aire libre",
+        "public": true,
+        "uid": "PLAN002"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-22T16:00:00Z",
+            "description": "Exposición de arte contemporáneo en el centro cultural local.",
+            "location": "Centro Cultural CICCA",
+            "name": "Arte en el CICCA",
+            "city": "Las Palmas de Gran Canaria"
+          }
+        ],
+        "date": {
+          "start": "2025-01-22T00:00:00Z",
+          "end": "2025-01-22T20:00:00Z"
+        },
+        "name": "Tarde de arte",
+        "public": false,
+        "uid": "PLAN003"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-23T19:00:00Z",
+            "description": "Proyección de una película clásica con debate posterior.",
+            "location": "Cine Monopol",
+            "name": "Cine y debate",
+            "city": "Las Palmas de Gran Canaria"
+          }
+        ],
+        "date": {
+          "start": "2025-01-23T00:00:00Z",
+          "end": "2025-01-23T23:59:59Z"
+        },
+        "name": "Noche de cine",
+        "public": true,
+        "uid": "PLAN004"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-24T08:00:00Z",
+            "description": "Clase de yoga en la playa al amanecer.",
+            "location": "Playa de Las Canteras",
+            "name": "Yoga al amanecer",
+            "city": "Las Palmas de Gran Canaria"
+          }
+        ],
+        "date": {
+          "start": "2025-01-24T00:00:00Z",
+          "end": "2025-01-24T09:00:00Z"
+        },
+        "name": "Energía matutina",
+        "public": true,
+        "uid": "PLAN005"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-25T15:00:00Z",
+            "description": "Torneo de videojuegos con premios para los ganadores.",
+            "location": "Zona Gaming Gran Canaria",
+            "name": "Torneo gaming",
+            "city": "Telde"
+          }
+        ],
+        "date": {
+          "start": "2025-01-25T00:00:00Z",
+          "end": "2025-01-25T20:00:00Z"
+        },
+        "name": "Día de competición",
+        "public": false,
+        "uid": "PLAN006"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-26T13:00:00Z",
+            "description": "Ruta gastronómica por varios restaurantes locales.",
+            "location": "Centro de la ciudad",
+            "name": "Ruta de tapas",
+            "city": "Las Palmas de Gran Canaria"
+          }
+        ],
+        "date": {
+          "start": "2025-01-26T00:00:00Z",
+          "end": "2025-01-26T23:59:59Z"
+        },
+        "name": "Sabores locales",
+        "public": true,
+        "uid": "PLAN007"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-27T09:00:00Z",
+            "description": "Jornada de limpieza de playas organizada por voluntarios.",
+            "location": "Playa de El Confital",
+            "name": "Limpieza ambiental",
+            "city": "Las Palmas de Gran Canaria"
+          }
+        ],
+        "date": {
+          "start": "2025-01-27T00:00:00Z",
+          "end": "2025-01-27T13:00:00Z"
+        },
+        "name": "Cuidemos la naturaleza",
+        "public": true,
+        "uid": "PLAN008"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-28T17:00:00Z",
+            "description": "Conferencia sobre tecnología y su impacto en la educación.",
+            "location": "Universidad de Las Palmas de Gran Canaria",
+            "name": "Charla educativa",
+            "city": "Las Palmas de Gran Canaria"
+          }
+        ],
+        "date": {
+          "start": "2025-01-28T00:00:00Z",
+          "end": "2025-01-28T20:00:00Z"
+        },
+        "name": "Innovación en educación",
+        "public": true,
+        "uid": "PLAN009"
+      },
+      {
+        "activities": [
+          {
+            "date": "2025-01-29T18:30:00Z",
+            "description": "Taller práctico de fotografía para principiantes.",
+            "location": "Casa de la Cultura",
+            "name": "Taller de fotografía",
+            "city": "Arucas"
+          }
+        ],
+        "date": {
+          "start": "2025-01-29T00:00:00Z",
+          "end": "2025-01-29T21:00:00Z"
+        },
+        "name": "Aprende fotografía",
+        "public": false,
+        "uid": "PLAN010"
+      }
+    ]
+  }
+  

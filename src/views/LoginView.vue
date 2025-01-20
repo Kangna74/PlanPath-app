@@ -1,13 +1,15 @@
 <script>
 import IconLogoPP from '@/components/icons/IconLogoPP.vue'
-
+import PruebaItem from '@/views/PruebaItem.vue'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/firebase'
+import { useCurrentUser } from 'vuefire';
 import router from '@/router'
 
 export default {
   components: {
     IconLogoPP,
+    PruebaItem,
   },
   data() {
     return {
@@ -19,21 +21,32 @@ export default {
     async login() {
       await signInWithEmailAndPassword(auth, this.username.trim(), this.password)
         .then(() => {
-          router.push('/')
+          console.log('Usuario logueado')
+          router.push({ name: 'Home' })
         })
         .catch((error) => {})
     },
+    verInfo(){
+      const currentUser = auth.currentUser
+      const uid = currentUser?.uid
+      console.log('currentUser', uid)
+    }
   },
   mounted() {
-    const currentUser = auth.currentUser
-    const uid = currentUser?.uid
-    console.log('currentUser', uid)
+    this.verInfo()
+    console.log('mounted')
   },
   beforeMount() {},
+  created() {
+    this.verInfo()
+    console.log('created')
+  }
 }
 </script>
 
 <template>
+  <PruebaItem />
+
   <div class="min-h-screen bg-white p-4 justify-center items-center">
     <div
       class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg flex flex-col justify-center items-center"
@@ -71,6 +84,9 @@ export default {
       </form>
     </div>
   </div>
+
+
+
 </template>
 
 <style>
