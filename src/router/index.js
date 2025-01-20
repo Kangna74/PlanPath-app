@@ -7,6 +7,7 @@ import CreateView from '@/views/CreateView.vue'
 import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
+import ErrorView from '@/views/ErrorView.vue'
 
 const routes = [
   {
@@ -23,6 +24,11 @@ const routes = [
         return '/login'
       }
     },
+  },
+  {
+    path: '/error',
+    name: 'NotFound',
+    component: ErrorView,
   },
   {
     path: '/itinerary/:id',
