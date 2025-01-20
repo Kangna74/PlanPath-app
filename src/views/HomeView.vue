@@ -1,10 +1,44 @@
 <script>
 
+import { getCurrentUser } from 'vuefire';
+import {getDocs, collection} from 'firebase/firestore'
+import {db} from '@/firebase'
+
 export default {
-  name: 'HomeView',
   components: {},
-};
+  data() {
+    return {
+      plans: []
+    }
+  },
+  methods: {
+    verInfo(){
+      getCurrentUser().then((user) => {
+        console.log('user', user)
+      })
+
+    }
+  },
+  async mounted()  {
+    //recuperar todos los documentos de la coleccion plans
+    const querySnapshot = await getDocs(collection(db, "plans"));
+
+    //mapear los documentos a un array de objetos
+    const values = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      };
+    });
+
+    this.plans = values;
+  },
+  beforeMount() {},
+  created() {}
+}
 </script>
+
+
 
 <template>
   <main>
@@ -29,12 +63,9 @@ export default {
     <div>
       <h2 class="text-3xl font-bold text-blue-500 text-left m-10">Planes Populares</h2>
       <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-10 text-center">
-        <li>Plan 1</li>
-        <li>Plan 2</li>
-        <li>Plan 3</li>
-        <li>Plan 4</li>
-        <li>Plan 5</li>
-        <li>Plan 6</li>
+        <div class="planes">
+          <p v-for="plan in plans" :key="plan.name"> {{plan.userId}} plan </p>
+        </div>
       </ul>
     </div>
 

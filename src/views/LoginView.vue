@@ -1,15 +1,12 @@
 <script>
 import IconLogoPP from '@/components/icons/IconLogoPP.vue'
-import PruebaItem from '@/views/PruebaItem.vue'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/firebase'
-import { useCurrentUser } from 'vuefire';
 import router from '@/router'
 
 export default {
   components: {
     IconLogoPP,
-    PruebaItem,
   },
   data() {
     return {
@@ -45,7 +42,6 @@ export default {
 </script>
 
 <template>
-  <PruebaItem />
 
   <div class="min-h-screen bg-white p-4 justify-center items-center">
     <div

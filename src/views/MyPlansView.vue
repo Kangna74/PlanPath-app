@@ -1,16 +1,41 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { planService } from '../services/planService'
 import { Search, Trash2, Calendar } from 'lucide-vue-next'
+import {db} from '@/firebase'
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { getCurrentUser } from 'vuefire';
+
 
 const router = useRouter()
 const searchQuery = ref('')
-const plans = planService.getPlans()
+const plans = ref([])
 
-const filteredPlans = computed(() => {
+onMounted(async () => {
+  const currentUser = await getCurrentUser()
+
+  //query para filtrar los planes por el usuario actual
+  const q = query(collection(db, "plans"), where("userId", "==", currentUser.uid));
+
+  // Obtener los documentos de la coleccion respecto a la query
+  const querySnapshot = await getDocs(q);
+
+  const values = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      };
+    });
+
+    plans.value = values;
+})
+
+//TODO: ideal es filtrar en firebase
+const filteredPlans = computed( ()  => {
+
   return plans.value.filter(plan =>
-    plan.destination.toLowerCase().includes(searchQuery.value.toLowerCase())
+    plan.city.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 })
 
@@ -38,6 +63,7 @@ const formatTime = (date, time) => {
   return `${time}`
 }
 </script>
+
 <template>
   <div class="min-h-screen bg-[#fafafa]">
     <main class="container mx-auto px-4 py-8">
