@@ -5,6 +5,7 @@ import IconX from './icons/IconX.vue'
 import IconLogoPPSmall from './icons/IconLogoPPSmall.vue'
 
 export default {
+  name: 'NavBar',
   components: {
     RouterLink,
     IconBurger,
@@ -16,8 +17,10 @@ export default {
       isOpen: false,
       showNavBar: true,
       lastScrollPosition: 0,
-      isSmallScreen: false,
     }
+  },
+  props: {
+    isSmallScreen: Boolean
   },
   methods: {
     navigateto(route) {
@@ -41,27 +44,21 @@ export default {
       this.lastScrollPosition = currentScrollPosition
       // If the user is scrolling down and the mobile navbar is open, close it
       this.isOpen = false
-    },
-    updateScreenSize() {
-      this.isSmallScreen = window.innerWidth < 768; // Matches Tailwind's `md` breakpoint
-    },
+    }
   },
   mounted() {
     window.addEventListener('scroll', this.onScroll);
-    window.addEventListener("resize", this.updateScreenSize);
-    this.updateScreenSize();
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.onScroll);
-    window.removeEventListener("resize", this.updateScreenSize);
   }
 }
 </script>
 
 <template>
   <header :class="[
-    'bg-blue-100 text-white border-b-2 border-blue-500 fixed w-full transition-all duration-100 ease-out',
-    isSmallScreen ? (showNavBar ? 'translate-y-0' : '-translate-y-full') : 'translate-y-0']">
+    'bg-blue-100 text-white border-b-2 border-blue-500 w-full transition-all duration-100 ease-out',
+    isSmallScreen ? (showNavBar ? 'fixed translate-y-0' : 'fixed -translate-y-full') : 'relative']">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-2">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
