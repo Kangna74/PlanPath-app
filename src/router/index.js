@@ -1,12 +1,14 @@
 // router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
-// import { auth } from '@/firebase'
 
 import HomeView from '@/views/HomeView.vue'
 import CreateView from '@/views/CreateView.vue'
 import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
-// import LogIn from '@/views/LoginView.vue'
+import LogIn from '@/views/LoginView.vue'
+import { getCurrentUser } from 'vuefire';
+
+
 
 const routes = [
   {
@@ -18,11 +20,9 @@ const routes = [
     path: '/create',
     name: 'Create',
     component: CreateView,
-    // beforeEnter: () => {
-    //   if (!auth.currentUser) {
-    //     return '/login'
-    //   }
-    // },
+    beforeEnter: async () => {
+      return await isUserLoged()
+    }
   },
   {
     path: '/error',
@@ -38,29 +38,36 @@ const routes = [
     path: '/my-plans',
     name: 'MyPlans',
     component: MyPlansView,
-    // beforeEnter: () => {
-    //   if (!auth.currentUser) {
-    //     return true
-    //   }
-    // },
+    beforeEnter: async () => {
+      return await isUserLoged()
+    }
   },
-  // {
-  //   path: '/login',
-  //   name: 'LogIn',
-  //   component: LogIn,
-  //   beforeEnter: () => {
-  //     console.log('holita')
-  //     console.log(auth.currentUser)
+  {
+    path: '/login',
+    name: 'LogIn',
+    component: LogIn,
+    beforeEnter: async () => {
+      return !(await isUserLoged())
+    }
+  },
 
-  //     if (auth.currentUser) {
-  //       console.log(auth.currentUser)
-  //       console.log('holita2')
-
-  //       return '/'
-  //     }
-  //   },
-  // },
 ]
+
+const isUserLoged = async () => {
+  const currentUser = await getCurrentUser()
+
+  if (!currentUser) {
+    return '/login'
+  }
+  else {
+    return true
+  }
+}
+
+export function viewPlan (planId) {
+  console.log(`Navegando al plan ${planId}`)
+  router.push({ name: 'Itinerary', params: { id: planId.toString() } })
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,3 +75,5 @@ const router = createRouter({
 })
 
 export default router
+
+

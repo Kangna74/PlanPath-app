@@ -1,16 +1,41 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { planService } from '../services/planService'
 import { Search, Trash2, Calendar } from 'lucide-vue-next'
+import { db } from '@/firebase'
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { getCurrentUser } from 'vuefire';
+
 
 const router = useRouter()
 const searchQuery = ref('')
-const plans = planService.getPlans()
+const plans = ref([])
 
+onMounted(async () => {
+  const currentUser = await getCurrentUser()
+
+  //query para filtrar los planes por el usuario actual
+  const q = query(collection(db, "plans"), where("userId", "==", currentUser.uid));
+
+  // Obtener los documentos de la coleccion respecto a la query
+  const querySnapshot = await getDocs(q);
+
+  const values = querySnapshot.docs.map((doc) => {
+    return {
+      id: doc.id,
+      ...doc.data()
+    };
+  });
+
+  plans.value = values;
+})
+
+//TODO: ideal es filtrar en firebase
 const filteredPlans = computed(() => {
+
   return plans.value.filter(plan =>
-    plan.destination.toLowerCase().includes(searchQuery.value.toLowerCase())
+    plan.city.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 })
 
@@ -38,47 +63,38 @@ const formatTime = (date, time) => {
   return `${time}`
 }
 </script>
+
 <template>
   <div class="min-h-screen bg-[#fafafa]">
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-[#000000]">Mis Itinerarios</h1>
-        <p class="text-[#828282]">{{ filteredPlans.length }} itinerarios</p>
+        <p class="text-[#828282]">{{ plans.length }} itinerarios</p>
       </div>
 
       <!-- Barra de búsqueda -->
       <div class="relative mb-8">
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Buscar itinerarios..."
-          class="w-full px-12 py-3 border border-[#d9d9d9] rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#0b64ad]"
-        />
+        <input v-model="searchQuery" type="text" placeholder="Buscar itinerarios..."
+          class="w-full px-12 py-3 border border-[#d9d9d9] rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#0b64ad]" />
         <Search class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#828282] h-5 w-5" />
       </div>
 
       <!-- Lista de planes -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div v-if="filteredPlans.length === 0" class="col-span-full text-center py-12">
+        <div v-if="plans.length === 0" class="col-span-full text-center py-12">
           <p class="text-[#828282] mb-8">No tienes ningún itinerario creado</p>
-          <button
-            @click="createNewPlan"
-            class="bg-[#0b64ad] text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors"
-          >
+          <button @click="createNewPlan"
+            class="bg-[#0b64ad] text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors">
             Crear Itinerario
           </button>
         </div>
 
-        <div
-          v-else
-          v-for="plan in filteredPlans"
-          :key="plan.id"
-          class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between"
-        >
+        <div v-else v-for="plan in plans" :key="plan.id"
+          class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-start mb-4">
               <div>
-                <h2 class="text-xl font-semibold text-[#000000]">{{ plan.destination }}</h2>
+                <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
                 <div class="flex items-center text-[#828282] text-sm mt-1">
                   <Calendar class="h-4 w-4 mr-1" />
                   <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
@@ -94,11 +110,8 @@ const formatTime = (date, time) => {
                 {{ plan.activities.length }} actividades planificadas
               </h3>
               <ul class="space-y-2">
-                <li
-                  v-for="(activity, index) in plan.activities.slice(0, 2)"
-                  :key="index"
-                  class="text-[#828282] text-sm"
-                >
+                <li v-for="(activity, index) in plan.activities.slice(0, 2)" :key="index"
+                  class="text-[#828282] text-sm">
                   {{ activity.name }} - {{ formatTime(activity.date, activity.time) }}
                 </li>
                 <li v-if="plan.activities.length > 2" class="text-[#4d4949] text-sm font-medium">
@@ -108,27 +121,20 @@ const formatTime = (date, time) => {
             </div>
           </div>
 
-          <button
-            @click="viewPlan(plan.id)"
-            class="bg-[#0b64ad] text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto"
-          >
+          <button @click="viewPlan(plan.id)"
+            class="bg-[#0b64ad] text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
             Ver Itinerario
           </button>
         </div>
       </div>
 
       <!-- Botón flotante de crear (solo visible cuando hay planes) -->
-      <div v-if="filteredPlans.length > 0" class="fixed bottom-8 right-8">
-        <button
-          @click="createNewPlan"
-          class="bg-[#0b64ad] text-white px-8 py-4 rounded-full shadow-xl hover:bg-[#0b64ad]/90 transition-colors"
-        >
+      <div v-if="plans.length > 0" class="fixed bottom-8 right-8">
+        <button @click="createNewPlan"
+          class="bg-[#0b64ad] text-white px-8 py-4 rounded-full shadow-xl hover:bg-[#0b64ad]/90 transition-colors">
           Crear Itinerario
         </button>
       </div>
     </main>
   </div>
 </template>
-
-
-

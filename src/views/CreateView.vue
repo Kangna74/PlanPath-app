@@ -3,8 +3,10 @@
 import { ref, reactive } from 'vue'
 import { MapPin, Calendar, Eye } from 'lucide-vue-next'
 import AddActivityModal from '../components/AddActivityModal.vue'
-import { planService } from '../services/planService'
 import { useRouter } from 'vue-router'
+import { getCurrentUser } from 'vuefire';
+import { collection, addDoc } from "firebase/firestore";
+import {db} from '@/firebase'
 
 const router = useRouter()
 
@@ -17,6 +19,7 @@ const steps = [
 const showAddActivityModal = ref(false)
 
 const handleAddActivity = (activity) => {
+  //
   formData.activities.push({
     ...activity,
     id: Date.now() // Añadir un ID único
@@ -43,13 +46,22 @@ const previousStep = () => {
   }
 }
 
-const createItinerary = () => {
-  planService.addPlan({
-    destination: formData.destination,
-    startDate: formData.startDate,
-    endDate: formData.endDate,
-    activities: formData.activities
-  })
+const createItinerary = async () => {
+
+  const currentUser = await getCurrentUser()
+
+
+  await addDoc(collection(db, 'plans'),  {
+      userId: currentUser.uid,
+      name: formData.destination,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      activities: formData.activities
+    }
+  )
+
+  console.log('Itinerario creado')
+
   router.push('/my-plans')
 }
 </script>

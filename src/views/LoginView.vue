@@ -30,13 +30,15 @@ export default {
     console.log('currentUser', uid)
   },
   beforeMount() { },
+  afterMount() {
+  },
 }
 </script>
 
 <template>
   <div class="min-h-screen bg-white p-4 justify-center items-center">
     <div class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg flex flex-col justify-center items-center">
-      <IconLogoPP />
+      <IconLogoPP class="h-30" />
 
       <form class="flex flex-col justify-center items-center w-full py-6 gap-4" @submit.prevent>
         <div class="flex flex-col w-full items-center">

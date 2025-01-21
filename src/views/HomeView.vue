@@ -1,10 +1,56 @@
 <script>
+import { formatDateRange } from '../../utils/script';
+import { formatTime } from '../../utils/script';
+import { viewPlan } from '@/router';
+
+
+
+
+import { Calendar } from 'lucide-vue-next';
+
+import { getCurrentUser } from 'vuefire';
+import { getDocs, collection } from 'firebase/firestore'
+import { db } from '@/firebase'
 
 export default {
-  name: 'HomeView',
-  components: {},
-};
+  components: {
+    Calendar
+  },
+  data() {
+    return {
+      plans: []
+    }
+  },
+  methods: {
+    verInfo() {
+      getCurrentUser().then((user) => {
+        console.log('user', user)
+      })
+
+    },
+    formatDateRange,
+    formatTime,
+    viewPlan
+  },
+  async mounted() {
+    //recuperar todos los documentos de la coleccion plans
+    const querySnapshot = await getDocs(collection(db, "plans"));
+
+    //mapear los documentos a un array de objetos
+    const values = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      };
+    });
+
+    this.plans = values;
+  },
+  beforeMount() { },
+  created() { }
+}
 </script>
+
 
 <template>
   <main>
@@ -28,13 +74,38 @@ export default {
 
     <div>
       <h2 class="text-3xl font-bold text-blue-500 text-left m-10">Planes Populares</h2>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-10 text-center">
-        <li>Plan 1</li>
-        <li>Plan 2</li>
-        <li>Plan 3</li>
-        <li>Plan 4</li>
-        <li>Plan 5</li>
-        <li>Plan 6</li>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-10 text-left">
+        <div v-for="plan in plans" :key="plan.name"
+          class=" planes bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between">
+
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
+              <div class="flex items-center text-[#828282] text-sm mt-1">
+                <Calendar class="h-4 w-4 mr-1" />
+                <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <h3 class="font-medium text-[#000000] mb-2">
+              {{ plan.activities.length }} actividades planificadas
+            </h3>
+            <ul class="space-y-2">
+              <li v-for="(activity, index) in plan.activities.slice(0, 2)" :key="index" class="text-[#828282] text-sm">
+                {{ activity.name }} - {{ formatTime(activity.date, activity.time) }}
+              </li>
+              <li v-if="plan.activities.length > 2" class="text-[#4d4949] text-sm font-medium">
+                Y {{ plan.activities.length - 2 }} actividades más...
+              </li>
+            </ul>
+          </div>
+          <button @click="viewPlan(plan.id)"
+            class="bg-[#0b64ad] text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
+            Ver Itinerario
+          </button>
+        </div>
       </ul>
     </div>
 
