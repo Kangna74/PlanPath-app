@@ -9,7 +9,7 @@
       <!-- Barra de búsqueda -->
       <div class="relative mb-8">
         <input v-model="searchQuery" type="text" placeholder="Buscar itinerarios..."
-          class="w-full px-12 py-3 border border-[#d9d9d9] rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#0b64ad]" />
+          class="z-10 w-full px-12 py-3 border border-[#d9d9d9] rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#0b64ad]" />
         <Search class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#828282] h-5 w-5" />
       </div>
 
@@ -38,7 +38,8 @@
                 <button @click="editPlan(plan)" class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
                   <Edit class="h-5 w-5" />
                 </button>
-                <button @click="handleDeletePlan(plan.id)" class="text-[#828282] hover:text-[#812727] transition-colors">
+                <button @click="handleDeletePlan(plan.id)"
+                  class="text-[#828282] hover:text-[#812727] transition-colors">
                   <Trash2 class="h-5 w-5" />
                 </button>
               </div>
@@ -69,12 +70,7 @@
     </main>
 
     <!-- Modal de edición -->
-    <EditPlanModal
-      v-if="editingPlan"
-      :plan="editingPlan"
-      @close="closeEditModal"
-      @update="handleUpdatePlan"
-    />
+    <EditPlanModal v-if="editingPlan" :plan="editingPlan" @close="closeEditModal" @update="handleUpdatePlan" />
   </div>
 </template>
 
@@ -116,21 +112,21 @@ const viewPlan = (planId) => {
 
 const handleDeletePlan = async (planId) => {
 
-  try{
+  try {
     await deletePlan(planId);
     fetchPlans();
   }
-  catch(error) {
+  catch (error) {
     console.log(error);
   }
 
 }
 
 const editPlan = async (plan) => {
-  try{
+  try {
     await updatePlan(plan);
   }
-  catch(error) {
+  catch (error) {
     console.log(error);
   }
 }
@@ -148,4 +144,3 @@ onMounted(() => {
   fetchPlans()
 })
 </script>
-

@@ -29,7 +29,7 @@ export default {
 </script>
 
 <template>
-  <NavBar :isSmallScreen="isSmallScreen" />
+  <NavBar :isSmallScreen="isSmallScreen" class="z-20" />
   <main :class="isSmallScreen ? 'pt-16' : 'pt-0'">
     <RouterView />
   </main>
