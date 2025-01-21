@@ -1,16 +1,20 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { planService } from '../services/planService';
 import { Calendar, MapPin, ArrowLeft} from 'lucide-vue-next';
+import { getPlanById } from '@/firescript';
+import router from '@/router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute();
-const router = useRouter();
 const plan = ref(null);
 
 onMounted(async () => {
   const planId = route.params.id;
-  plan.value = await planService.getPlanById(planId);
+  try {
+    plan.value = await getPlanById(planId);
+  } catch (error) {
+    console.error('Error al obtener el itinerario', error);
+  }
 });
 
 const formatDateRange = (startDate, endDate) => {

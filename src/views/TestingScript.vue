@@ -51,7 +51,7 @@
 
 <script>
 import { ref, onMounted, watch } from 'vue';
-import { getAllPlans, addPlan, deletePlan, updatePlan, getPlanByName } from '@/firescript';
+import { getAllPlans, postPlan, deletePlan, updatePlan, getPlanByName } from '@/firescript';
 
 export default {
   setup() {
@@ -68,7 +68,7 @@ export default {
     };
 
     const handleAddPlan = async () => {
-      await addPlan(newPlan.value);
+      await postPlan(newPlan.value);
       newPlan.value = { destination: '', startDate: '', endDate: '' };
       fetchPlans();
     };

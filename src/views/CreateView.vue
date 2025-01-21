@@ -1,12 +1,10 @@
-
 <script setup>
 import { ref, reactive } from 'vue'
 import { MapPin, Calendar, Eye } from 'lucide-vue-next'
 import AddActivityModal from '../components/AddActivityModal.vue'
-import { useRouter } from 'vue-router'
+import router from '@/router'
+import { postPlan } from '@/firescript';
 
-
-const router = useRouter()
 
 const steps = [
   { name: 'Planificar', icon: MapPin },
@@ -46,20 +44,15 @@ const previousStep = () => {
 
 const createItinerary = async () => {
 
-  const currentUser = await getCurrentUser()
+  try{
+    await postPlan(formData);
+    console.log('Itinerario creado')
 
-  await addDoc(collection(db, 'plans'),  {
-      userId: currentUser.uid,
-      name: formData.name,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      activities: formData.activities
-    }
-  )
-
-  console.log('Itinerario creado')
-
-  router.push('/my-plans')
+    router.push('/my-plans');
+  }
+  catch(error) {
+    console.log(error);
+  }
 }
 </script>
 
@@ -109,10 +102,10 @@ const createItinerary = async () => {
         <!-- Step 1: Planificar -->
         <div v-if="currentStep === 0" class="space-y-6">
           <div>
-            <label for="destination" class="block text-sm font-medium text-gray-700">Tarea</label>
+            <label for="name" class="block text-sm font-medium text-gray-700">Tarea</label>
             <input
-              id="destination"
-              v-model="formData.destination"
+              id="name"
+              v-model="formData.name"
               type="text"
               placeholder="¿Qué plan tienes en mente?"
               class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"

@@ -1,16 +1,9 @@
 <script>
-import { formatDateRange } from '../../utils/script';
-import { formatTime } from '../../utils/script';
+import { formatDateRange } from '@/utils/script';
+import { formatTime } from '@/utils/script';
 import { viewPlan } from '@/router';
-
-
-
-
 import { Calendar } from 'lucide-vue-next';
-
-import { getCurrentUser } from 'vuefire';
-import { getDocs, collection } from 'firebase/firestore'
-import { db } from '@/firebase'
+import { getAllPlans } from '@/firescript';
 
 export default {
   components: {
@@ -22,29 +15,20 @@ export default {
     }
   },
   methods: {
-    verInfo() {
-      getCurrentUser().then((user) => {
-        console.log('user', user)
-      })
-
-    },
     formatDateRange,
     formatTime,
-    viewPlan
+    viewPlan,
+    getAllPlans
+
   },
   async mounted() {
-    //recuperar todos los documentos de la coleccion plans
-    const querySnapshot = await getDocs(collection(db, "plans"));
 
-    //mapear los documentos a un array de objetos
-    const values = querySnapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data()
-      };
-    });
+    try {
+      this.plans = await getAllPlans();
+    } catch (error) {
+      console.log(error);
+    }
 
-    this.plans = values;
   },
   beforeMount() { },
   created() { }

@@ -38,7 +38,7 @@
                 <button @click="editPlan(plan)" class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
                   <Edit class="h-5 w-5" />
                 </button>
-                <button @click="deletePlan(plan.id)" class="text-[#828282] hover:text-[#812727] transition-colors">
+                <button @click="handleDeletePlan(plan.id)" class="text-[#828282] hover:text-[#812727] transition-colors">
                   <Trash2 class="h-5 w-5" />
                 </button>
               </div>
@@ -73,41 +73,36 @@
       v-if="editingPlan"
       :plan="editingPlan"
       @close="closeEditModal"
-      @update="updatePlan"
+      @update="handleUpdatePlan"
     />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import router from '@/router'
 import { Search, Trash2, Calendar, Edit } from 'lucide-vue-next'
-import { db } from '@/firebase'
-import { collection, query, where, getDocs } from "firebase/firestore"
-import { getCurrentUser } from 'vuefire'
-import { planService } from '../services/planService'
 import EditPlanModal from '../components/EditPlanModal.vue'
+import { getPlansByActualUser, deletePlan, updatePlan } from '@/firescript'
+import { formatDateRange, formatTime } from '@/utils/script'
 
-const router = useRouter()
 const searchQuery = ref('')
 const plans = ref([])
 const editingPlan = ref(null)
 
-const filteredPlans = computed(() => {
-  return plans.value.filter(plan =>
-    plan.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    plan.city.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-})
+// const filteredPlans = computed(() => {
+//   return plans.value.filter(plan =>
+//     plan.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+//     plan.city.toLowerCase().includes(searchQuery.value.toLowerCase())
+//   )
+// })
 
 const fetchPlans = async () => {
-  const currentUser = await getCurrentUser()
-  const q = query(collection(db, "plans"), where("userId", "==", currentUser.uid))
-  const querySnapshot = await getDocs(q)
-  plans.value = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data()
-  }))
+  try {
+    plans.value = await getPlansByActualUser()
+  } catch (error) {
+    console.error('Error al obtener los itinerarios', error)
+  }
 }
 
 const createNewPlan = () => {
@@ -119,37 +114,34 @@ const viewPlan = (planId) => {
   console.log('Ver itinerario', planId)
 }
 
-const deletePlan = async (planId) => {
-  await planService.deletePlan(planId)
-  plans.value = plans.value.filter(plan => plan.id !== planId)
+const handleDeletePlan = async (planId) => {
+
+  try{
+    await deletePlan(planId);
+    fetchPlans();
+  }
+  catch(error) {
+    console.log(error);
+  }
+
 }
 
-const editPlan = (plan) => {
-  editingPlan.value = { ...plan }
+const editPlan = async (plan) => {
+  try{
+    await updatePlan(plan);
+  }
+  catch(error) {
+    console.log(error);
+  }
 }
 
 const closeEditModal = () => {
   editingPlan.value = null
 }
 
-const updatePlan = async (updatedPlan) => {
-  await planService.updatePlan(updatedPlan)
-  const index = plans.value.findIndex(p => p.id === updatedPlan.id)
-  if (index !== -1) {
-    plans.value[index] = updatedPlan
-  }
+const handleUpdatePlan = async (updatedPlan) => {
+  await editPlan(updatedPlan)
   closeEditModal()
-}
-
-const formatDateRange = (startDate, endDate) => {
-  const start = new Date(startDate)
-  const end = new Date(endDate)
-  const options = { day: 'numeric', month: 'short' }
-  return `${start.toLocaleDateString('es-ES', options)} - ${end.toLocaleDateString('es-ES', options)}, ${end.getFullYear()}`
-}
-
-const formatTime = (date, time) => {
-  return `${time}`
 }
 
 onMounted(() => {

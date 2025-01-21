@@ -9,8 +9,6 @@ import LogIn from '@/views/LoginView.vue'
 import TestingScript from '@/views/TestingScript.vue'
 import { getCurrentUser } from 'vuefire';
 
-
-
 const routes = [
   {
     path: '/',
@@ -24,11 +22,6 @@ const routes = [
     beforeEnter: async () => {
       return await isUserLoged()? true : '/login'
     }
-  },
-  {
-    path: '/error',
-    name: 'NotFound',
-    component: ErrorView,
   },
   {
     path: '/itinerary/:id',

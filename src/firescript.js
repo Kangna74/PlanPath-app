@@ -1,5 +1,5 @@
 import { getCurrentUser } from 'vuefire';
-import { collection, doc, addDoc, getDocs, deleteDoc, updateDoc, where, query, orderBy, startAt, endAt } from "firebase/firestore";
+import { collection, doc, addDoc, getDocs, deleteDoc, updateDoc, where, query, orderBy, startAt, endAt, getDoc } from "firebase/firestore";
 import {db} from '@/firebase'
 
 const plansCollection = collection(db, "plans");
@@ -14,7 +14,7 @@ export async function getAllPlans() {
   return docsToArray(querySnapshot)
 }
 
-export async function getPlansByUser() {
+export async function getPlansByActualUser() {
   const user = await getUser();
 
   const querySnapshot = await getDocs(plansCollection, where("userId", "==", user.uid));
@@ -23,8 +23,9 @@ export async function getPlansByUser() {
 }
 
 export async function getPlanById(id) {
+
   const docRef = doc(plansCollection, id);
-  const docSnap = await docRef.get();
+  const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
     return {
@@ -36,7 +37,7 @@ export async function getPlanById(id) {
   }
 }
 
-
+//TODO: ARREGLAR FILTRO
 export async function getPlanByName(name) {
   name = name.trim();
   orderBy("population"), startAt(1000000)
@@ -58,7 +59,7 @@ function docsToArray(querySnapshot) {
   });
 }
 
-export async function addPlan(plan) {
+export async function postPlan(plan) {
 
   const newPlan = {
     userId: (await getUser()).uid,
