@@ -48,6 +48,10 @@
               <h3 class="font-medium text-[#000000] mb-2">
                 {{ plan.activities.length }} actividades planificadas
               </h3>
+              <button @click="openAddActivityModal(plan)"
+                class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
+                <PlusCircle class= "h-5 w-5" />
+              </button>
               <ul class="space-y-2">
                 <li v-for="(activity, index) in plan.activities.slice(0, 2)" :key="index"
                   class="text-[#828282] text-sm">
@@ -75,20 +79,30 @@
       @close="closeEditModal"
       @update="handleUpdatePlan"
     />
+    <AddActivityModal
+      v-if="showAddActivityModal"
+      :is-open="showAddActivityModal"
+      :plan="selectedPlan"
+      @close="closeAddActivityModal"
+      @submit="handleAddActivity"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import router from '@/router'
-import { Search, Trash2, Calendar, Edit } from 'lucide-vue-next'
+import { Search, Trash2, Calendar, Edit, PlusCircle } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
 import { getPlansByActualUser, deletePlan, updatePlan } from '@/firescript'
 import { formatDateRange, formatTime } from '@/utils/script'
+import AddActivityModal from '../components/AddActivityModal.vue'
 
 const searchQuery = ref('')
 const plans = ref([])
 const editingPlan = ref(null)
+const showAddActivityModal = ref(false)
+const selectedPlan = ref(null)
 
 // const filteredPlans = computed(() => {
 //   return plans.value.filter(plan =>
@@ -153,6 +167,34 @@ const handleUpdatePlan = async (updatedPlan) => {
   } finally {
     isLoading.value = false
     closeEditModal()
+  }
+}
+
+const closeAddActivityModal = () => {
+  showAddActivityModal.value = false;
+  selectedPlan.value = null;
+}
+
+const openAddActivityModal = (plan) => {
+  selectedPlan.value = plan;
+  showAddActivityModal.value = true;
+}
+
+const handleAddActivity = async (activity) => {
+  if (selectedPlan.value) {
+    const updatedPlan = { // Actualiza el plan con la nueva actividad
+      ...selectedPlan.value,
+      activities: [...(selectedPlan.value.activities || []), activity] // Añade la actividad al array de actividades
+    }
+    try {
+      await updatePlan(updatedPlan)
+      console.log('Actividad añadida:', activity)
+    } catch (error) {
+      console.error('Error al actualizar el plan:', error)
+    } finally {
+      fetchPlans() // Vuelve a cargar todos los planes
+      closeAddActivityModal()
+    }
   }
 }
 
