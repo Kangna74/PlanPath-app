@@ -16,6 +16,11 @@ export default {
       isOpen: false,
     }
   },
+  methods: {
+    logout() {
+      console.log('Cerrar Sesión')
+    },
+  },
 }
 </script>
 
@@ -35,8 +40,9 @@ export default {
             >Mis Planes</RouterLink
           >
           <RouterLink to="/create" class="text-gray-900 hover:text-gray-900">Crear</RouterLink>
-          <RouterLink to="/login" class="text-gray-900 hover:text-gray-900">Entrar</RouterLink>
+          <button @click="logout" class="text-gray-900 hover:text-gray-900">Cerrar Sesión</button>
         </nav>
+
 
         <!-- Mobile menu button -->
         <div class="md:hidden">
