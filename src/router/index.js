@@ -25,6 +25,11 @@ const routes = [
     // },
   },
   {
+    path: '/error',
+    name: 'NotFound',
+    component: ErrorView,
+  },
+  {
     path: '/itinerary/:id',
     name: 'Itinerary',
     component: ItineraryView,
