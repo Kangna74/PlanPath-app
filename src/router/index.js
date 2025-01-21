@@ -39,9 +39,9 @@ const routes = [
     path: '/login',
     name: 'LogIn',
     component: LogIn,
-    beforeEnter: async () => {
-      return !(await isUserLoged())
-    }
+    // beforeEnter: async () => {
+    //   return !(await isUserLoged())
+    // }
   },
 
 ]

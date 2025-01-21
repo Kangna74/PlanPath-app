@@ -41,6 +41,7 @@ export default {
           <RouterLink to="/" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Inicio</RouterLink>
           <RouterLink to="/my-plans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Mis Planes</RouterLink>
           <RouterLink to="/create" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Crear</RouterLink>
+          <!-- <RouterLink to="/login" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Entrar</RouterLink> -->
         </nav>
 
         <!-- Mobile menu button -->
@@ -65,6 +66,7 @@ export default {
         <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('MyPlans')">Mis Planes</button>
 
         <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('Create')">Crear</button>
+        <!-- <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('LogIn')">Entrar</button> -->
 
 
         <!-- <RouterLink to="/" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">

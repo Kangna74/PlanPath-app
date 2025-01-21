@@ -35,6 +35,7 @@ export default {
             >Mis Planes</RouterLink
           >
           <RouterLink to="/create" class="text-gray-900 hover:text-gray-900">Crear</RouterLink>
+          <RouterLink to="/login" class="text-gray-900 hover:text-gray-900">Entrar</RouterLink>
         </nav>
 
         <!-- Mobile menu button -->

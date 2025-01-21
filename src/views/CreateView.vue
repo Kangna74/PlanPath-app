@@ -28,7 +28,7 @@ const handleAddActivity = (activity) => {
 
 const currentStep = ref(0)
 const formData = reactive({
-  destination: '',
+  name: '',
   startDate: '',
   endDate: '',
   activities: []
@@ -53,7 +53,7 @@ const createItinerary = async () => {
 
   await addDoc(collection(db, 'plans'),  {
       userId: currentUser.uid,
-      name: formData.destination,
+      name: formData.name,
       startDate: formData.startDate,
       endDate: formData.endDate,
       activities: formData.activities
@@ -150,7 +150,7 @@ const createItinerary = async () => {
 
         <!-- Step 2: Actividades -->
         <div v-if="currentStep === 1" class="space-y-6">
-          <h2 class="text-xl font-semibold">Actividades para "{{ formData.destination }}"</h2>
+          <h2 class="text-xl font-semibold">Actividades para "{{ formData.name }}"</h2>
           <div v-if="formData.activities.length === 0" class="text-center text-gray-500">
             <p>Aún no has añadido ninguna actividad.</p>
             <p>¡Comienza a planificar!</p>
@@ -176,7 +176,7 @@ const createItinerary = async () => {
 
         <!-- Step 3: Visualizar -->
         <div v-if="currentStep === 2" class="space-y-6">
-          <h2 class="text-xl font-semibold">Tu Itinerario para "{{ formData.destination }}"</h2>
+          <h2 class="text-xl font-semibold">Tu Itinerario para "{{ formData.name }}"</h2>
           <div class="rounded-lg bg-gray-50 p-4">
             <h3 class="mb-2 text-sm font-medium text-gray-700">Fechas de la tarea:</h3>
             <p class="text-gray-600">{{ formData.startDate }} - {{ formData.endDate }}</p>

@@ -21,7 +21,9 @@ export default {
           console.log('Usuario logueado')
           router.push({ name: 'Home' })
         })
-        .catch((error) => {})
+        .catch((error) => {
+          console.log("No se ha podido iniciar sesión", error)
+        })
     },
     verInfo(){
       const currentUser = auth.currentUser

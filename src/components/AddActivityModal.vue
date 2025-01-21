@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 
 const props = defineProps({
   isOpen: {
