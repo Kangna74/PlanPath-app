@@ -18,7 +18,7 @@
         <div v-if="plans.length === 0" class="col-span-full text-center py-12">
           <p class="text-[#828282] mb-8">No tienes ningún itinerario creado</p>
           <button @click="createNewPlan"
-            class="bg-[#0b64ad] text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors">
+            class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors">
             Crear Itinerario
           </button>
         </div>
@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="flex space-x-2">
-                <button @click="editPlan(plan)" class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
+                <button @click="editPlan(plan)" class="text-blue-500 hover:text-[#0b64ad]/80 transition-colors">
                   <Edit class="h-5 w-5" />
                 </button>
                 <button @click="handleDeletePlan(plan.id)" class="text-[#828282] hover:text-[#812727] transition-colors">
@@ -65,7 +65,7 @@
           </div>
 
           <button @click="viewPlan(plan.id)"
-            class="bg-[#0b64ad] text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
+            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
             Ver Itinerario
           </button>
         </div>
