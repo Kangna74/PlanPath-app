@@ -69,7 +69,7 @@ const formatTime = (date, time) => {
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-[#000000]">Mis Itinerarios</h1>
-        <p class="text-[#828282]">{{ filteredPlans.length }} itinerarios</p>
+        <p class="text-[#828282]">{{ plans.length }} itinerarios</p>
       </div>
 
       <!-- Barra de búsqueda -->
@@ -85,7 +85,7 @@ const formatTime = (date, time) => {
 
       <!-- Lista de planes -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div v-if="filteredPlans.length === 0" class="col-span-full text-center py-12">
+        <div v-if="plans.length === 0" class="col-span-full text-center py-12">
           <p class="text-[#828282] mb-8">No tienes ningún itinerario creado</p>
           <button
             @click="createNewPlan"
@@ -97,7 +97,7 @@ const formatTime = (date, time) => {
 
         <div
           v-else
-          v-for="plan in filteredPlans"
+          v-for="plan in plans"
           :key="plan.id"
           class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between"
         >
@@ -144,7 +144,7 @@ const formatTime = (date, time) => {
       </div>
 
       <!-- Botón flotante de crear (solo visible cuando hay planes) -->
-      <div v-if="filteredPlans.length > 0" class="fixed bottom-8 right-8">
+      <div v-if="plans.length > 0" class="fixed bottom-8 right-8">
         <button
           @click="createNewPlan"
           class="bg-[#0b64ad] text-white px-8 py-4 rounded-full shadow-xl hover:bg-[#0b64ad]/90 transition-colors"

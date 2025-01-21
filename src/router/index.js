@@ -6,6 +6,7 @@ import CreateView from '@/views/CreateView.vue'
 import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
+import TestingScript from '@/views/TestingScript.vue'
 import { getCurrentUser } from 'vuefire';
 
 const routes = [
@@ -19,7 +20,7 @@ const routes = [
     name: 'Create',
     component: CreateView,
     beforeEnter: async () => {
-      return await isUserLoged()
+      return await isUserLoged()? true : '/login'
     }
   },
   {
@@ -32,7 +33,7 @@ const routes = [
     name: 'MyPlans',
     component: MyPlansView,
     beforeEnter: async () => {
-      return await isUserLoged()
+      return await isUserLoged()? true: '/login'
     }
   },
   {
@@ -40,21 +41,19 @@ const routes = [
     name: 'LogIn',
     component: LogIn,
     beforeEnter: async () => {
-      return !(await isUserLoged())
+      return await isUserLoged()? '/': true
     }
   },
-
+  {
+    path: '/test',
+    name: 'TestingScript',
+    component: TestingScript,
+  },
 ]
 
 const isUserLoged = async () => {
   const currentUser = await getCurrentUser()
-
-  if (!currentUser) {
-    return '/login'
-  }
-  else {
-    return true
-  }
+  return currentUser
 }
 
 const router = createRouter({

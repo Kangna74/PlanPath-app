@@ -4,9 +4,7 @@ import { ref, reactive } from 'vue'
 import { MapPin, Calendar, Eye } from 'lucide-vue-next'
 import AddActivityModal from '../components/AddActivityModal.vue'
 import { useRouter } from 'vue-router'
-import { getCurrentUser } from 'vuefire';
-import { collection, addDoc } from "firebase/firestore";
-import {db} from '@/firebase'
+
 
 const router = useRouter()
 
@@ -49,7 +47,6 @@ const previousStep = () => {
 const createItinerary = async () => {
 
   const currentUser = await getCurrentUser()
-
 
   await addDoc(collection(db, 'plans'),  {
       userId: currentUser.uid,
