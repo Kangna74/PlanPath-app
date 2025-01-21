@@ -1,4 +1,3 @@
-
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import IconBurger from './components/icons/IconBurger.vue';
@@ -15,20 +14,54 @@ export default {
   },
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      showNavBar: true,
+      lastScrollPosition: 0,
+      isSmallScreen: false,
     }
   },
   methods: {
     navigateto(route) {
       this.$router.push({ name: route });
       this.isOpen = false;
-    }
+    },
+    onScroll() {
+      // Get the current scroll position
+      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
+      // Because of momentum scrolling on mobiles, we shouldn't continue if it is less than zero
+      if (currentScrollPosition < 0) {
+        return
+      }
+      if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 60) {
+        return
+      }
+
+      // Here we determine whether we need to show or hide the navbar
+      this.showNavBar = currentScrollPosition < this.lastScrollPosition
+      // Set the current scroll position as the last scroll position
+      this.lastScrollPosition = currentScrollPosition
+    },
+    updateScreenSize() {
+      this.isSmallScreen = window.innerWidth < 768; // Matches Tailwind's `md` breakpoint
+    },
+  },
+  mounted() {
+    window.addEventListener('scroll', this.onScroll);
+    window.addEventListener("resize", this.updateScreenSize);
+    this.updateScreenSize();
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener("resize", this.updateScreenSize);
   }
 }
 </script>
 
 <template>
-  <header class="bg-blue-100/25 text-white border-b-2 border-blue-500">
+  <header :class="[
+    'bg-blue-100 text-white border-b-2 border-blue-500 fixed w-full transition-all duration-100 ease-out',
+    isSmallScreen ? (showNavBar ? 'translate-y-0' : '-translate-y-full') : 'translate-y-0'
+  ]">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-2">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
@@ -62,7 +95,8 @@ export default {
 
         <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('Home')">Inicio</button>
 
-        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('MyPlans')">Mis Planes</button>
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('MyPlans')">Mis
+          Planes</button>
 
         <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('Create')">Crear</button>
 
@@ -76,4 +110,3 @@ export default {
   </header>
   <RouterView />
 </template>
-}
