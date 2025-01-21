@@ -8,6 +8,8 @@ import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
 import { getCurrentUser } from 'vuefire';
 
+
+
 const routes = [
   {
     path: '/',
@@ -57,9 +59,16 @@ const isUserLoged = async () => {
   }
 }
 
+export function viewPlan (planId) {
+  console.log(`Navegando al plan ${planId}`)
+  router.push({ name: 'Itinerary', params: { id: planId.toString() } })
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
 
 export default router
+
+
