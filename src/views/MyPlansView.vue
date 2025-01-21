@@ -129,6 +129,8 @@ const handleDeletePlan = async (planId) => {
 const editPlan = async (plan) => {
   try{
     await updatePlan(plan);
+    editingPlan.value = plan;
+    console.prompt('Itinerario actualizado')
   }
   catch(error) {
     console.log(error);
@@ -139,9 +141,19 @@ const closeEditModal = () => {
   editingPlan.value = null
 }
 
+const isLoading = ref(false)
+
 const handleUpdatePlan = async (updatedPlan) => {
-  await editPlan(updatedPlan)
-  closeEditModal()
+  isLoading.value = true
+  try {
+    await updatePlan(updatedPlan)
+    await fetchPlans() // Vuelve a cargar todos los planes
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+    closeEditModal()
+  }
 }
 
 onMounted(() => {
