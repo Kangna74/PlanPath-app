@@ -26,5 +26,5 @@ export const planService = {
     if (index !== -1) {
       plans.value.splice(index, 1)
     }
-  }
+  },
 }

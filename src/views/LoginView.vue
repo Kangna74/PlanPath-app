@@ -21,7 +21,9 @@ export default {
         .then(() => {
           router.push('/')
         })
-        .catch((error) => { })
+        .catch((error) => {
+          console.log("No se ha podido iniciar sesión", error)
+        })
     },
   },
   mounted() {

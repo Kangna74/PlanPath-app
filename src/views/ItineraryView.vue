@@ -36,7 +36,7 @@ const goBack = () => {
     <main class="container mx-auto px-4 py-8">
       <div v-if="plan" class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-between items-center mb-6">
-          <h1 class="text-3xl font-bold text-[#000000]">{{ plan.destination }}</h1>
+          <h1 class="text-3xl font-bold text-[#000000]">{{ plan.name }}</h1>
           <button @click="goBack" class="text-[#0b64ad] hover:text-[#094a80] transition-colors">
             <ArrowLeft class="h-6 w-6" />
           </button>
