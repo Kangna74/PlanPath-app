@@ -1,12 +1,13 @@
 // router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
-import { auth } from '@/firebase'
 
 import HomeView from '@/views/HomeView.vue'
 import CreateView from '@/views/CreateView.vue'
 import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
+import TestingScript from '@/views/TestingScript.vue'
+import { getCurrentUser } from 'vuefire';
 
 const routes = [
   {
@@ -18,11 +19,9 @@ const routes = [
     path: '/create',
     name: 'Create',
     component: CreateView,
-    beforeEnter: () => {
-      if (!auth.currentUser) {
-        return '/login'
-      }
-    },
+    beforeEnter: async () => {
+      return await isUserLoged()? true : '/login'
+    }
   },
   {
     path: '/itinerary/:id',
@@ -33,29 +32,34 @@ const routes = [
     path: '/my-plans',
     name: 'MyPlans',
     component: MyPlansView,
-    beforeEnter: () => {
-      if (!auth.currentUser) {
-        return true
-      }
-    },
+    beforeEnter: async () => {
+      return await isUserLoged()? true: '/login'
+    }
   },
   {
     path: '/login',
     name: 'LogIn',
     component: LogIn,
-    beforeEnter: () => {
-      console.log('holita')
-      console.log(auth.currentUser)
-
-      if (auth.currentUser) {
-        console.log(auth.currentUser)
-        console.log('holita2')
-
-        return '/'
-      }
-    },
+    beforeEnter: async () => {
+      return await isUserLoged()? '/': true
+    }
+  },
+  {
+    path: '/test',
+    name: 'TestingScript',
+    component: TestingScript,
   },
 ]
+
+const isUserLoged = async () => {
+  const currentUser = await getCurrentUser()
+  return currentUser
+}
+
+export function viewPlan (planId) {
+  console.log(`Navegando al plan ${planId}`)
+  router.push({ name: 'Itinerary', params: { id: planId.toString() } })
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,3 +67,5 @@ const router = createRouter({
 })
 
 export default router
+
+

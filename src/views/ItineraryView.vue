@@ -1,30 +1,22 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { planService } from '../services/planService';
 import { Calendar, MapPin, ArrowLeft} from 'lucide-vue-next';
+import { getPlanById } from '@/firescript';
+import router from '@/router'
+import { useRoute } from 'vue-router'
+import { formatDateRange, formatDateTime } from '@/utils/script';
 
 const route = useRoute();
-const router = useRouter();
 const plan = ref(null);
 
 onMounted(async () => {
   const planId = route.params.id;
-  plan.value = await planService.getPlanById(planId);
+  try {
+    plan.value = await getPlanById(planId);
+  } catch (error) {
+    console.error('Error al obtener el itinerario', error);
+  }
 });
-
-const formatDateRange = (startDate, endDate) => {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const options = { day: 'numeric', month: 'long', year: 'numeric' };
-  return `${start.toLocaleDateString('es-ES', options)} - ${end.toLocaleDateString('es-ES', options)}`;
-};
-
-const formatDateTime = (date, time) => {
-  const dateObj = new Date(`${date}T${time}`);
-  const options = { weekday: 'long', hour: 'numeric', minute: 'numeric' };
-  return dateObj.toLocaleDateString('es-ES', options);
-};
 
 const goBack = () => {
   router.push('/my-plans');
@@ -36,8 +28,8 @@ const goBack = () => {
     <main class="container mx-auto px-4 py-8">
       <div v-if="plan" class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-between items-center mb-6">
-          <h1 class="text-3xl font-bold text-[#000000]">{{ plan.destination }}</h1>
-          <button @click="goBack" class="text-[#0b64ad] hover:text-[#094a80] transition-colors">
+          <h1 class="text-3xl font-bold text-[#000000]">{{ plan.name }}</h1>
+          <button @click="goBack" class="text-blue-500 hover:text-[#094a80] transition-colors">
             <ArrowLeft class="h-6 w-6" />
           </button>
         </div>
@@ -50,18 +42,21 @@ const goBack = () => {
           <li
             v-for="activity in plan.activities"
             :key="activity.id"
-            class="bg-gray-50 rounded-lg p-4"
+            class="bg-gray-50 rounded-lg p-6"
           >
             <div class="flex justify-between items-start">
               <div>
                 <h3 class="font-medium text-[#000000]">{{ activity.name }}</h3>
-                <p class="text-sm text-[#828282]">
+                <p class="text-sm text-gray-500">
                   {{ formatDateTime(activity.date, activity.time) }}
                 </p>
+                <p v-if="activity.notes" class="text-xs text-gray-600 mt-2"><strong>Notas: </strong> {{ activity.notes }}</p>
               </div>
-              <div class="flex items-center">
-                <MapPin class="h-5 w-5 text-[#0b64ad] mr-1" />
-                <p class="text-sm text-[#828282]">{{ activity.location }}</p>
+              <div class="flex flex-col items-start ml-auto">
+                <div class="flex items-center mb-2">
+                  <MapPin class="h-5 w-5 text-blue-500 mr-1" />
+                  <p class="text-sm text-gray-500">{{ activity.location }}</p>
+                </div>
               </div>
             </div>
           </li>
