@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router'
 import IconBurger from './icons/IconBurger.vue'
 import IconX from './icons/IconX.vue'
 import IconLogoPPSmall from './icons/IconLogoPPSmall.vue'
+import { getUser } from '@/firescript';
 
 export default {
   name: 'NavBar',
@@ -17,13 +18,14 @@ export default {
       isOpen: false,
       showNavBar: true,
       lastScrollPosition: 0,
+      isSmallScreen: false,
     }
   },
   props: {
     isSmallScreen: Boolean
   },
   methods: {
-    navigateto(route) {
+    navigateTo(route) {
       this.$router.push({ name: route });
       this.isOpen = false;
     },
@@ -71,7 +73,9 @@ export default {
           <RouterLink to="/" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Inicio</RouterLink>
           <RouterLink to="/my-plans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Mis Planes</RouterLink>
           <RouterLink to="/create" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Crear</RouterLink>
-          <!-- <RouterLink to="/login" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Entrar</RouterLink> -->
+
+          <RouterLink v-if="!user" to="/login" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Entrar</RouterLink>
+          <RouterLink v-else to="/logout" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Salir</RouterLink>
         </nav>
 
         <!-- Mobile menu button -->
@@ -91,13 +95,13 @@ export default {
     <div v-if="isOpen" class="md:hidden z-10 absolute right-2 mt-2 bg-white rounded-lg shadow-lg">
       <div class="flex flex-col p-4 space-y-4 text-lg">
 
-        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('Home')">Inicio</button>
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('Home')">Inicio</button>
 
-        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('MyPlans')">Mis
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('MyPlans')">Mis
           Planes</button>
 
-        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('Create')">Crear</button>
-        <!-- <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateto('LogIn')">Entrar</button> -->
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('Create')">Crear</button>
+        <!-- <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('LogIn')">Entrar</button> -->
 
 
         <!-- <RouterLink to="/" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">

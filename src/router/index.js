@@ -6,6 +6,7 @@ import CreateView from '@/views/CreateView.vue'
 import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
+import LogOut from '@/views/LogoutView.vue'
 import TestingScript from '@/views/TestingScript.vue'
 import { getCurrentUser } from 'vuefire';
 
@@ -45,6 +46,14 @@ const routes = [
     }
   },
   {
+    path: '/logout',
+    name: 'LogOut',
+    component: LogOut,
+    beforeEnter: async () => {
+      return await isUserLoged()? true: '/'
+    }
+  },
+  {
     path: '/test',
     name: 'TestingScript',
     component: TestingScript,
@@ -55,6 +64,8 @@ const isUserLoged = async () => {
   const currentUser = await getCurrentUser()
   return currentUser
 }
+
+
 
 export function viewPlan (planId) {
   console.log(`Navegando al plan ${planId}`)
@@ -67,5 +78,3 @@ const router = createRouter({
 })
 
 export default router
-
-

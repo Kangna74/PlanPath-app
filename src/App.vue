@@ -1,7 +1,8 @@
 <script>
 import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
-
+import {onAuthStateChanged } from "firebase/auth";
+import { auth } from '@/firebase';
 export default {
   components: {
     RouterView,
@@ -20,6 +21,13 @@ export default {
   mounted() {
     window.addEventListener("resize", this.updateScreenSize);
     this.updateScreenSize();
+
+        onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        //TODO: Redirigir a la página de inicio
+        //this.$router.push({ name: 'home' });
+      }
+    });
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.updateScreenSize);
