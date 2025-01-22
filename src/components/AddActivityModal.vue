@@ -103,11 +103,11 @@ const close = () => {
           <textarea
             id="activityNotes"
             v-model="formData.notes"
-            maxlength="30"
-            rows="3"
+            maxlength="50"
+            rows="2"
             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           ></textarea>
-          <p class="text-sm text-gray-500 mt-1">{{ formData.notes.length }}/30 caracteres</p>
+          <p class="text-sm text-gray-500 mt-1">{{ formData.notes.length }}/40 caracteres</p>
         </div>
         <div class="flex justify-end space-x-2">
           <button

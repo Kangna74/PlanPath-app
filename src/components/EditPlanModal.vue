@@ -45,7 +45,7 @@ export default {
             v-model="editedPlan.name"
             type="text"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
         </div>
         <div class="mb-4">
@@ -57,7 +57,7 @@ export default {
             required
             :min="getCurrentDate()"
             @change="validateDate()"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
           <p v-if="dateError" class="text-red-500 text-xs mt-1">{{ dateError }}</p>
         </div>
@@ -70,7 +70,7 @@ export default {
             required
             :min="editedPlan.startDate || getCurrentDate()"
             @change="validateDate()"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
           <p v-if="dateError" class="text-red-500 text-xs mt-1">{{ dateError }}</p>
         </div>

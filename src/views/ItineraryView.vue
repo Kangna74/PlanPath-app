@@ -42,7 +42,7 @@ const goBack = () => {
           <li
             v-for="activity in plan.activities"
             :key="activity.id"
-            class="bg-gray-50 rounded-lg p-4"
+            class="bg-gray-50 rounded-lg p-6"
           >
             <div class="flex justify-between items-start">
               <div>
@@ -50,13 +50,13 @@ const goBack = () => {
                 <p class="text-sm text-gray-500">
                   {{ formatDateTime(activity.date, activity.time) }}
                 </p>
+                <p v-if="activity.notes" class="text-xs text-gray-600 mt-2"><strong>Notas: </strong> {{ activity.notes }}</p>
               </div>
               <div class="flex flex-col items-start ml-auto">
                 <div class="flex items-center mb-2">
                   <MapPin class="h-5 w-5 text-blue-500 mr-1" />
                   <p class="text-sm text-gray-500">{{ activity.location }}</p>
                 </div>
-                <p v-if="activity.notes" class="text-xs text-gray-600 mt-2"><strong>Notas: </strong> {{ activity.notes }}</p>
               </div>
             </div>
           </li>

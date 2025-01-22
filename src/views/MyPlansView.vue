@@ -45,13 +45,15 @@
             </div>
 
             <div class="mb-4">
-              <h3 class="font-medium text-[#000000] mb-2">
+              <div class="flex justify-between items-center mb-2">
+              <h3 class="font-medium text-[#000000]">
                 {{ plan.activities.length }} actividades planificadas
               </h3>
               <button @click="openAddActivityModal(plan)"
                 class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
                 <PlusCircle class= "h-5 w-5" />
               </button>
+            </div>
               <ul class="space-y-2">
                 <li v-for="(activity, index) in plan.activities.slice(0, 2)" :key="index"
                   class="text-[#828282] text-sm">
