@@ -104,7 +104,7 @@ const createItinerary = async () => {
         <!-- Step 1: Planificar -->
         <div v-if="currentStep === 0" class="space-y-6">
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">Tarea</label>
+            <label for="name" class="block text-sm font-medium text-gray-700">Plan</label>
             <input
               id="name"
               v-model="formData.name"
@@ -115,7 +115,7 @@ const createItinerary = async () => {
           </div>
           <div>
             <label for="dates" class="block text-sm font-medium text-gray-700"
-              >Fechas de la Tarea</label
+              >Fechas del Plan</label
             >
             <div class="flex space-x-4">
               <div class="flex-1">
@@ -174,9 +174,9 @@ const createItinerary = async () => {
 
         <!-- Step 3: Visualizar -->
         <div v-if="currentStep === 2" class="space-y-6">
-          <h2 class="text-xl font-semibold">Tu Itinerario para "{{ formData.name }}"</h2>
+          <h2 class="text-xl font-semibold">Tu Plan para "{{ formData.name }}"</h2>
           <div class="rounded-lg bg-gray-50 p-4">
-            <h3 class="mb-2 text-sm font-medium text-gray-700">Fechas de la tarea:</h3>
+            <h3 class="mb-2 text-sm font-medium text-gray-700">Fechas del Plan:</h3>
             <p class="text-gray-600">{{ formData.startDate }} - {{ formData.endDate }}</p>
           </div>
           <div class="rounded-lg bg-gray-50 p-4">
@@ -223,7 +223,7 @@ const createItinerary = async () => {
           @click="createItinerary"
           class="ml-auto rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-gray-800"
         >
-          ¡Crea tu Itinerario!
+          ¡Crea tu Plan!
         </button>
       </div>
 

@@ -2,8 +2,8 @@
   <div class="min-h-screen bg-[#fafafa]">
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-[#000000]">Mis Itinerarios</h1>
-        <p class="text-[#828282]">{{ plans.length }} itinerarios</p>
+        <h1 class="text-3xl font-bold text-[#000000]">Mis Planes</h1>
+        <p class="text-[#828282]">{{ plans.length }} planes</p>
       </div>
 
       <!-- Barra de búsqueda -->
@@ -16,10 +16,10 @@
       <!-- Lista de planes -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-if="plans.length === 0" class="col-span-full text-center py-12">
-          <p class="text-[#828282] mb-8">No tienes ningún itinerario creado</p>
+          <p class="text-[#828282] mb-8">No tienes ningún plan creado</p>
           <button @click="createNewPlan"
             class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors">
-            Crear Itinerario
+            Crear Plan
           </button>
         </div>
 
@@ -69,7 +69,7 @@
 
           <button @click="viewPlan(plan.id)"
             class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
-            Ver Itinerario
+            Ver Plan
           </button>
         </div>
       </div>
