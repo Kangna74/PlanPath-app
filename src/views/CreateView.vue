@@ -115,7 +115,7 @@ const createItinerary = async () => {
           </div>
           <div>
             <label for="dates" class="block text-sm font-medium text-gray-700"
-              >Fechas del Plan</label
+              >Fechas del plan</label
             >
             <div class="flex space-x-4">
               <div class="flex-1">
@@ -168,7 +168,7 @@ const createItinerary = async () => {
             @click="showAddActivityModal = true"
             class="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
-            + Añadir Actividad
+            Añadir Actividad
           </button>
         </div>
 
@@ -176,11 +176,11 @@ const createItinerary = async () => {
         <div v-if="currentStep === 2" class="space-y-6">
           <h2 class="text-xl font-semibold">Tu Plan para "{{ formData.name }}"</h2>
           <div class="rounded-lg bg-gray-50 p-4">
-            <h3 class="mb-2 text-sm font-medium text-gray-700">Fechas del Plan:</h3>
+            <h3 class="mb-2 text-sm font-medium text-gray-700">Fechas del plan:</h3>
             <p class="text-gray-600">{{ formData.startDate }} - {{ formData.endDate }}</p>
           </div>
           <div class="rounded-lg bg-gray-50 p-4">
-            <h3 class="mb-2 text-sm font-medium text-gray-700">Resumen de Actividades:</h3>
+            <h3 class="mb-2 text-sm font-medium text-gray-700">Resumen de actividades:</h3>
             <div class="space-y-4">
               <div
                 v-for="(activity, index) in formData.activities"

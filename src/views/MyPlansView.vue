@@ -8,7 +8,7 @@
 
       <!-- Barra de búsqueda -->
       <div class="relative mb-8">
-        <input v-model="searchQuery" type="text" placeholder="Buscar itinerarios..."
+        <input v-model="searchQuery" type="text" placeholder="Buscar planes..."
           class="z-10 w-full px-12 py-3 border border-[#d9d9d9] rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#0b64ad]" />
         <Search class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#828282] h-5 w-5" />
       </div>
@@ -19,7 +19,7 @@
           <p class="text-[#828282] mb-8">No tienes ningún plan creado</p>
           <button @click="createNewPlan"
             class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors">
-            Crear Plan
+            ¡Crea tu primer plan!
           </button>
         </div>
 
@@ -69,7 +69,7 @@
 
           <button @click="viewPlan(plan.id)"
             class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
-            Ver Plan
+            Revisar Itinerario
           </button>
         </div>
       </div>
