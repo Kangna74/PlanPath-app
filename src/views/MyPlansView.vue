@@ -90,7 +90,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import router from '@/router'
 import { Search, Trash2, Calendar, Edit, PlusCircle } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
@@ -144,7 +144,7 @@ const editPlan = async (plan) => {
   try{
     await updatePlan(plan);
     editingPlan.value = plan;
-    console.prompt('Itinerario actualizado')
+    console.log('Itinerario actualizado')
   }
   catch(error) {
     console.log(error);

@@ -1,4 +1,6 @@
 <script>
+import { validateDate, getCurrentDate } from '@/utils/script'
+
 export default {
   name: 'EditPlanModal',
   props: {
@@ -9,14 +11,25 @@ export default {
   },
   data() {
     return {
-      editedPlan: { ...this.plan }
+      editedPlan: { ...this.plan },
+      dateError: ''
     }
   },
   methods: {
+    validateDate() {
+      const errorMessage = validateDate(this.editedPlan.startDate, this.editedPlan.endDate)
+      this.dateError = errorMessage
+      return !errorMessage
+    },
     handleSubmit() {
-      this.$emit('update', this.editedPlan)
+      if (this.validateDate()) {
+        this.$emit('update', this.editedPlan)
+      }
+    },
+    getCurrentDate() {
+      return getCurrentDate()
     }
-  }
+  },
 }
 </script>
 
@@ -42,8 +55,11 @@ export default {
             v-model="editedPlan.startDate"
             type="date"
             required
+            :min="getCurrentDate()"
+            @change="validateDate()"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
           >
+          <p v-if="dateError" class="text-red-500 text-xs mt-1">{{ dateError }}</p>
         </div>
         <div class="mb-4">
           <label for="endDate" class="block text-sm font-medium text-gray-700">Fecha de fin</label>
@@ -52,8 +68,11 @@ export default {
             v-model="editedPlan.endDate"
             type="date"
             required
+            :min="editedPlan.startDate || getCurrentDate()"
+            @change="validateDate()"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
           >
+          <p v-if="dateError" class="text-red-500 text-xs mt-1">{{ dateError }}</p>
         </div>
         <div class="flex justify-end space-x-2">
           <button
