@@ -18,7 +18,7 @@
         <div v-if="plans.length === 0" class="col-span-full text-center py-12">
           <p class="text-[#828282] mb-8">No tienes ningún itinerario creado</p>
           <button @click="createNewPlan"
-            class="bg-[#0b64ad] text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors">
+            class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors">
             Crear Itinerario
           </button>
         </div>
@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="flex space-x-2">
-                <button @click="editPlan(plan)" class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
+                <button @click="editPlan(plan)" class="text-blue-500 hover:text-[#0b64ad]/80 transition-colors">
                   <Edit class="h-5 w-5" />
                 </button>
                 <button @click="handleDeletePlan(plan.id)"
@@ -46,9 +46,15 @@
             </div>
 
             <div class="mb-4">
-              <h3 class="font-medium text-[#000000] mb-2">
+              <div class="flex justify-between items-center mb-2">
+              <h3 class="font-medium text-[#000000]">
                 {{ plan.activities.length }} actividades planificadas
               </h3>
+              <button @click="openAddActivityModal(plan)"
+                class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
+                <PlusCircle class= "h-5 w-5" />
+              </button>
+            </div>
               <ul class="space-y-2">
                 <li v-for="(activity, index) in plan.activities.slice(0, 2)" :key="index"
                   class="text-[#828282] text-sm">
@@ -62,7 +68,7 @@
           </div>
 
           <button @click="viewPlan(plan.id)"
-            class="bg-[#0b64ad] text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
+            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
             Ver Itinerario
           </button>
         </div>
@@ -70,21 +76,36 @@
     </main>
 
     <!-- Modal de edición -->
-    <EditPlanModal v-if="editingPlan" :plan="editingPlan" @close="closeEditModal" @update="handleUpdatePlan" />
+    <EditPlanModal
+      v-if="editingPlan"
+      :plan="editingPlan"
+      @close="closeEditModal"
+      @update="handleUpdatePlan"
+    />
+    <AddActivityModal
+      v-if="showAddActivityModal"
+      :is-open="showAddActivityModal"
+      :plan="selectedPlan"
+      @close="closeAddActivityModal"
+      @submit="handleAddActivity"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import router from '@/router'
-import { Search, Trash2, Calendar, Edit } from 'lucide-vue-next'
+import { Search, Trash2, Calendar, Edit, PlusCircle } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
 import { getPlansByActualUser, deletePlan, updatePlan } from '@/firescript'
 import { formatDateRange, formatTime } from '@/utils/script'
+import AddActivityModal from '../components/AddActivityModal.vue'
 
 const searchQuery = ref('')
 const plans = ref([])
 const editingPlan = ref(null)
+const showAddActivityModal = ref(false)
+const selectedPlan = ref(null)
 
 // const filteredPlans = computed(() => {
 //   return plans.value.filter(plan =>
@@ -125,6 +146,8 @@ const handleDeletePlan = async (planId) => {
 const editPlan = async (plan) => {
   try {
     await updatePlan(plan);
+    editingPlan.value = plan;
+    console.log('Itinerario actualizado')
   }
   catch (error) {
     console.log(error);
@@ -135,9 +158,47 @@ const closeEditModal = () => {
   editingPlan.value = null
 }
 
+const isLoading = ref(false)
+
 const handleUpdatePlan = async (updatedPlan) => {
-  await editPlan(updatedPlan)
-  closeEditModal()
+  isLoading.value = true
+  try {
+    await updatePlan(updatedPlan)
+    await fetchPlans() // Vuelve a cargar todos los planes
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+    closeEditModal()
+  }
+}
+
+const closeAddActivityModal = () => {
+  showAddActivityModal.value = false;
+  selectedPlan.value = null;
+}
+
+const openAddActivityModal = (plan) => {
+  selectedPlan.value = plan;
+  showAddActivityModal.value = true;
+}
+
+const handleAddActivity = async (activity) => {
+  if (selectedPlan.value) {
+    const updatedPlan = { // Actualiza el plan con la nueva actividad
+      ...selectedPlan.value,
+      activities: [...(selectedPlan.value.activities || []), activity] // Añade la actividad al array de actividades
+    }
+    try {
+      await updatePlan(updatedPlan)
+      console.log('Actividad añadida:', activity)
+    } catch (error) {
+      console.error('Error al actualizar el plan:', error)
+    } finally {
+      fetchPlans() // Vuelve a cargar todos los planes
+      closeAddActivityModal()
+    }
+  }
 }
 
 onMounted(() => {

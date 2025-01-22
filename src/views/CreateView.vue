@@ -4,6 +4,7 @@ import { MapPin, Calendar, Eye } from 'lucide-vue-next'
 import AddActivityModal from '../components/AddActivityModal.vue'
 import router from '@/router'
 import { postPlan } from '@/firescript';
+import { getCurrentDate, validateDate } from '@/utils/script'
 
 
 const steps = [
@@ -22,12 +23,14 @@ const handleAddActivity = (activity) => {
   })
 }
 
+const dateError = ref('')
 const currentStep = ref(0)
 const formData = reactive({
   name: '',
   startDate: '',
   endDate: '',
-  activities: []
+  activities: [],
+  public: true
 })
 
 const nextStep = () => {
@@ -114,6 +117,7 @@ const createItinerary = async () => {
                   class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
               </div>
             </div>
+            <p v-if="dateError" class="text-red-500 text-sm mt-1">{{ dateError }}</p>
           </div>
         </div>
 
@@ -130,6 +134,7 @@ const createItinerary = async () => {
               <h3 class="font-medium">{{ activity.name }}</h3>
               <p class="text-sm text-gray-500">{{ activity.date }} - {{ activity.time }}</p>
               <p class="text-sm text-gray-500">{{ activity.location }}</p>
+              <p v-if="activity.notes" class="text-sm text-gray-600 mt-2"><strong>Notas: </strong> {{ activity.notes }}</p>
             </div>
           </div>
           <button @click="showAddActivityModal = true"

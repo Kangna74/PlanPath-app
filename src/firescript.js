@@ -9,7 +9,8 @@ async function getUser() {
 }
 
 export async function getAllPlans() {
-  const querySnapshot = await getDocs(plansCollection);
+  const querySnapshot = await getDocs(query(plansCollection, where('public', '==', true)));
+  console.log(querySnapshot)
 
   return docsToArray(querySnapshot)
 }
@@ -17,7 +18,7 @@ export async function getAllPlans() {
 export async function getPlansByActualUser() {
   const user = await getUser();
 
-  const querySnapshot = await getDocs(plansCollection, where("userId", "==", user.uid));
+  const querySnapshot = await getDocs(query(plansCollection, where("userId", "==", user.uid)));
 
   return docsToArray(querySnapshot);
 }
@@ -65,7 +66,7 @@ export async function postPlan(plan) {
     userId: (await getUser()).uid,
     ...plan,
   }
-
+  console.log(newPlan)
   return await addDoc(plansCollection, newPlan);
 }
 
