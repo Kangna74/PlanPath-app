@@ -29,7 +29,8 @@ const formData = reactive({
   name: '',
   startDate: '',
   endDate: '',
-  activities: []
+  activities: [],
+  public: true
 })
 
 const nextStep = () => {
@@ -45,7 +46,7 @@ const previousStep = () => {
 }
 
 const createItinerary = async () => {
-
+  console.log(formData)
   try{
     await postPlan(formData);
     console.log('Itinerario creado')

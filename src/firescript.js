@@ -66,7 +66,7 @@ export async function postPlan(plan) {
     userId: (await getUser()).uid,
     ...plan,
   }
-
+  console.log(newPlan)
   return await addDoc(plansCollection, newPlan);
 }
 
