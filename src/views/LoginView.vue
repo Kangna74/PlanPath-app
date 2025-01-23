@@ -4,6 +4,11 @@ import IconLogoPP from '@/components/icons/IconLogoPP.vue'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/firebase'
 
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+
+
+
 export default {
   components: {
     IconLogoPP,
@@ -16,12 +21,34 @@ export default {
   },
   methods: {
     async login() {
-      await signInWithEmailAndPassword(auth, this.username.trim(), this.password)
-        .then(() => {
+      try {
+        await signInWithEmailAndPassword(auth, this.username.trim(), this.password)
+        toast("Inicio de sesión exitoso", {
+          "type": "success",
+          "position": "top-center",
         })
-        .catch((error) => {
-          console.log("No se ha podido iniciar sesión", error)
+      } catch (error) {
+        console.log(error.code)
+        let errorMessage = '';
+        switch (error.code) {
+          case 'auth/invalid-credential':
+            errorMessage = 'Usuario o contraseña incorrectos';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Correo electrónico inválido';
+            break;
+          case 'auth/missing-password':
+            errorMessage = 'Falta la contraseña';
+            break;
+          default:
+            errorMessage = 'Error desconocido';
+            break;
+        }
+        toast(errorMessage, {
+          "type": "error",
+          "position": "top-center",
         })
+      }
     },
   },
   mounted() { },
