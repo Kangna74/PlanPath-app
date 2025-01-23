@@ -1,5 +1,5 @@
 <script>
-import { Calendar, MapPin, ArrowLeft, Edit as EditIcon, Trash as TrashIcon } from 'lucide-vue-next'
+import { CalendarIcon, MapPinIcon, ArrowLeft, EditIcon, TrashIcon } from 'lucide-vue-next'
 import { getPlanById, updatePlan } from '@/firescript'
 import router from '@/router'
 import {
@@ -13,8 +13,8 @@ import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue'
 
 export default {
   components: {
-    Calendar,
-    MapPin,
+    CalendarIcon,
+    MapPinIcon,
     ArrowLeft,
     EditIcon,
     TrashIcon,
@@ -122,7 +122,7 @@ export default {
           </button>
         </div>
         <div class="flex items-center text-[#828282] text-sm mb-6">
-          <Calendar class="h-5 w-5 mr-2" />
+          <CalendarIcon class="h-5 w-5 mr-2" />
           <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
         </div>
         <h2 class="text-xl font-semibold mb-4">Tus Actividades:</h2>
@@ -144,7 +144,7 @@ export default {
               </div>
               <div class="flex flex-col items-end ml-auto">
                 <div class="flex items-center mb-2">
-                  <MapPin class="h-5 w-5 text-blue-500 mr-1" />
+                  <MapPinIcon class="h-5 w-5 text-blue-500 mr-1" />
                   <p class="text-sm text-gray-500">{{ activity.location }}</p>
                 </div>
                 <div class="flex space-x-2 mt-2">
