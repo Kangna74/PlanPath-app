@@ -23,7 +23,7 @@
           </button>
         </div>
 
-        <div v-else v-for="plan in plans" :key="plan.id"
+        <div v-else v-for="plan in filteredPlans" :key="plan.id"
           class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-start mb-4">
@@ -92,31 +92,38 @@
   </div>
 </template>
 
+
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import router from '@/router'
 import { Search, Trash2, Calendar, Edit, PlusCircle } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
 import { getPlansByActualUser, deletePlan, updatePlan } from '@/firescript'
-import { formatDateRange, formatTime } from '@/utils/script'
 import AddActivityModal from '../components/AddActivityModal.vue'
+import { formatDateRange, formatTime, filterByName } from '@/utils/script'
 
-const searchQuery = ref('')
 const plans = ref([])
 const editingPlan = ref(null)
 const showAddActivityModal = ref(false)
 const selectedPlan = ref(null)
 
-// const filteredPlans = computed(() => {
-//   return plans.value.filter(plan =>
-//     plan.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-//     plan.city.toLowerCase().includes(searchQuery.value.toLowerCase())
-//   )
-// })
+const searchQuery = ref('')
+const filteredPlans = ref([]);
+
+watch(searchQuery, (searchQuery) => {
+
+  if (!searchQuery || searchQuery === '') {
+    filteredPlans.value = plans.value;
+    return;
+  }
+
+  filteredPlans.value = filterByName(plans.value, searchQuery);
+});
 
 const fetchPlans = async () => {
   try {
     plans.value = await getPlansByActualUser()
+    filteredPlans.value = plans.value;
   } catch (error) {
     console.error('Error al obtener los itinerarios', error)
   }

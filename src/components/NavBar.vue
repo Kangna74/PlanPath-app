@@ -53,7 +53,6 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.onScroll);
-    console.log('userIsLoged', this.userIsLoged);
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.onScroll);
