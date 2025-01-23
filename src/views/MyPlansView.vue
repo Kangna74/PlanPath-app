@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#fafafa]">
+  <div class="min-h-screen bg-[#fafafa] cursor-default">
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-[#000000]">Mis Planes</h1>

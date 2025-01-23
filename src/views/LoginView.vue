@@ -24,9 +24,9 @@ export default {
         })
     },
   },
-  mounted() {},
+  mounted() { },
   beforeMount() { },
-  afterMount() {},
+  afterMount() { },
 }
 </script>
 

@@ -59,7 +59,7 @@ const createItinerary = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white p-4">
+  <div class="min-h-screen bg-white p-4 cursor-default">
     <div class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg">
       <!-- Header -->
       <h1 class="mb-8 text-center text-3xl font-bold">Comienza tu aventura</h1>

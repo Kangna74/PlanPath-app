@@ -46,7 +46,7 @@ export default {
         Encuentra el <span class="text-blue-300">Plan</span> perfecto para ti</h1>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-2 m-10 justify-center items-center cursor-text">
+    <div class="flex flex-col sm:flex-row gap-2 m-10 justify-center items-center">
       <input v-model="searchQuery" type="text"
         class="w-64 sm:w-2/4 p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         placeholder="Busca un plan" />
@@ -80,7 +80,7 @@ export default {
             </ul>
           </div>
           <button @click="viewPlan(plan.id)"
-            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-600/90 transition-colors mt-auto cursor-pointer">
+            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-600/90 transition-colors mt-auto">
             Revisar Itinerario
           </button>
         </div>
