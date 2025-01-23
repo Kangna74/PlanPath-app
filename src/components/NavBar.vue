@@ -3,7 +3,8 @@ import { RouterLink } from 'vue-router'
 import IconBurger from './icons/IconBurger.vue'
 import IconX from './icons/IconX.vue'
 import IconLogoPPSmall from './icons/IconLogoPPSmall.vue'
-import { getUser } from '@/firescript';
+import { signOut } from "firebase/auth";
+import { auth } from '@/firebase'
 
 export default {
   name: 'NavBar',
@@ -18,11 +19,11 @@ export default {
       isOpen: false,
       showNavBar: true,
       lastScrollPosition: 0,
-      isSmallScreen: false,
     }
   },
   props: {
-    isSmallScreen: Boolean
+    isSmallScreen: Boolean,
+    userIsLoged: Boolean
   },
   methods: {
     navigateTo(route) {
@@ -30,26 +31,29 @@ export default {
       this.isOpen = false;
     },
     onScroll() {
-      // Get the current scroll position
-      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
-      // Because of momentum scrolling on mobiles, we shouldn't continue if it is less than zero
+      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
       if (currentScrollPosition < 0) {
-        return
+        return;
       }
       if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 60) {
-        return
+        return;
       }
-
-      // Here we determine whether we need to show or hide the navbar
-      this.showNavBar = currentScrollPosition < this.lastScrollPosition
-      // Set the current scroll position as the last scroll position
-      this.lastScrollPosition = currentScrollPosition
-      // If the user is scrolling down and the mobile navbar is open, close it
-      this.isOpen = false
+      this.showNavBar = currentScrollPosition < this.lastScrollPosition;
+      this.lastScrollPosition = currentScrollPosition;
+      this.isOpen = false;
+    },
+    cerrarSesion() {
+      signOut(auth).then(() => {
+        alert('Sesión cerrada');
+        this.$router.push('/login');
+      }).catch((error) => {
+        console.log(error);
+      });
     }
   },
   mounted() {
     window.addEventListener('scroll', this.onScroll);
+    console.log('userIsLoged', this.userIsLoged);
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.onScroll);
@@ -74,8 +78,8 @@ export default {
           <RouterLink to="/my-plans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Mis Planes</RouterLink>
           <RouterLink to="/create" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Crear</RouterLink>
 
-          <RouterLink v-if="!user" to="/login" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Entrar</RouterLink>
-          <RouterLink v-else to="/logout" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Salir</RouterLink>
+          <RouterLink v-if="!userIsLoged" to="/login" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Entrar</RouterLink>
+          <button v-else @click="cerrarSesion()" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Salir</button>
         </nav>
 
         <!-- Mobile menu button -->
@@ -94,20 +98,11 @@ export default {
     <!-- Mobile Navigation -->
     <div v-if="isOpen" class="md:hidden z-10 absolute right-2 mt-2 bg-white rounded-lg shadow-lg">
       <div class="flex flex-col p-4 space-y-4 text-lg">
-
         <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('Home')">Inicio</button>
-
-        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('MyPlans')">Mis
-          Planes</button>
-
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('MyPlans')">Mis Planes</button>
         <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('Create')">Crear</button>
-        <!-- <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('LogIn')">Entrar</button> -->
-
-
-        <!-- <RouterLink to="/" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">
-          Inicio</RouterLink>
-        <RouterLink to="/my-plans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Mis Planes</RouterLink>
-        <RouterLink to="/create" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Crear</RouterLink> -->
+        <button v-if="!userIsLoged" class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('LogIn')">Entrar</button>
+        <button v-else @click="cerrarSesion()" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Salir</button>
       </div>
     </div>
   </header>

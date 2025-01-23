@@ -1,8 +1,9 @@
 <script>
 import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
-import {onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '@/firebase';
+
 export default {
   components: {
     RouterView,
@@ -11,35 +12,43 @@ export default {
   data() {
     return {
       isSmallScreen: false,
+      userIsLoged: false
     }
   },
   methods: {
     updateScreenSize() {
       this.isSmallScreen = window.innerWidth < 768; // Matches Tailwind's `md` breakpoint
     },
+    reloadNavBar() {
+      this.$forceUpdate();
+    }
   },
   mounted() {
     window.addEventListener("resize", this.updateScreenSize);
     this.updateScreenSize();
 
-        onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (!user) {
-        //TODO: Redirigir a la página de inicio
-        //this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'Home' });
+        this.userIsLoged = false;
+        console.log('App, usuario no logeado');
+      } else {
+        this.$router.push({ name: 'MyPlans' });
+        this.userIsLoged = true;
+        console.log('App, usuario logeado');
       }
+      this.reloadNavBar();
     });
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.updateScreenSize);
   }
 }
-
 </script>
 
 <template>
-  <NavBar :isSmallScreen="isSmallScreen" class="z-20" />
+  <NavBar :isSmallScreen="isSmallScreen" :userIsLoged="userIsLoged" class="z-20" />
   <main :class="isSmallScreen ? 'pt-16' : 'pt-0'">
     <RouterView />
   </main>
-
 </template>
