@@ -40,19 +40,16 @@ export default {
 </script>
 
 <template>
-  <main>
+  <div class="cursor-default">
     <div class="bg-smpath w-screen h-96 bg-cover bg-center flex items-center justify-center sm:bg-path bg-no-repeat">
       <h1 class="text-white text-2xl md:text-4xl lg:text-5xl text-center font-extrabold font-merienda">
         Encuentra el <span class="text-blue-300">Plan</span> perfecto para ti</h1>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-2 m-10 justify-center items-center">
+    <div class="flex flex-col sm:flex-row gap-2 m-10 justify-center items-center cursor-text">
       <input v-model="searchQuery" type="text"
         class="w-64 sm:w-2/4 p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         placeholder="Busca un plan" />
-      <button class="w-24 sm:w-1/6 bg-blue-500 text-white rounded-full hover:bg-white hover:text-blue-500 border border-blue-500 p-2">
-        Buscar
-      </button>
     </div>
 
     <div>
@@ -83,13 +80,13 @@ export default {
             </ul>
           </div>
           <button @click="viewPlan(plan.id)"
-            class="bg-[#0b64ad] text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
+            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-600/90 transition-colors mt-auto cursor-pointer">
             Revisar Itinerario
           </button>
         </div>
       </ul>
     </div>
-  </main>
+  </div>
 </template>
 
 <style>

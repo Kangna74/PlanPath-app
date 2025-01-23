@@ -38,7 +38,7 @@
                 <button @click="editPlan(plan)" class="text-blue-500 hover:text-[#0b64ad]/80 transition-colors">
                   <Edit class="h-5 w-5" />
                 </button>
-                <button @click="handleDeletePlan(plan.id)"
+                <button @click="openConfirmDeleteModal(plan)"
                   class="text-[#828282] hover:text-[#812727] transition-colors">
                   <Trash2 class="h-5 w-5" />
                 </button>
@@ -47,14 +47,14 @@
 
             <div class="mb-4">
               <div class="flex justify-between items-center mb-2">
-              <h3 class="font-medium text-[#000000]">
-                {{ plan.activities.length }} actividades planificadas
-              </h3>
-              <button @click="openAddActivityModal(plan)"
-                class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
-                <PlusCircle class= "h-5 w-5" />
-              </button>
-            </div>
+                <h3 class="font-medium text-[#000000]">
+                  {{ plan.activities.length }} actividades planificadas
+                </h3>
+                <button @click="openAddActivityModal(plan)"
+                  class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
+                  <PlusCircle class="h-5 w-5" />
+                </button>
+              </div>
               <ul class="space-y-2">
                 <li v-for="(activity, index) in plan.activities.slice(0, 2)" :key="index"
                   class="text-[#828282] text-sm">
@@ -76,19 +76,11 @@
     </main>
 
     <!-- Modal de edición -->
-    <EditPlanModal
-      v-if="editingPlan"
-      :plan="editingPlan"
-      @close="closeEditModal"
-      @update="handleUpdatePlan"
-    />
-    <AddActivityModal
-      v-if="showAddActivityModal"
-      :is-open="showAddActivityModal"
-      :plan="selectedPlan"
-      @close="closeAddActivityModal"
-      @submit="handleAddActivity"
-    />
+    <EditPlanModal v-if="editingPlan" :plan="editingPlan" @close="closeEditModal" @update="handleUpdatePlan" />
+    <AddActivityModal v-if="showAddActivityModal" :is-open="showAddActivityModal" :plan="selectedPlan"
+      @close="closeAddActivityModal" @submit="handleAddActivity" />
+    <ConfirmDeleteModal v-if="showConfirmDeleteModal" :is-open="showConfirmDeleteModal" :plan="deletingPlan"
+      @close="closeDeleteModal" @confirm="handleDeletePlan" />
   </div>
 </template>
 
@@ -101,11 +93,14 @@ import EditPlanModal from '../components/EditPlanModal.vue'
 import { getPlansByActualUser, deletePlan, updatePlan } from '@/firescript'
 import AddActivityModal from '../components/AddActivityModal.vue'
 import { formatDateRange, formatTime, filterByName } from '@/utils/script'
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue'
 
 const plans = ref([])
 const editingPlan = ref(null)
 const showAddActivityModal = ref(false)
 const selectedPlan = ref(null)
+const deletingPlan = ref(null)
+const showConfirmDeleteModal = ref(false)
 
 const searchQuery = ref('')
 const filteredPlans = ref([]);
@@ -138,10 +133,21 @@ const viewPlan = (planId) => {
   console.log('Ver itinerario', planId)
 }
 
+const openConfirmDeleteModal = (plan) => {
+  deletingPlan.value = plan;
+  showConfirmDeleteModal.value = true;
+};
+
+const closeDeleteModal = () => {
+  showConfirmDeleteModal.value = false;
+  deletingPlan.value = null;
+};
+
 const handleDeletePlan = async (planId) => {
 
   try {
     await deletePlan(planId);
+    closeDeleteModal();
     fetchPlans();
   }
   catch (error) {
