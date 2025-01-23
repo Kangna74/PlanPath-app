@@ -3,7 +3,6 @@ import IconLogoPP from '@/components/icons/IconLogoPP.vue'
 
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/firebase'
-import router from '@/router'
 
 export default {
   components: {
@@ -19,21 +18,15 @@ export default {
     async login() {
       await signInWithEmailAndPassword(auth, this.username.trim(), this.password)
         .then(() => {
-          router.push('/')
         })
         .catch((error) => {
           console.log("No se ha podido iniciar sesión", error)
         })
     },
   },
-  mounted() {
-    const currentUser = auth.currentUser
-    const uid = currentUser?.uid
-    console.log('currentUser', uid)
-  },
+  mounted() {},
   beforeMount() { },
-  afterMount() {
-  },
+  afterMount() {},
 }
 </script>
 
