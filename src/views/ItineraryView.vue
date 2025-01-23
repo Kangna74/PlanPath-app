@@ -1,9 +1,10 @@
 <script>
-import { Calendar, MapPin, ArrowLeft, Edit as EditIcon } from 'lucide-vue-next';
+import { Calendar, MapPin, ArrowLeft, Edit as EditIcon, Trash as TrashIcon } from 'lucide-vue-next';
 import { getPlanById, updatePlan } from '@/firescript';
 import router from '@/router';
 import { formatDateRange, formatDateTime, getPlanFromRoute, updatePlanActivity } from '@/utils/script';
 import EditActivityModal from '../components/EditActivityModal.vue';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue';
 
 export default {
   components: {
@@ -11,14 +12,18 @@ export default {
     MapPin,
     ArrowLeft,
     EditIcon,
-    EditActivityModal
+    TrashIcon,
+    EditActivityModal,
+    ConfirmDeleteModal
   },
 
   data() {
     return {
       plan: null,
       currentEditingIndex: null,
-      isEditModalOpen: false
+      isEditModalOpen: false,
+      isConfirmModalOpen: false,
+      activityToDelete: null
     };
   },
 
@@ -62,11 +67,40 @@ export default {
       this.closeEditModal();
     },
 
+    confirmDeleteActivity(index) {
+      this.activityToDelete = { id: index, name: this.plan.activities[index].name };
+      this.isConfirmModalOpen = true;
+    },
+
+    closeConfirmModal() {
+      this.isConfirmModalOpen = false;
+      this.activityToDelete = null;
+    },
+
+    async deleteActivity(activityId) {
+      const updatedActivities = this.plan.activities.filter((_, index) => index !== activityId);
+
+      const updatedPlan = {
+        ...this.plan,
+        activities: updatedActivities
+      };
+
+      try {
+        await updatePlan(updatedPlan);
+        this.plan = updatedPlan;
+      } catch (error) {
+        console.error('Error al eliminar la actividad:', error);
+      }
+
+      this.closeConfirmModal();
+    },
+
     formatDateRange,
     formatDateTime
   }
 };
 </script>
+
 
 <template>
   <div class="min-h-screen bg-[#fafafa]">
@@ -106,6 +140,9 @@ export default {
                   <button @click="editActivity(index)" class="text-blue-600 hover:text-blue-800">
                     <EditIcon class="h-5 w-5" />
                   </button>
+                  <button @click="confirmDeleteActivity(index)" class="text-red-600 hover:text-red-800">
+                    <TrashIcon class="h-5 w-5" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -119,7 +156,12 @@ export default {
       @close="closeEditModal"
       @update="updateActivity"
     />
+    <ConfirmDeleteModal
+      :is-open="isConfirmModalOpen"
+      :plan="activityToDelete"
+      @close="closeConfirmModal"
+      @confirm="deleteActivity"
+    />
   </div>
 </template>
-
 

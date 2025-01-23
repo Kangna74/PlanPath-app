@@ -1,11 +1,10 @@
 <script setup>
 import { ref, reactive } from 'vue'
-import { MapPin, Calendar, Eye } from 'lucide-vue-next'
+import { MapPin, Calendar, Eye, Globe, Lock } from 'lucide-vue-next'
 import AddActivityModal from '../components/AddActivityModal.vue'
 import router from '@/router'
 import { postPlan } from '@/firescript';
-import { getCurrentDate, validateDate } from '@/utils/script'
-
+import { getCurrentDate, validateDate, handleStepNavigation, addActivityToForm, togglePublic, createItinerary } from '@/utils/script'
 
 const steps = [
   { name: 'Planificar', icon: MapPin },
@@ -14,46 +13,37 @@ const steps = [
 ]
 
 const showAddActivityModal = ref(false)
-
-const handleAddActivity = (activity) => {
-  //
-  formData.activities.push({
-    ...activity,
-    id: Date.now() // Añadir un ID único
-  })
-}
-
 const dateError = ref('')
 const currentStep = ref(0)
 const formData = reactive({
   name: '',
   startDate: '',
   endDate: '',
-  activities: []
+  activities: [],
+  public: false
 })
 
+const handleAddActivity = (activity) => {
+  formData.activities = addActivityToForm(formData, activity).activities
+}
+
 const nextStep = () => {
-  if (currentStep.value < steps.length - 1) {
-    currentStep.value++
-  }
+  currentStep.value = handleStepNavigation(currentStep.value, steps.length, 'next')
 }
 
 const previousStep = () => {
-  if (currentStep.value > 0) {
-    currentStep.value--
-  }
+  currentStep.value = handleStepNavigation(currentStep.value, steps.length, 'previous')
 }
 
-const createItinerary = async () => {
+const handleTogglePublic = () => {
+  formData.public = togglePublic(formData.public)
+}
 
-  try {
-    await postPlan(formData);
-    console.log('Itinerario creado')
-
-    router.push('/my-plans');
-  }
-  catch (error) {
-    console.log(error);
+const handleCreateItinerary = async () => {
+  const error = await createItinerary(formData, postPlan, router)
+  if (error) {
+    // Handle the error, e.g., display it to the user
+    console.error(error)
   }
 }
 </script>
@@ -108,17 +98,35 @@ const createItinerary = async () => {
               <div class="flex-1">
                 <label for="startDate" class="block text-xs text-gray-500">Inicio</label>
                 <input id="startDate" v-model="formData.startDate" type="date" :min="getCurrentDate()"
-                  @change="validateDate()"
+                  @change="dateError = validateDate(formData.startDate, formData.endDate)"
                   class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
               </div>
               <div class="flex-1">
                 <label for="endDate" class="block text-xs text-gray-500">Fin</label>
                 <input id="endDate" v-model="formData.endDate" type="date" :min="formData.startDate || getCurrentDate()"
-                  @change="validateDate()"
+                  @change="dateError = validateDate(formData.startDate, formData.endDate)"
                   class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
               </div>
             </div>
             <p v-if="dateError" class="text-red-500 text-sm mt-1">{{ dateError }}</p>
+          </div>
+          <div>
+            <label for="visibility" class="block text-sm font-medium text-gray-700">Visibilidad del plan</label>
+            <div class="mt-2 flex items-center">
+              <button @click="handleTogglePublic" :class="[
+                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+                formData.public ? 'bg-blue-600' : 'bg-gray-200'
+              ]" role="switch" :aria-checked="formData.public">
+                <span :class="[
+                  'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                  formData.public ? 'translate-x-5' : 'translate-x-0'
+                ]"></span>
+              </button>
+              <span class="ml-3 text-sm">
+                {{ formData.public ? 'Público' : 'Privado' }}
+              </span>
+              <component :is="formData.public ? Globe : Lock" class="ml-2 h-5 w-5 text-gray-400" />
+            </div>
           </div>
         </div>
 
@@ -153,6 +161,13 @@ const createItinerary = async () => {
             <p class="text-gray-600">{{ formData.startDate }} - {{ formData.endDate }}</p>
           </div>
           <div class="rounded-lg bg-gray-50 p-4">
+            <h3 class="mb-2 text-sm font-medium text-gray-700">Visibilidad:</h3>
+            <p class="text-gray-600 flex items-center">
+              {{ formData.public ? 'Público' : 'Privado' }}
+              <component :is="formData.public ? Globe : Lock" class="ml-2 h-5 w-5 text-gray-400" />
+            </p>
+          </div>
+          <div class="rounded-lg bg-gray-50 p-4">
             <h3 class="mb-2 text-sm font-medium text-gray-700">Resumen de actividades:</h3>
             <div class="space-y-4">
               <div v-for="(activity, index) in formData.activities" :key="index" class="flex items-center gap-4">
@@ -179,7 +194,7 @@ const createItinerary = async () => {
           class="ml-auto rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-blue-600">
           {{ currentStep === 0 ? 'Siguiente: Añadir Actividades' : 'Siguiente: Ver Itinerario' }}
         </button>
-        <button v-else @click="createItinerary"
+        <button v-else @click="handleCreateItinerary"
           class="ml-auto rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-gray-800">
           ¡Crea tu Plan!
         </button>

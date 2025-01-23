@@ -50,7 +50,7 @@ export function filterByName(plans, nameSearch) {
   return plans.filter(plan => plan.name.toLowerCase().includes(nameSearch));
 }
 
-// Actualiza la actividad de un plan
+
 export const updatePlanActivity = async (plan, currentEditingIndex, updatedActivity, updatePlanFunction) => {
   if (!plan) return null;
 
@@ -71,7 +71,7 @@ export const updatePlanActivity = async (plan, currentEditingIndex, updatedActiv
   }
 };
 
-// Elimina la actividad de un plan
+
 export const getPlanFromRoute = async (route, getPlanById) => {
   const planId = route.params.id;
   try {
@@ -81,3 +81,49 @@ export const getPlanFromRoute = async (route, getPlanById) => {
     return null;
   }
 };
+
+// función para generar IDs únicos para las actividades.
+export const createUniqueId = () => {
+  return Date.now()
+}
+
+// función para manejar la navegación entre pasos.
+export const handleStepNavigation = (currentStep, totalSteps, direction) => {
+  if (direction === 'next' && currentStep < totalSteps - 1) {
+    return currentStep + 1
+  } else if (direction === 'previous' && currentStep > 0) {
+    return currentStep - 1
+  }
+  return currentStep
+}
+// función para añadir una nueva actividad al formulario.
+export const addActivityToForm = (formData, activity) => {
+  return {
+    ...formData,
+    activities: [
+      ...formData.activities,
+      {
+        ...activity,
+        id: createUniqueId()
+      }
+    ]
+  }
+}
+
+export const togglePublic = (isPublic) => {
+  return !isPublic
+}
+
+export const createItinerary = async (formData, postPlan, router) => {
+  try {
+    await postPlan(formData);
+    console.log('Itinerario creado')
+    router.push('/my-plans');
+  }
+  catch (error) {
+    console.log(error);
+    // You might want to handle the error more gracefully here
+    // For example, return an error message to display to the user
+    return 'Error al crear el itinerario'
+  }
+}
