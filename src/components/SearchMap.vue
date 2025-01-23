@@ -1,14 +1,14 @@
 <template>
   <div class="test">
     <MapboxMap
-      style="width: 800px; height: 300px;"
+      :style="{ width: width, height: height }"
       :access-token="accessToken"
       :map-style="mapStyle"
       :center="center"
       :zoom="zoom"
       :interactive="true"
     >
-      <MapboxGeocoder @mb-result="onGeocoderResult" />
+      <MapboxGeocoder  style="width: 400px;" @mb-result="onGeocoderResult" />
       <MapboxMarker :lng-lat="center" />
     </MapboxMap>
   </div>
@@ -31,6 +31,14 @@ export default {
       type: Array,
       default: () => [-99.1332, 19.4326]
     },
+    width: {
+      type: String,
+      default: '800px'
+    },
+    height: {
+      type: String,
+      default: '300px'
+    }
   },
   data() {
     return {

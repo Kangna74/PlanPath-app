@@ -1,8 +1,8 @@
 <template>
-  <div class="test">
-    <SearchMap @update-coords="handleUpdateCoords" />
+  <div class="test1">
+    <SearchMap @update-coords="handleUpdateCoords" :width='width1' :height="width1" />
     <p>Coordenadas seleccionadas: {{ selectedCoords }}</p>
-    <ViewMap :coords="selectedCoords" />
+    <ViewMap :coords="selectedCoords" :width='width1' :height="width1" />
   </div>
 </template>
 
@@ -18,7 +18,8 @@ export default {
   },
   data() {
     return {
-      selectedCoords: [-99.1332, 19.4326]
+      selectedCoords: [-99.1332, 19.4326],
+      width1: '800px'
     };
   },
   methods: {
@@ -30,7 +31,7 @@ export default {
 </script>
 
 <style>
-.test {
+.test1 {
   display: flex;
   flex-direction: column;
   align-items: center;

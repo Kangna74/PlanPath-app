@@ -1,23 +1,20 @@
 <template>
-  <div class="test">
+  <div @click="goToMaps()" class="test">
     <MapboxMap
-      style="width: 800px; height: 300px;"
-      :access-token="accessToken"
+    :style="{ width: width, height: height }"
+    :access-token="accessToken"
       :map-style="mapStyle"
       :center="coords"
       :zoom="zoom"
       :interactive="false"
     >
-      <MapboxNavigationControl position="bottom-right" />
       <MapboxMarker :lng-lat="coords" />
     </MapboxMap>
-
-    <button class="bton" @click="goToMaps()" >Google Maps</button>
   </div>
 </template>
 
 <script>
-import { MapboxMap, MapboxMarker, MapboxNavigationControl } from '@studiometa/vue-mapbox-gl';
+import { MapboxMap, MapboxMarker } from '@studiometa/vue-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
 
@@ -25,7 +22,6 @@ export default {
   name: 'ViewMap',
   components: {
     MapboxMap,
-    MapboxNavigationControl,
     MapboxMarker
   },
   props: {
@@ -33,6 +29,14 @@ export default {
       type: Array,
       required: true
     },
+    width: {
+      type: String,
+      default: '800px'
+    },
+    height: {
+      type: String,
+      default: '300px'
+    }
   },
   data() {
     return {
