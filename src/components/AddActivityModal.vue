@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { getCurrentDate, validateDate } from '@/utils/script'
+import { getCurrentDate, validateDate } from '@/utils'
 
 const props = defineProps({
   isOpen: Boolean,

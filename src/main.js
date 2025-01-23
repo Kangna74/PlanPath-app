@@ -1,5 +1,5 @@
 import { VueFire, VueFireFirestoreOptionsAPI, VueFireAuth } from 'vuefire'
-import { firebaseApp } from '@/firebase.js'
+import { firebaseApp } from '@/firebase/index.js'
 import { createApp } from 'vue'
 
 import App from './App.vue'

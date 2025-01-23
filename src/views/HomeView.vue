@@ -1,9 +1,9 @@
 <script>
-import { formatDateRange, filterByName } from '@/utils/script'
-import { formatTime } from '@/utils/script'
+import { formatDateRange, filterByName } from '@/utils'
+import { formatTime } from '@/utils'
 import { viewPlan } from '@/router'
 import { Calendar } from 'lucide-vue-next'
-import { getAllPlans } from '@/firescript'
+import { getAllPlans } from '@/utils/firescript'
 
 export default {
   components: {

@@ -8,9 +8,6 @@ import {
   updateDoc,
   where,
   query,
-  orderBy,
-  startAt,
-  endAt,
   getDoc,
 } from 'firebase/firestore'
 import { db } from '@/firebase'
@@ -47,17 +44,6 @@ export async function getPlanById(id) {
   } else {
     return null
   }
-}
-
-//TODO: ARREGLAR FILTRO
-export async function getPlanByName(name) {
-  name = name.trim()
-  orderBy('population'), startAt(1000000)
-  const q = query(plansCollection, where('name', '=>', name), where('name', '<=', name))
-
-  const querySnapshot = await getDocs(q)
-
-  return docsToArray(querySnapshot)
 }
 
 function docsToArray(querySnapshot) {

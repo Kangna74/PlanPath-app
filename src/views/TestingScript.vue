@@ -91,7 +91,7 @@
 
 <script>
 import { ref, onMounted, watch } from 'vue'
-import { getAllPlans, postPlan, deletePlan, updatePlan, getPlanByName } from '@/firescript'
+import { getAllPlans, postPlan, deletePlan, updatePlan, getPlanByName } from '@/utils/firescript'
 
 export default {
   setup() {

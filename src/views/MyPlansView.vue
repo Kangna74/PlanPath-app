@@ -5,9 +5,9 @@ import { ref, watch, onMounted } from 'vue'
 import router from '@/router'
 import { SearchIcon, TrashIcon, CalendarIcon, EditIcon, PlusCircleIcon } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
-import { getPlansByActualUser, deletePlan, updatePlan } from '@/firescript'
+import { getPlansByActualUser, deletePlan, updatePlan } from '@/utils/firescript'
 import AddActivityModal from '../components/AddActivityModal.vue'
-import { formatDateRange, formatTime, filterByName } from '@/utils/script'
+import { formatDateRange, formatTime, filterByName } from '@/utils'
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue'
 
 const plans = ref([])

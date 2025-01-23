@@ -1,5 +1,5 @@
 <script>
-import { validateDate, getCurrentDate } from '@/utils/script'
+import { validateDate, getCurrentDate } from '@/utils'
 
 export default {
   props: {

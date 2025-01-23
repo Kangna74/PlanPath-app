@@ -1,13 +1,13 @@
 <script>
 import { CalendarIcon, MapPinIcon, ArrowLeft, EditIcon, TrashIcon } from 'lucide-vue-next'
-import { getPlanById, updatePlan } from '@/firescript'
+import { getPlanById, updatePlan } from '@/utils/firescript'
 import router from '@/router'
 import {
   formatDateRange,
   formatDateTime,
   getPlanFromRoute,
   updatePlanActivity,
-} from '@/utils/script'
+} from '@/utils'
 import EditActivityModal from '../components/EditActivityModal.vue'
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue'
 

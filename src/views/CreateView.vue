@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue'
 import { MapPinIcon, CalendarIcon, EyeIcon, GlobeIcon, LockIcon } from 'lucide-vue-next'
 import AddActivityModal from '../components/AddActivityModal.vue'
 import router from '@/router'
-import { postPlan } from '@/firescript'
+import { postPlan } from '@/utils/firescript'
 import {
   getCurrentDate,
   validateDate,
@@ -11,7 +11,7 @@ import {
   addActivityToForm,
   togglePublic,
   createItinerary,
-} from '@/utils/script'
+} from '@/utils'
 
 const steps = [
   { name: 'Planificar', icon: MapPinIcon },
