@@ -19,7 +19,7 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-  router.push('/my-plans');
+  router.back();
 };
 </script>
 
