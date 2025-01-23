@@ -35,7 +35,6 @@ export default {
       } else {
         this.$router.push({ name: 'MyPlans' });
         this.userIsLoged = true;
-        console.log('App, usuario logeado');
       }
       this.reloadNavBar();
     });

@@ -1,5 +1,5 @@
 <script>
-import { formatDateRange } from '@/utils/script';
+import { formatDateRange, filterByName } from '@/utils/script';
 import { formatTime } from '@/utils/script';
 import { viewPlan } from '@/router';
 import { Calendar } from 'lucide-vue-next';
@@ -11,57 +11,55 @@ export default {
   },
   data() {
     return {
-      plans: []
+      plans: [],
+      searchQuery: '',
+      filteredPlans: []
     }
   },
   methods: {
     formatDateRange,
     formatTime,
     viewPlan,
-    getAllPlans
-
+    getAllPlans,
+    filterByName
   },
   async mounted() {
-
     try {
       this.plans = await getAllPlans();
+      this.filteredPlans = this.plans; // Inicializa filteredPlans con todos los planes
     } catch (error) {
       console.log(error);
     }
-
   },
-  beforeMount() { },
-  created() { }
+  watch: {
+    searchQuery(newQuery) {
+      this.filteredPlans = filterByName(this.plans, newQuery);
+    }
+  }
 }
 </script>
 
-
 <template>
   <main>
-
     <div class="bg-smpath w-screen h-96 bg-cover bg-center flex items-center justify-center sm:bg-path bg-no-repeat">
       <h1 class="text-white text-2xl md:text-4xl lg:text-5xl text-center font-extrabold font-merienda">
         Encuentra el <span class="text-blue-300">Plan</span> perfecto para ti</h1>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-2 m-10 justify-center
-    items-center">
-
-      <input type="text"
+    <div class="flex flex-col sm:flex-row gap-2 m-10 justify-center items-center">
+      <input v-model="searchQuery" type="text"
         class="w-64 sm:w-2/4 p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        placeholder=" Busca un plan" />
-
-      <button
-        class="w-24 sm:w-1/6 bg-blue-500 text-white rounded-full hover:bg-white hover:text-blue-500 border border-blue-500 p-2">
-        Buscar </button>
+        placeholder="Busca un plan" />
+      <button class="w-24 sm:w-1/6 bg-blue-500 text-white rounded-full hover:bg-white hover:text-blue-500 border border-blue-500 p-2">
+        Buscar
+      </button>
     </div>
 
     <div>
       <h2 class="text-3xl font-bold text-blue-500 text-left m-10">Planes Populares</h2>
       <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-10 text-left">
-        <div v-for="plan in plans" :key="plan.name"
-          class=" planes bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between">
-
+        <div v-for="plan in filteredPlans" :key="plan.name"
+          class="planes bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between">
           <div class="flex justify-between items-start mb-4">
             <div>
               <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
@@ -71,7 +69,6 @@ export default {
               </div>
             </div>
           </div>
-
           <div class="mb-4">
             <h3 class="font-medium text-[#000000] mb-2">
               {{ plan.activities.length }} actividades planificadas
@@ -92,6 +89,9 @@ export default {
         </div>
       </ul>
     </div>
-
   </main>
 </template>
+
+<style>
+/* Agrega tus estilos aquí */
+</style>

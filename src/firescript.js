@@ -4,12 +4,12 @@ import {db} from '@/firebase'
 
 const plansCollection = collection(db, "plans");
 
-export async function getUser() {
+async function getUser() {
   return getCurrentUser();
 }
 
 export async function getAllPlans() {
-  const querySnapshot = await getDocs(plansCollection);
+  const querySnapshot = await getDocs(query(plansCollection, where('public', '==', true)));
 
   return docsToArray(querySnapshot)
 }
@@ -17,7 +17,7 @@ export async function getAllPlans() {
 export async function getPlansByActualUser() {
   const user = await getUser();
 
-  const querySnapshot = await getDocs(plansCollection, where("userId", "==", user.uid));
+  const querySnapshot = await getDocs(query(plansCollection, where("userId", "==", user.uid)));
 
   return docsToArray(querySnapshot);
 }
@@ -65,7 +65,6 @@ export async function postPlan(plan) {
     userId: (await getUser()).uid,
     ...plan,
   }
-
   return await addDoc(plansCollection, newPlan);
 }
 
