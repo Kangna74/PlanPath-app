@@ -1,25 +1,70 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import { Calendar, MapPin, ArrowLeft} from 'lucide-vue-next';
-import { getPlanById } from '@/firescript';
-import router from '@/router'
-import { useRoute } from 'vue-router'
-import { formatDateRange, formatDateTime } from '@/utils/script';
+<script>
+import { Calendar, MapPin, ArrowLeft, Edit as EditIcon } from 'lucide-vue-next';
+import { getPlanById, updatePlan } from '@/firescript';
+import router from '@/router';
+import { formatDateRange, formatDateTime, getPlanFromRoute, updatePlanActivity } from '@/utils/script';
+import EditActivityModal from '../components/EditActivityModal.vue';
 
-const route = useRoute();
-const plan = ref(null);
+export default {
+  components: {
+    Calendar,
+    MapPin,
+    ArrowLeft,
+    EditIcon,
+    EditActivityModal
+  },
 
-onMounted(async () => {
-  const planId = route.params.id;
-  try {
-    plan.value = await getPlanById(planId);
-  } catch (error) {
-    console.error('Error al obtener el itinerario', error);
+  data() {
+    return {
+      plan: null,
+      currentEditingIndex: null,
+      isEditModalOpen: false
+    };
+  },
+
+  computed: {
+    currentEditingActivity() {
+      if (this.currentEditingIndex !== null && this.plan) {
+        return this.plan.activities[this.currentEditingIndex];
+      }
+      return null;
+    }
+  },
+
+  mounted() {
+    this.fetchPlan();
+  },
+
+  methods: {
+    async fetchPlan() {
+      this.plan = await getPlanFromRoute(this.$route, getPlanById);
+    },
+
+    goBack() {
+      router.push('/my-plans');
+    },
+
+    editActivity(index) {
+      this.currentEditingIndex = index;
+      this.isEditModalOpen = true;
+    },
+
+    closeEditModal() {
+      this.isEditModalOpen = false;
+      this.currentEditingIndex = null;
+    },
+
+    async updateActivity(updatedActivity) {
+      const updatedPlan = await updatePlanActivity(this.plan, this.currentEditingIndex, updatedActivity, updatePlan);
+      if (updatedPlan) {
+        this.plan = updatedPlan;
+      }
+      this.closeEditModal();
+    },
+
+    formatDateRange,
+    formatDateTime
   }
-});
-
-const goBack = () => {
-  router.push('/my-plans');
 };
 </script>
 
@@ -40,7 +85,7 @@ const goBack = () => {
         <h2 class="text-xl font-semibold mb-4">Tus Actividades:</h2>
         <ul class="space-y-4">
           <li
-            v-for="activity in plan.activities"
+            v-for="(activity, index) in plan.activities"
             :key="activity.id"
             class="bg-gray-50 rounded-lg p-6"
           >
@@ -52,10 +97,15 @@ const goBack = () => {
                 </p>
                 <p v-if="activity.notes" class="text-xs text-gray-600 mt-2"><strong>Notas: </strong> {{ activity.notes }}</p>
               </div>
-              <div class="flex flex-col items-start ml-auto">
+              <div class="flex flex-col items-end ml-auto">
                 <div class="flex items-center mb-2">
                   <MapPin class="h-5 w-5 text-blue-500 mr-1" />
                   <p class="text-sm text-gray-500">{{ activity.location }}</p>
+                </div>
+                <div class="flex space-x-2 mt-2">
+                  <button @click="editActivity(index)" class="text-blue-600 hover:text-blue-800">
+                    <EditIcon class="h-5 w-5" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -63,6 +113,12 @@ const goBack = () => {
         </ul>
       </div>
     </main>
+    <EditActivityModal
+      :is-open="isEditModalOpen"
+      :activity="currentEditingActivity"
+      @close="closeEditModal"
+      @update="updateActivity"
+    />
   </div>
 </template>
 
