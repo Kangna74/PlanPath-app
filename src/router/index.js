@@ -6,7 +6,7 @@ import CreateView from '@/views/CreateView.vue'
 import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
-import TestingScript from '@/views/TestingScript.vue'
+import TestMap from '@/views/TestMap.vue'
 import { getCurrentUser } from 'vuefire';
 
 const routes = [
@@ -46,8 +46,8 @@ const routes = [
   },
   {
     path: '/test',
-    name: 'TestingScript',
-    component: TestingScript,
+    name: 'TestMap',
+    component: TestMap,
   },
 ]
 

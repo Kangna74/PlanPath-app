@@ -1,25 +1,40 @@
 <template>
-  <MglMap :accessToken="accessToken" :mapStyle="mapStyle" />
+  <div class="test">
+    <SearchMap @update-coords="handleUpdateCoords" />
+    <p>Coordenadas seleccionadas: {{ selectedCoords }}</p>
+    <ViewMap :coords="selectedCoords" />
+  </div>
 </template>
 
 <script>
-import Mapbox from "mapbox-gl";
-import { MglMap } from "vue-mapbox";
+import SearchMap from '@/components/SearchMap.vue';
+import ViewMap from '@/components/ViewMap.vue';
 
 export default {
+  name: 'ParentComponent',
   components: {
-    MglMap
+    SearchMap,
+    ViewMap
   },
   data() {
     return {
-      accessToken: import.meta.env.VITE_MAPBOX_API_KEY, // your access token. Needed if you using Mapbox maps
-      mapStyle: MAP_STYLE // your map style
+      selectedCoords: [-99.1332, 19.4326]
     };
   },
-
-  created() {
-    // We need to set mapbox-gl library here in order to use it in template
-    this.mapbox = Mapbox;
+  methods: {
+    handleUpdateCoords(coords) {
+      this.selectedCoords = coords;
+    }
   }
 };
 </script>
+
+<style>
+.test {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+/* Agrega tus estilos aquí */
+</style>
