@@ -4,7 +4,7 @@ import { getCurrentDate, validateDate } from '@/utils/script'
 
 const props = defineProps({
   isOpen: Boolean,
-  plan: Object
+  plan: Object,
 })
 
 const emit = defineEmits(['close', 'submit'])
@@ -14,17 +14,19 @@ const formData = ref({
   date: '',
   time: '',
   location: '',
-  notes: ''
+  notes: '',
 })
 
 const dateError = ref('')
 
-
-watch(() => props.isOpen, (newValue) => {
-  if (newValue) {
-    resetForm()
-  }
-})
+watch(
+  () => props.isOpen,
+  (newValue) => {
+    if (newValue) {
+      resetForm()
+    }
+  },
+)
 
 const handleSubmit = () => {
   emit('submit', { ...formData.value })
@@ -38,12 +40,12 @@ const resetForm = () => {
     date: '',
     time: '',
     location: '',
-    notes: ''
+    notes: '',
   }
 }
 
 const close = () => {
-  emit('close');
+  emit('close')
 }
 </script>
 
@@ -54,7 +56,9 @@ const close = () => {
       <h2 class="text-xl font-bold mb-4">Añadir Nueva Actividad</h2>
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <div>
-          <label for="activityName" class="block text-sm font-medium text-gray-700">Nombre de la Actividad</label>
+          <label for="activityName" class="block text-sm font-medium text-gray-700"
+            >Nombre de la Actividad</label
+          >
           <input
             id="activityName"
             v-model="formData.name"
@@ -87,7 +91,9 @@ const close = () => {
           />
         </div>
         <div>
-          <label for="activityLocation" class="block text-sm font-medium text-gray-700">Ubicación</label>
+          <label for="activityLocation" class="block text-sm font-medium text-gray-700"
+            >Ubicación</label
+          >
           <input
             id="activityLocation"
             v-model="formData.location"
@@ -128,5 +134,3 @@ const close = () => {
     </div>
   </div>
 </template>
-
-

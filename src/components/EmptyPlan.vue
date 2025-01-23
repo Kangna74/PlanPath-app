@@ -1,4 +1,3 @@
-
 <script setup>
 defineEmits(['create-plan'])
 </script>
@@ -16,4 +15,3 @@ defineEmits(['create-plan'])
     </div>
   </div>
 </template>
-

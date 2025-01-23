@@ -1,47 +1,47 @@
 <script>
 import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '@/firebase';
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '@/firebase'
 
 export default {
   components: {
     RouterView,
-    NavBar
+    NavBar,
   },
   data() {
     return {
       isSmallScreen: false,
-      userIsLoged: false
+      userIsLoged: false,
     }
   },
   methods: {
     updateScreenSize() {
-      this.isSmallScreen = window.innerWidth < 768; // Matches Tailwind's `md` breakpoint
+      this.isSmallScreen = window.innerWidth < 768 // Matches Tailwind's `md` breakpoint
     },
     reloadNavBar() {
-      this.$forceUpdate();
-    }
+      this.$forceUpdate()
+    },
   },
   mounted() {
-    window.addEventListener("resize", this.updateScreenSize);
-    this.updateScreenSize();
+    window.addEventListener('resize', this.updateScreenSize)
+    this.updateScreenSize()
 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        this.$router.push({ name: 'Home' });
-        this.userIsLoged = false;
-        console.log('App, usuario no logeado');
+        this.$router.push({ name: 'Home' })
+        this.userIsLoged = false
+        console.log('App, usuario no logeado')
       } else {
-        this.$router.push({ name: 'MyPlans' });
-        this.userIsLoged = true;
+        this.$router.push({ name: 'TestMap' })
+        this.userIsLoged = true
       }
-      this.reloadNavBar();
-    });
+      this.reloadNavBar()
+    })
   },
   beforeUnmount() {
-    window.removeEventListener("resize", this.updateScreenSize);
-  }
+    window.removeEventListener('resize', this.updateScreenSize)
+  },
 }
 </script>
 

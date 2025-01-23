@@ -1,10 +1,15 @@
 <script>
-import { Calendar, MapPin, ArrowLeft, Edit as EditIcon, Trash as TrashIcon } from 'lucide-vue-next';
-import { getPlanById, updatePlan } from '@/firescript';
-import router from '@/router';
-import { formatDateRange, formatDateTime, getPlanFromRoute, updatePlanActivity } from '@/utils/script';
-import EditActivityModal from '../components/EditActivityModal.vue';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue';
+import { Calendar, MapPin, ArrowLeft, Edit as EditIcon, Trash as TrashIcon } from 'lucide-vue-next'
+import { getPlanById, updatePlan } from '@/firescript'
+import router from '@/router'
+import {
+  formatDateRange,
+  formatDateTime,
+  getPlanFromRoute,
+  updatePlanActivity,
+} from '@/utils/script'
+import EditActivityModal from '../components/EditActivityModal.vue'
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue'
 
 export default {
   components: {
@@ -14,7 +19,7 @@ export default {
     EditIcon,
     TrashIcon,
     EditActivityModal,
-    ConfirmDeleteModal
+    ConfirmDeleteModal,
   },
 
   data() {
@@ -23,84 +28,88 @@ export default {
       currentEditingIndex: null,
       isEditModalOpen: false,
       isConfirmModalOpen: false,
-      activityToDelete: null
-    };
+      activityToDelete: null,
+    }
   },
 
   computed: {
     currentEditingActivity() {
       if (this.currentEditingIndex !== null && this.plan) {
-        return this.plan.activities[this.currentEditingIndex];
+        return this.plan.activities[this.currentEditingIndex]
       }
-      return null;
-    }
+      return null
+    },
   },
 
   mounted() {
-    this.fetchPlan();
+    this.fetchPlan()
   },
 
   methods: {
     async fetchPlan() {
-      this.plan = await getPlanFromRoute(this.$route, getPlanById);
+      this.plan = await getPlanFromRoute(this.$route, getPlanById)
     },
 
     goBack() {
-      router.back();
+      router.back()
     },
 
     editActivity(index) {
-      this.currentEditingIndex = index;
-      this.isEditModalOpen = true;
+      this.currentEditingIndex = index
+      this.isEditModalOpen = true
     },
 
     closeEditModal() {
-      this.isEditModalOpen = false;
-      this.currentEditingIndex = null;
+      this.isEditModalOpen = false
+      this.currentEditingIndex = null
     },
 
     async updateActivity(updatedActivity) {
-      const updatedPlan = await updatePlanActivity(this.plan, this.currentEditingIndex, updatedActivity, updatePlan);
+      const updatedPlan = await updatePlanActivity(
+        this.plan,
+        this.currentEditingIndex,
+        updatedActivity,
+        updatePlan,
+      )
       if (updatedPlan) {
-        this.plan = updatedPlan;
+        this.plan = updatedPlan
       }
-      this.closeEditModal();
+      this.closeEditModal()
     },
 
     confirmDeleteActivity(index) {
-      this.activityToDelete = { id: index, name: this.plan.activities[index].name };
-      this.isConfirmModalOpen = true;
+      this.activityToDelete = { id: index, name: this.plan.activities[index].name }
+      this.isConfirmModalOpen = true
     },
 
     closeConfirmModal() {
-      this.isConfirmModalOpen = false;
-      this.activityToDelete = null;
+      this.isConfirmModalOpen = false
+      this.activityToDelete = null
     },
 
     async deleteActivity(activityId) {
-      const updatedActivities = this.plan.activities.filter((_, index) => index !== activityId);
+      const updatedActivities = this.plan.activities.filter((_, index) => index !== activityId)
 
       const updatedPlan = {
         ...this.plan,
-        activities: updatedActivities
-      };
-
-      try {
-        await updatePlan(updatedPlan);
-        this.plan = updatedPlan;
-      } catch (error) {
-        console.error('Error al eliminar la actividad:', error);
+        activities: updatedActivities,
       }
 
-      this.closeConfirmModal();
+      try {
+        await updatePlan(updatedPlan)
+        this.plan = updatedPlan
+      } catch (error) {
+        console.error('Error al eliminar la actividad:', error)
+      }
+
+      this.closeConfirmModal()
     },
 
     formatDateRange,
-    formatDateTime
-  }
-};
+    formatDateTime,
+  },
+}
 </script>
-
 
 <template>
   <div class="min-h-screen bg-[#fafafa]">
@@ -129,7 +138,9 @@ export default {
                 <p class="text-sm text-gray-500">
                   {{ formatDateTime(activity.date, activity.time) }}
                 </p>
-                <p v-if="activity.notes" class="text-xs text-gray-600 mt-2"><strong>Notas: </strong> {{ activity.notes }}</p>
+                <p v-if="activity.notes" class="text-xs text-gray-600 mt-2">
+                  <strong>Notas: </strong> {{ activity.notes }}
+                </p>
               </div>
               <div class="flex flex-col items-end ml-auto">
                 <div class="flex items-center mb-2">
@@ -140,7 +151,10 @@ export default {
                   <button @click="editActivity(index)" class="text-blue-600 hover:text-blue-800">
                     <EditIcon class="h-5 w-5" />
                   </button>
-                  <button @click="confirmDeleteActivity(index)" class="text-red-600 hover:text-red-800">
+                  <button
+                    @click="confirmDeleteActivity(index)"
+                    class="text-red-600 hover:text-red-800"
+                  >
                     <TrashIcon class="h-5 w-5" />
                   </button>
                 </div>
@@ -164,4 +178,3 @@ export default {
     />
   </div>
 </template>
-

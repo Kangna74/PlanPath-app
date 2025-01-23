@@ -6,13 +6,13 @@ export default {
   props: {
     plan: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       editedPlan: { ...this.plan },
-      dateError: ''
+      dateError: '',
     }
   },
   methods: {
@@ -28,7 +28,7 @@ export default {
     },
     getCurrentDate() {
       return getCurrentDate()
-    }
+    },
   },
 }
 </script>
@@ -46,10 +46,12 @@ export default {
             type="text"
             required
             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
+          />
         </div>
         <div class="mb-4">
-          <label for="startDate" class="block text-sm font-medium text-gray-700">Fecha de inicio</label>
+          <label for="startDate" class="block text-sm font-medium text-gray-700"
+            >Fecha de inicio</label
+          >
           <input
             id="startDate"
             v-model="editedPlan.startDate"
@@ -58,7 +60,7 @@ export default {
             :min="getCurrentDate()"
             @change="validateDate()"
             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
+          />
           <p v-if="dateError" class="text-red-500 text-xs mt-1">{{ dateError }}</p>
         </div>
         <div class="mb-4">
@@ -71,7 +73,7 @@ export default {
             :min="editedPlan.startDate || getCurrentDate()"
             @change="validateDate()"
             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
+          />
           <p v-if="dateError" class="text-red-500 text-xs mt-1">{{ dateError }}</p>
         </div>
         <div class="flex justify-end space-x-2">

@@ -1,11 +1,10 @@
-
 <script>
 import { validateDate, getCurrentDate } from '@/utils/script'
 
 export default {
   props: {
     isOpen: Boolean,
-    activity: Object
+    activity: Object,
   },
 
   emits: ['close', 'update'],
@@ -17,9 +16,9 @@ export default {
         date: '',
         time: '',
         location: '',
-        notes: ''
+        notes: '',
       },
-      dateError: ''
+      dateError: '',
     }
   },
 
@@ -30,8 +29,8 @@ export default {
           this.formData = { ...newActivity }
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   methods: {
@@ -49,8 +48,8 @@ export default {
 
     validateDate() {
       this.dateError = validateDate(this.formData.date, this.formData.date)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -61,7 +60,9 @@ export default {
       <h2 class="text-xl font-bold mb-4">Editar Actividad</h2>
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <div>
-          <label for="activityName" class="block text-sm font-medium text-gray-700">Nombre de la Actividad</label>
+          <label for="activityName" class="block text-sm font-medium text-gray-700"
+            >Nombre de la Actividad</label
+          >
           <input
             id="activityName"
             v-model="formData.name"
@@ -94,7 +95,9 @@ export default {
           />
         </div>
         <div>
-          <label for="activityLocation" class="block text-sm font-medium text-gray-700">Ubicación</label>
+          <label for="activityLocation" class="block text-sm font-medium text-gray-700"
+            >Ubicación</label
+          >
           <input
             id="activityLocation"
             v-model="formData.location"
@@ -133,4 +136,3 @@ export default {
     </div>
   </div>
 </template>
-

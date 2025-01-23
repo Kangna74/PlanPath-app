@@ -1,8 +1,7 @@
-
 // Obtiene la fecha actual en formato YYYY-MM-DD
 export const getCurrentDate = () => {
   const now = new Date()
-  return now.toISOString().split("T")[0]
+  return now.toISOString().split('T')[0]
 }
 
 // Valida que las fechas de inicio y fin sean correctas
@@ -13,14 +12,14 @@ export const validateDate = (startDate, endDate) => {
   current.setHours(0, 0, 0, 0)
 
   if (start < current) {
-    return "La fecha de inicio no puede ser anterior a hoy"
+    return 'La fecha de inicio no puede ser anterior a hoy'
   }
 
   if (endDate && end < start) {
-    return "La fecha de fin no puede ser anterior a la fecha de inicio"
+    return 'La fecha de fin no puede ser anterior a la fecha de inicio'
   }
 
-  return ""
+  return ''
 }
 
 // Valida que la hora de inicio sea correcta
@@ -38,49 +37,52 @@ export const formatTime = (date, time) => {
 
 // Formatea la fecha y hora en formato "Día de la semana, HH:MM"
 export const formatDateTime = (date, time) => {
-  const dateObj = new Date(`${date}T${time}`);
-  const options = { weekday: 'long', hour: 'numeric', minute: 'numeric' };
-  return dateObj.toLocaleDateString('es-ES', options);
-};
+  const dateObj = new Date(`${date}T${time}`)
+  const options = { weekday: 'long', hour: 'numeric', minute: 'numeric' }
+  return dateObj.toLocaleDateString('es-ES', options)
+}
 
 // Filtra los planes por nombre
 export function filterByName(plans, nameSearch) {
-  if (!plans) return [];
-  nameSearch = nameSearch.trim().toLowerCase();
-  return plans.filter(plan => plan.name.toLowerCase().includes(nameSearch));
+  if (!plans) return []
+  nameSearch = nameSearch.trim().toLowerCase()
+  return plans.filter((plan) => plan.name.toLowerCase().includes(nameSearch))
 }
 
+export const updatePlanActivity = async (
+  plan,
+  currentEditingIndex,
+  updatedActivity,
+  updatePlanFunction,
+) => {
+  if (!plan) return null
 
-export const updatePlanActivity = async (plan, currentEditingIndex, updatedActivity, updatePlanFunction) => {
-  if (!plan) return null;
-
-  const updatedActivities = [...plan.activities];
-  updatedActivities[currentEditingIndex] = updatedActivity;
+  const updatedActivities = [...plan.activities]
+  updatedActivities[currentEditingIndex] = updatedActivity
 
   const updatedPlan = {
     ...plan,
-    activities: updatedActivities
-  };
+    activities: updatedActivities,
+  }
 
   try {
-    await updatePlanFunction(updatedPlan);
-    return updatedPlan;
+    await updatePlanFunction(updatedPlan)
+    return updatedPlan
   } catch (error) {
-    console.error('Error al actualizar la actividad:', error);
-    return null;
+    console.error('Error al actualizar la actividad:', error)
+    return null
   }
-};
-
+}
 
 export const getPlanFromRoute = async (route, getPlanById) => {
-  const planId = route.params.id;
+  const planId = route.params.id
   try {
-    return await getPlanById(planId);
+    return await getPlanById(planId)
   } catch (error) {
-    console.error('Error al obtener el itinerario', error);
-    return null;
+    console.error('Error al obtener el itinerario', error)
+    return null
   }
-};
+}
 
 // función para generar IDs únicos para las actividades.
 export const createUniqueId = () => {
@@ -104,9 +106,9 @@ export const addActivityToForm = (formData, activity) => {
       ...formData.activities,
       {
         ...activity,
-        id: createUniqueId()
-      }
-    ]
+        id: createUniqueId(),
+      },
+    ],
   }
 }
 
@@ -116,12 +118,11 @@ export const togglePublic = (isPublic) => {
 
 export const createItinerary = async (formData, postPlan, router) => {
   try {
-    await postPlan(formData);
+    await postPlan(formData)
     console.log('Itinerario creado')
-    router.push('/my-plans');
-  }
-  catch (error) {
-    console.log(error);
+    router.push('/my-plans')
+  } catch (error) {
+    console.log(error)
     // You might want to handle the error more gracefully here
     // For example, return an error message to display to the user
     return 'Error al crear el itinerario'
