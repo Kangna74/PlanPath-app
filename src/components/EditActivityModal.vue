@@ -1,49 +1,56 @@
-<script setup>
-import { ref, watch } from 'vue'
-import { getCurrentDate, validateDate } from '@/utils/script'
 
-const props = defineProps({
-  isOpen: Boolean,
-  plan: Object
-})
+<script>
+import { validateDate, getCurrentDate } from '@/utils/script'
 
-const emit = defineEmits(['close', 'submit'])
+export default {
+  props: {
+    isOpen: Boolean,
+    activity: Object
+  },
 
-const formData = ref({
-  name: '',
-  date: '',
-  time: '',
-  location: '',
-  notes: ''
-})
+  emits: ['close', 'update'],
 
-const dateError = ref('')
+  data() {
+    return {
+      formData: {
+        name: '',
+        date: '',
+        time: '',
+        location: '',
+        notes: ''
+      },
+      dateError: ''
+    }
+  },
 
+  watch: {
+    activity: {
+      handler(newActivity) {
+        if (newActivity) {
+          this.formData = { ...newActivity }
+        }
+      },
+      immediate: true
+    }
+  },
 
-watch(() => props.isOpen, (newValue) => {
-  if (newValue) {
-    resetForm()
+  methods: {
+    handleSubmit() {
+      this.$emit('update', this.formData)
+      console.log('Activity updated:', this.formData)
+      this.close()
+    },
+
+    close() {
+      this.$emit('close')
+    },
+
+    getCurrentDate,
+
+    validateDate() {
+      this.dateError = validateDate(this.formData.date, this.formData.date)
+    }
   }
-})
-
-const handleSubmit = () => {
-  emit('submit', { ...formData.value })
-  resetForm()
-  close()
-}
-
-const resetForm = () => {
-  formData.value = {
-    name: '',
-    date: '',
-    time: '',
-    location: '',
-    notes: ''
-  }
-}
-
-const close = () => {
-  emit('close');
 }
 </script>
 
@@ -51,7 +58,7 @@ const close = () => {
   <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-black bg-opacity-50" @click="close"></div>
     <div class="relative w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-      <h2 class="text-xl font-bold mb-4">Añadir Nueva Actividad</h2>
+      <h2 class="text-xl font-bold mb-4">Editar Actividad</h2>
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <div>
           <label for="activityName" class="block text-sm font-medium text-gray-700">Nombre de la Actividad</label>
@@ -71,7 +78,7 @@ const close = () => {
             type="date"
             required
             :min="getCurrentDate()"
-            @change="validateDate()"
+            @change="validateDate"
             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
           <p v-if="dateError" class="text-sm text-red-500 mt-1">{{ dateError }}</p>
@@ -97,14 +104,12 @@ const close = () => {
           />
         </div>
         <div>
-          <label for="activityNotes" class="block text-sm font-medium text-gray-700">
-            Notas (opcional)
-          </label>
+          <label for="activityNotes" class="block text-sm font-medium text-gray-700">Notas</label>
           <textarea
             id="activityNotes"
             v-model="formData.notes"
             maxlength="50"
-            rows="2"
+            rows="3"
             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           ></textarea>
           <p class="text-sm text-gray-500 mt-1">{{ formData.notes.length }}/50 caracteres</p>
@@ -113,20 +118,19 @@ const close = () => {
           <button
             type="button"
             @click="close"
-            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Añadir Actividad
+            Guardar
           </button>
         </div>
       </form>
     </div>
   </div>
 </template>
-
 
