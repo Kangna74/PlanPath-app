@@ -94,7 +94,7 @@
 
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import router from '@/router'
 import { Search, Trash2, Calendar, Edit, PlusCircle } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
