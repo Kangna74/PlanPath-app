@@ -68,7 +68,9 @@ export default {
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0">
-          <IconLogoPPSmall class="h-8" />
+          <RouterLink to="/">
+            <IconLogoPPSmall class="h-8" />
+          </RouterLink>
         </div>
 
         <!-- Desktop Navigation -->
@@ -77,8 +79,10 @@ export default {
           <RouterLink to="/my-plans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Mis Planes</RouterLink>
           <RouterLink to="/create" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Crear</RouterLink>
 
-          <RouterLink v-if="!userIsLoged" to="/login" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Entrar</RouterLink>
-          <button v-else @click="cerrarSesion()" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Salir</button>
+          <RouterLink v-if="!userIsLoged" to="/login" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Entrar
+          </RouterLink>
+          <button v-else @click="cerrarSesion()"
+            class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Salir</button>
         </nav>
 
         <!-- Mobile menu button -->
@@ -98,9 +102,11 @@ export default {
     <div v-if="isOpen" class="md:hidden z-10 absolute right-2 mt-2 bg-white rounded-lg shadow-lg">
       <div class="flex flex-col p-4 space-y-4 text-lg">
         <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('Home')">Inicio</button>
-        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('MyPlans')">Mis Planes</button>
+        <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('MyPlans')">Mis
+          Planes</button>
         <button class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('Create')">Crear</button>
-        <button v-if="!userIsLoged" class="text-blue-500 hover:bg-gray-100 hover: rounded-md" @click="navigateTo('LogIn')">Entrar</button>
+        <button v-if="!userIsLoged" class="text-blue-500 hover:bg-gray-100 hover: rounded-md"
+          @click="navigateTo('LogIn')">Entrar</button>
         <button v-else @click="cerrarSesion()" class="text-blue-500 hover:bg-gray-100 hover: rounded-md">Salir</button>
       </div>
     </div>
