@@ -92,7 +92,7 @@ const close = () => {
         </div>
         <div>
           <label for="activityLocation" class="block text-sm font-medium text-gray-700"
-            >Ubicación</label
+            >Lugar</label
           >
           <input
             id="activityLocation"
@@ -111,7 +111,7 @@ const close = () => {
             v-model="formData.notes"
             maxlength="50"
             rows="2"
-            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            class="resize-none mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           ></textarea>
           <p class="text-sm text-gray-500 mt-1">{{ formData.notes.length }}/50 caracteres</p>
         </div>
@@ -119,13 +119,13 @@ const close = () => {
           <button
             type="button"
             @click="close"
-            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
+            class="px-4 py-2 bg-gray-200 shadow-lg shadow-gray-200/50 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+            class="px-4 py-2 bg-blue-500 shadow-lg shadow-blue-500/50 text-white rounded-md hover:bg-blue-600 transition-colors"
           >
             Añadir Actividad
           </button>

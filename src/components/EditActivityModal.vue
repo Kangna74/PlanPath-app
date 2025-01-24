@@ -113,7 +113,7 @@ export default {
             v-model="formData.notes"
             maxlength="50"
             rows="3"
-            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            class="resize-none mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           ></textarea>
           <p class="text-sm text-gray-500 mt-1">{{ formData.notes.length }}/50 caracteres</p>
         </div>
@@ -121,13 +121,13 @@ export default {
           <button
             type="button"
             @click="close"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 shadow-lg shadow-gray-100/50 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 shadow-lg shadow-blue-600/50 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             Guardar
           </button>

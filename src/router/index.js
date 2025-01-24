@@ -7,7 +7,7 @@ import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
 import ErrorView from '@/views/ErrorView.vue'
-import TestMap from '@/views/TestMap.vue'
+// import TestMap from '@/views/TestMap.vue'
 import { getCurrentUser } from 'vuefire'
 
 const routes = [
@@ -50,11 +50,11 @@ const routes = [
     name: 'NotFound',
     component: ErrorView,
   },
-  {
-    path: '/test',
-    name: 'TestMap',
-    component: TestMap,
-  },
+  // {
+  //   path: '/test',
+  //   name: 'TestMap',
+  //   component: TestMap,
+  // },
 ]
 
 const isUserLoged = async () => {

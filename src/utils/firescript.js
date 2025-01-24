@@ -71,3 +71,5 @@ export async function updatePlan(plan) {
   const planRef = doc(db, 'plans', plan.id)
   return updateDoc(planRef, plan)
 }
+
+

@@ -49,6 +49,16 @@ export default {
           />
         </div>
         <div class="mb-4">
+          <label for="location" class="block text-sm font-medium text-gray-700">Ubicación</label>
+          <input
+            id="location"
+            v-model="editedPlan.location"
+            type="text"
+            required
+            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
+        </div>
+        <div class="mb-4">
           <label for="startDate" class="block text-sm font-medium text-gray-700"
             >Fecha de inicio</label
           >

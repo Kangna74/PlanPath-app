@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#fafafa] cursor-default">
+  <div class="min-h-screen bg-white cursor-default">
     <input ref="fileInput" type="file" @change="handleFileUpload" accept="image/*" style="display: none">
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
@@ -35,7 +35,11 @@
 
                 <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
                 <div class="flex items-center text-[#828282] text-sm mt-1">
-                  <Calendar class="h-4 w-4 mr-1" />
+                  <MapPinIcon class="h-4 w-4 mr-1" />
+                  <p>{{ plan.ubication }}</p>
+                </div>
+                <div class="flex items-center text-[#828282] text-sm mt-1">
+                  <CalendarIcon class="h-4 w-4 mr-1" />
                   <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
                 </div>
               </div>
@@ -61,7 +65,7 @@
                 </h3>
                 <button @click="openAddActivityModal(plan)"
                   class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
-                  <PlusCircle class="h-5 w-5" />
+                  <PlusCircleIcon class="h-5 w-5" />
                 </button>
               </div>
               <ul class="space-y-2">
@@ -75,11 +79,37 @@
               </ul>
             </div>
           </div>
-
-          <button @click="viewPlan(plan.id)"
-            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto">
-            Revisar Itinerario
-          </button>
+          <div class="flex justify-between items-center mt-4">
+            <button
+              @click="viewPlan(plan.id)"
+              class="bg-blue-500 shadow-lg shadow-blue-500/50 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors"
+            >
+              Revisar Itinerario
+            </button>
+            <div class="flex items-center mt-4">
+            <span class="text-sm text-gray-600 mr-2">{{ plan.public ? 'Público' : 'Privado' }}</span>
+            <button
+              @click="togglePlanVisibility(plan)"
+              class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              :class="plan.public ? 'bg-blue-600' : 'bg-gray-200'"
+            >
+              <span
+                class="inline-block w-4 h-4 transform transition-transform bg-white rounded-full"
+                :class="plan.public ? 'translate-x-6' : 'translate-x-1'"
+              />
+              <component
+                :is="plan.public ? GlobeIcon : LockIcon"
+                class="absolute left-0.5 top-0.5 w-5 h-5 text-white transition-opacity"
+                :class="plan.public ? 'opacity-100' : 'opacity-0'"
+              />
+              <component
+                :is="plan.public ? LockIcon : GlobeIcon"
+                class="absolute right-0.5 top-0.5 w-5 h-5 text-gray-400 transition-opacity"
+                :class="plan.public ? 'opacity-0' : 'opacity-100'"
+              />
+            </button>
+          </div>
+          </div>
         </div>
       </div>
     </main>
@@ -96,6 +126,7 @@
 <script setup>
 import { ref, watch, onMounted, useTemplateRef } from 'vue'
 import router from '@/router'
+import { SearchIcon, TrashIcon, CalendarIcon, EditIcon, PlusCircleIcon, MapPinIcon } from 'lucide-vue-next'
 import { Search, Trash2, Calendar, Edit, PlusCircle, ImageUp } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
 import { getPlansByActualUser, deletePlan, updatePlan } from '@/utils/firescript'
@@ -222,47 +253,60 @@ const handleAddActivity = async (activity) => {
   }
 }
 
-const triggerFileInput = (id) => {
-  fileInput.value?.click()
-  planId.value = id
-}
-
-const planId = ref(null)
-
-const handleFileUpload = async (event) => {
-  const file = event.target.files[0]
-  const formData = new FormData()
-
-  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
-  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-
-
-  formData.append('file', file)
-  formData.append('upload_preset', uploadPreset)
-
+const togglePlanVisibility = async (plan) => {
   try {
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-      {
-        method: 'POST',
-        body: formData
-      }
-    )
-
-    const result = await response.json()
-    const planRef = doc(db, "plans", planId.value);
-
-    // Set the "capital" field of the city 'DC'
-    await updateDoc(planRef, {
-      image: result.secure_url
-    });
-    console.log(result.secure_url)
+    const updatedPlan = { ...plan, public: !plan.public }
+    await updatePlan(updatedPlan)
+    await fetchPlans() // Recargar los planes después de la actualización
+    console.log(`Plan "${plan.name}" cambiado a ${updatedPlan.public ? 'público' : 'privado'}`)
   } catch (error) {
-    console.error('Upload failed', error)
+    console.error('Error al cambiar la visibilidad del plan:', error)
   }
 }
 
 onMounted(() => {
   fetchPlans()
 })
+
+const planId = ref(null)
+
+const handleFileUpload = async (event) => {
+const file = event.target.files[0]
+const formData = new FormData()
+
+const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+formData.append('file', file)
+formData.append('upload_preset', uploadPreset)
+
+try {
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: 'POST',
+      body: formData
+    }
+  )
+
+  const result = await response.json()
+  const planRef = doc(db, "plans", planId.value);
+
+  // Set the "capital" field of the city 'DC'
+  await updateDoc(planRef, {
+    image: result.secure_url
+  });
+  console.log(result.secure_url)
+} catch (error) {
+  console.error('Upload failed', error)
+}
+}
+const triggerFileInput = (id) => {
+  fileInput.value?.click()
+  planId.value = id
+}
+onMounted(() => {
+fetchPlans()
+})
 </script>
+
+

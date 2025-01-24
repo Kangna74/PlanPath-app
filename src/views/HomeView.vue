@@ -4,6 +4,7 @@ import { formatTime } from '@/utils'
 import { viewPlan } from '@/router'
 import { Calendar } from 'lucide-vue-next'
 import { getAllPlans } from '@/utils/firescript'
+import { MapPinIcon } from 'lucide-vue-next'
 
 export default {
   components: {
@@ -74,6 +75,10 @@ export default {
             <div>
               <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
               <div class="flex items-center text-[#828282] text-sm mt-1">
+                <MapPinIcon class="h-4 w-4 mr-1" />
+                <p>{{ plan.ubication }}</p>
+              </div>
+              <div class="flex items-center text-[#828282] text-sm mt-1">
                 <Calendar class="h-4 w-4 mr-1" />
                 <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
               </div>
@@ -98,7 +103,7 @@ export default {
           </div>
           <button
             @click="viewPlan(plan.id)"
-            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-600/90 transition-colors mt-auto"
+            class="bg-blue-500 shadow-lg shadow-blue-500/50 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-600/90 transition-colors mt-auto"
           >
             Revisar Itinerario
           </button>
@@ -107,7 +112,6 @@ export default {
     </div>
   </div>
 </template>
-
 <style>
 /* Agrega tus estilos aquí */
 </style>

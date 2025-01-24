@@ -24,6 +24,7 @@ const dateError = ref('')
 const currentStep = ref(0)
 const formData = reactive({
   name: '',
+  ubication: '',
   startDate: '',
   endDate: '',
   activities: [],
@@ -111,6 +112,16 @@ const handleCreateItinerary = async () => {
             />
           </div>
           <div>
+            <label for ="ubication" class="block text-sm font-medium text-gray-700">Ubicación</label>
+            <input
+              id="ubication"
+              v-model="formData.ubication"
+              type="text"
+              placeholder="¿Dónde se llevará a cabo?"
+              class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
             <label for="dates" class="block text-sm font-medium text-gray-700"
               >Fechas del plan</label
             >
@@ -192,7 +203,7 @@ const handleCreateItinerary = async () => {
           </div>
           <button
             @click="showAddActivityModal = true"
-            class="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            class="w-full rounded-md bg-blue-500 shadow-lg shadow-blue-500/50 px-4 py-2 text-white hover:bg-blue-600"
           >
             Añadir Actividad
           </button>
@@ -201,6 +212,10 @@ const handleCreateItinerary = async () => {
         <!-- Step 3: Visualizar -->
         <div v-if="currentStep === 2" class="space-y-6">
           <h2 class="text-xl font-semibold">Tu Plan para "{{ formData.name }}"</h2>
+          <div class="rounded-lg bg-gray-50 p-4">
+            <h3 class="mb-2 text-sm font-medium text-gray-700">Ubicación:</h3>
+            <p class="text-gray-600">{{ formData.ubication }}</p>
+          </div>
           <div class="rounded-lg bg-gray-50 p-4">
             <h3 class="mb-2 text-sm font-medium text-gray-700">Fechas del plan:</h3>
             <p class="text-gray-600">{{ formData.startDate }} - {{ formData.endDate }}</p>
@@ -240,21 +255,21 @@ const handleCreateItinerary = async () => {
         <button
           v-if="currentStep > 0"
           @click="previousStep"
-          class="rounded-md bg-gray-200 px-6 py-2 text-gray-700 hover:bg-gray-300"
+          class="rounded-md bg-gray-200 shadow-lg shadow-gray-200/50 px-6 py-2 text-gray-700 hover:bg-gray-300"
         >
           Volver
         </button>
         <button
           v-if="currentStep < steps.length - 1"
           @click="nextStep"
-          class="ml-auto rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
+          class="ml-auto rounded-md bg-blue-500 shadow-lg shadow-blue-500/50 px-6 py-2 text-white hover:bg-blue-600"
         >
           {{ currentStep === 0 ? 'Siguiente: Añadir Actividades' : 'Siguiente: Ver Itinerario' }}
         </button>
         <button
           v-else
           @click="handleCreateItinerary"
-          class="ml-auto rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-gray-800"
+          class="ml-auto rounded-md bg-blue-500 shadow-lg shadow-blue-500/50 px-6 py-2 text-white hover:bg-gray-800"
         >
           ¡Crea tu Plan!
         </button>
