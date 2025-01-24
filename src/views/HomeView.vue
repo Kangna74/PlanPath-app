@@ -112,7 +112,6 @@ export default {
     </div>
   </div>
 </template>
-
 <style>
 /* Agrega tus estilos aquí */
 </style>

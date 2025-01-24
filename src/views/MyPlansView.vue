@@ -125,6 +125,17 @@ const handleAddActivity = async (activity) => {
   }
 }
 
+const togglePlanVisibility = async (plan) => {
+  try {
+    const updatedPlan = { ...plan, public: !plan.public }
+    await updatePlan(updatedPlan)
+    await fetchPlans() // Recargar los planes después de la actualización
+    console.log(`Plan "${plan.name}" cambiado a ${updatedPlan.public ? 'público' : 'privado'}`)
+  } catch (error) {
+    console.error('Error al cambiar la visibilidad del plan:', error)
+  }
+}
+
 onMounted(() => {
   fetchPlans()
 })
@@ -222,13 +233,37 @@ onMounted(() => {
               </ul>
             </div>
           </div>
-
-          <button
-            @click="viewPlan(plan.id)"
-            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors mt-auto"
-          >
-            Revisar Itinerario
-          </button>
+          <div class="flex justify-between items-center mt-4">
+            <button
+              @click="viewPlan(plan.id)"
+              class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors"
+            >
+              Revisar Itinerario
+            </button>
+            <div class="flex items-center mt-4">
+            <span class="text-sm text-gray-600 mr-2">{{ plan.public ? 'Público' : 'Privado' }}</span>
+            <button
+              @click="togglePlanVisibility(plan)"
+              class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              :class="plan.public ? 'bg-blue-600' : 'bg-gray-200'"
+            >
+              <span
+                class="inline-block w-4 h-4 transform transition-transform bg-white rounded-full"
+                :class="plan.public ? 'translate-x-6' : 'translate-x-1'"
+              />
+              <component
+                :is="plan.public ? GlobeIcon : LockIcon"
+                class="absolute left-0.5 top-0.5 w-5 h-5 text-white transition-opacity"
+                :class="plan.public ? 'opacity-100' : 'opacity-0'"
+              />
+              <component
+                :is="plan.public ? LockIcon : GlobeIcon"
+                class="absolute right-0.5 top-0.5 w-5 h-5 text-gray-400 transition-opacity"
+                :class="plan.public ? 'opacity-0' : 'opacity-100'"
+              />
+            </button>
+          </div>
+          </div>
         </div>
       </div>
     </main>
