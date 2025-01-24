@@ -33,7 +33,7 @@ export default {
         this.userIsLoged = false
         console.log('App, usuario no logeado')
       } else {
-        this.$router.push({ name: 'TestMap' })
+        this.$router.push({ name: 'Home' })
         this.userIsLoged = true
       }
       this.reloadNavBar()
