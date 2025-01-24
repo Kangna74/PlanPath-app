@@ -30,7 +30,8 @@
           <div>
             <div class="flex justify-between items-start mb-4">
               <div>
-                <img :src="plan.image" alt="" class="h-40 w-full object-cover rounded-lg mb-4">
+                <img v-if="plan.image" :src="plan.image" alt="" class="w-40 h-40 object-cover rounded-lg mb-4">
+                <img v-else src="/img/placeholderimg.webp" class="h-40 w-40 rounded-lg mb-4">
 
                 <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
                 <div class="flex items-center text-[#828282] text-sm mt-1">
