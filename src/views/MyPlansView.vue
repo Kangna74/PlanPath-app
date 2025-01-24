@@ -1,5 +1,3 @@
-
-
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import router from '@/router'
@@ -131,7 +129,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#fafafa] cursor-default">
+  <div class="min-96 bg-[#fafafa] cursor-default">
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-[#000000]">Mis Planes</h1>
@@ -146,7 +144,9 @@ onMounted(() => {
           placeholder="Buscar planes..."
           class="z-10 w-full px-12 py-3 border border-[#d9d9d9] rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#0b64ad]"
         />
-        <SearchIcon class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#828282] h-5 w-5" />
+        <SearchIcon
+          class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#828282] h-5 w-5"
+        />
       </div>
 
       <!-- Lista de planes -->

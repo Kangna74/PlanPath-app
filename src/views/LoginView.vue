@@ -56,7 +56,7 @@ export default {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white p-4 justify-center items-center">
+  <div class="min-96 bg-white p-4 justify-center items-center">
     <div
       class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg flex flex-col justify-center items-center"
     >

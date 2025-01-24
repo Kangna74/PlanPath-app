@@ -1,5 +1,5 @@
 <template>
-  <ErrorItem/>
+  <ErrorItem />
 </template>
 
 <script setup>
