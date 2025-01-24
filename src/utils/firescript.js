@@ -14,7 +14,7 @@ import { db } from '@/firebase'
 
 const plansCollection = collection(db, 'plans')
 
-async function getUser() {
+export async function getUser() {
   return getCurrentUser()
 }
 

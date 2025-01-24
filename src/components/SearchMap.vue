@@ -8,7 +8,13 @@
       :zoom="zoom"
       :interactive="true"
     >
-      <MapboxGeocoder :countries="'ES'" :language="'es'" :types="'address'" style="width: 400px" @mb-result="onGeocoderResult" />
+      <MapboxGeocoder
+        :countries="'ES'"
+        :language="'es'"
+        :types="'address'"
+        style="width: 400px"
+        @mb-result="onGeocoderResult"
+      />
       <MapboxMarker :lng-lat="center" />
     </MapboxMap>
   </div>

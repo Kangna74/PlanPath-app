@@ -57,7 +57,7 @@ const handleCreateItinerary = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white p-4 cursor-default">
+  <div class="min-96 bg-white p-4 cursor-default">
     <div class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg">
       <!-- Header -->
       <h1 class="mb-8 text-center text-3xl font-bold">Comienza tu aventura</h1>
@@ -175,7 +175,10 @@ const handleCreateItinerary = async () => {
               <span class="ml-3 text-sm">
                 {{ formData.public ? 'Público' : 'Privado' }}
               </span>
-              <component :is="formData.public ? GlobeIcon : LockIcon" class="ml-2 h-5 w-5 text-gray-400" />
+              <component
+                :is="formData.public ? GlobeIcon : LockIcon"
+                class="ml-2 h-5 w-5 text-gray-400"
+              />
             </div>
           </div>
         </div>
@@ -224,7 +227,10 @@ const handleCreateItinerary = async () => {
             <h3 class="mb-2 text-sm font-medium text-gray-700">Visibilidad:</h3>
             <p class="text-gray-600 flex items-center">
               {{ formData.public ? 'Público' : 'Privado' }}
-              <component :is="formData.public ? GlobeIcon : LockIcon" class="ml-2 h-5 w-5 text-gray-400" />
+              <component
+                :is="formData.public ? GlobeIcon : LockIcon"
+                class="ml-2 h-5 w-5 text-gray-400"
+              />
             </p>
           </div>
           <div class="rounded-lg bg-gray-50 p-4">

@@ -1,15 +1,14 @@
 <script>
-import { CalendarIcon, MapPinIcon, ArrowLeft, EditIcon, TrashIcon } from 'lucide-vue-next'
-import { getPlanById, updatePlan } from '@/utils/firescript'
+import { CalendarIcon, MapPinIcon, ArrowLeft, EditIcon, TrashIcon, SquareArrowOutUpRight  } from 'lucide-vue-next'
+import { getPlanById, updatePlan, getUser } from '@/utils/firescript'
 import router from '@/router'
-import {
-  formatDateRange,
-  formatDateTime,
-  getPlanFromRoute,
-  updatePlanActivity,
-} from '@/utils'
+import { formatDateRange, formatDateTime, getPlanFromRoute, updatePlanActivity } from '@/utils'
 import EditActivityModal from '../components/EditActivityModal.vue'
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue'
+import ErrorItem from '../components/ErrorItem.vue'
+import LoaderAnimation from '@/components/LoaderAnimation.vue'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 export default {
   components: {
@@ -20,6 +19,9 @@ export default {
     TrashIcon,
     EditActivityModal,
     ConfirmDeleteModal,
+    ErrorItem,
+    LoaderAnimation,
+    SquareArrowOutUpRight
   },
 
   data() {
@@ -29,6 +31,8 @@ export default {
       isEditModalOpen: false,
       isConfirmModalOpen: false,
       activityToDelete: null,
+      isOwner: false,
+      isLoading: true,
     }
   },
 
@@ -40,18 +44,43 @@ export default {
       return null
     },
   },
-
-  mounted() {
+  beforeMount() {
     this.fetchPlan()
   },
+  mounted() {},
 
   methods: {
     async fetchPlan() {
       this.plan = await getPlanFromRoute(this.$route, getPlanById)
+      if (this.plan) {
+        getUser().then((user) => {
+          if (user.uid == this.plan.userId) {
+            this.isOwner = true
+          }
+        })
+      }
+      this.isLoading = false
     },
 
     goBack() {
       router.back()
+    },
+
+    shareItinerary(){
+      const url = `${window.location.origin}/itinerary/${this.plan.id}`
+
+      navigator.clipboard.writeText(url).then(() => {
+        toast("Enlace copiado al portapapeles", {
+            type: 'success',
+            position: 'top-center',
+          })
+      }).catch((error) => {
+        console.error('Error al copiar el enlace:', error)
+        toast("Error al copiar el enlace", {
+            type: 'error',
+            position: 'top-center',
+          })
+      })
     },
 
     editActivity(index) {
@@ -112,7 +141,8 @@ export default {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#fafafa]">
+<div v-if="!isLoading">
+  <div v-if="this.plan != null"  class="min-h-screen bg-[#fafafa]">
     <main class="container mx-auto px-4 py-8">
       <div v-if="plan" class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-between items-center mb-6">
@@ -152,7 +182,7 @@ export default {
 
               <!-- Location section -->
               <div class="flex items-center">
-                <MapPin class="h-5 w-5 text-blue-500 mr-1" />
+                <MapPinIcon class="h-5 w-5 text-blue-500 mr-1" />
                 <p class="text-sm text-gray-500">{{ activity.location }}</p>
               </div>
 
@@ -165,6 +195,10 @@ export default {
             </div>
           </li>
         </ul>
+        <button @click="shareItinerary" class="text-blue-500 hover:text-[#094a80] transition-colors flex flex-row gap-3 pt-4">
+          <p>Compartir itinerario</p>
+          <SquareArrowOutUpRight class="h-6 w-6" />
+        </button>
       </div>
     </main>
     <EditActivityModal :is-open="isEditModalOpen" :activity="currentEditingActivity" @close="closeEditModal"
@@ -172,4 +206,11 @@ export default {
     <ConfirmDeleteModal :is-open="isConfirmModalOpen" :plan="activityToDelete" @close="closeConfirmModal"
       @confirm="deleteActivity" />
   </div>
+  <ErrorItem v-else />
+</div>
+
+<div v-else class="min-96 py-20 container mx-auto flex justify-center align-center">
+  <LoaderAnimation />
+</div>
+
 </template>

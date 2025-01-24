@@ -29,7 +29,6 @@ export default {
 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        this.$router.push({ name: 'Home' })
         this.userIsLoged = false
       } else {
         this.userIsLoged = true
