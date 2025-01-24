@@ -17,6 +17,9 @@ importers:
       firebase:
         specifier: ^11.2.0
         version: 11.2.0
+      i:
+        specifier: ^0.3.7
+        version: 0.3.7
       lucide-vue-next:
         specifier: ^0.471.0
         version: 0.471.0(vue@3.5.13)
@@ -1533,6 +1536,10 @@ packages:
   human-signals@8.0.0:
     resolution: {integrity: sha512-/1/GPCpDUCCYwlERiYjxoczfP0zfvZMU/OWgQPMya9AbAE24vseigFdhAMObpc8Q4lc/kjutPfUddDYyAmejnA==}
     engines: {node: '>=18.18.0'}
+
+  i@0.3.7:
+    resolution: {integrity: sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==}
+    engines: {node: '>=0.4'}
 
   idb@7.1.1:
     resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
@@ -4107,6 +4114,8 @@ snapshots:
       resolve-alpn: 1.2.1
 
   human-signals@8.0.0: {}
+
+  i@0.3.7: {}
 
   idb@7.1.1: {}
 
