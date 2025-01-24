@@ -1,16 +1,14 @@
 <template>
-    <div class="loader"></div>
+<div  class="h-screen w-100 bg-gray-100 flex flex-col justify-center items-center">
+    <div class="max-w-md w-1/2 h-1/2 bg-white flex flex-col justify-center items-center shadow-lg rounded-lg">
+        <div class="loader"></div>
+  </div>
+</div>
+
+
 </template>
 
 <style>
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
 .loader {
   border: 12px solid #f3f3f3;
   border-top: 12px solid rgb(59 130 246);
