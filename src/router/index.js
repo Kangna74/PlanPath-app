@@ -9,6 +9,7 @@ import LogIn from '@/views/LoginView.vue'
 import ErrorView from '@/views/ErrorView.vue'
 import TestMap from '@/views/TestMap.vue'
 import { getCurrentUser } from 'vuefire'
+import Imgview from '@/views/Imgview.vue'
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: '/test',
     name: 'TestMap',
     component: TestMap,
+  },
+  {
+    path: '/img',
+    name: 'img',
+    component: Imgview,
   },
 ]
 
