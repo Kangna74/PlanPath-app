@@ -96,6 +96,4 @@ export default {
 </template>
 
 <style>
-.error {
-}
 </style>
