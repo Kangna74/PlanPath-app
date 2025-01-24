@@ -31,6 +31,7 @@ export default {
       if (!user) {
         this.userIsLoged = false
       } else {
+        this.$router.push({ name: 'Home' })
         this.userIsLoged = true
       }
       this.reloadNavBar()
