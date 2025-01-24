@@ -5,7 +5,12 @@
 
       <div class="mb-8">
         <h2 class="text-xl font-semibold mb-4">Buscar Plan</h2>
-        <input v-model="searchQuery" type="text" placeholder="Buscar por nombre" class="mb-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Buscar por nombre"
+          class="mb-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+        />
       </div>
 
       <div class="mb-8">
@@ -13,24 +18,52 @@
         <form @submit.prevent="handleAddPlan">
           <div class="mb-4">
             <label for="destination" class="block text-sm font-medium text-gray-700">Destino</label>
-            <input v-model="newPlan.destination" type="text" id="destination" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+            <input
+              v-model="newPlan.destination"
+              type="text"
+              id="destination"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+            />
           </div>
           <div class="mb-4">
-            <label for="startDate" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
-            <input v-model="newPlan.startDate" type="date" id="startDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+            <label for="startDate" class="block text-sm font-medium text-gray-700"
+              >Fecha de Inicio</label
+            >
+            <input
+              v-model="newPlan.startDate"
+              type="date"
+              id="startDate"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+            />
           </div>
           <div class="mb-4">
-            <label for="endDate" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
-            <input v-model="newPlan.endDate" type="date" id="endDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+            <label for="endDate" class="block text-sm font-medium text-gray-700"
+              >Fecha de Fin</label
+            >
+            <input
+              v-model="newPlan.endDate"
+              type="date"
+              id="endDate"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+            />
           </div>
-          <button type="submit" class="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600">Agregar Plan</button>
+          <button
+            type="submit"
+            class="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600"
+          >
+            Agregar Plan
+          </button>
         </form>
       </div>
 
       <div class="mb-8">
         <h2 class="text-xl font-semibold mb-4">Planes Existentes</h2>
         <ul>
-          <li v-for="plan in plans" :key="plan.id" class="mb-4 p-4 bg-gray-100 rounded-md shadow-sm">
+          <li
+            v-for="plan in plans"
+            :key="plan.id"
+            class="mb-4 p-4 bg-gray-100 rounded-md shadow-sm"
+          >
             <div class="flex justify-between items-center">
               <div>
                 <h1 class="text-lg font-bold">{{ plan.name }}</h1>
@@ -38,8 +71,15 @@
                 <p>{{ plan.startDate }} - {{ plan.endDate }}</p>
               </div>
               <div>
-                <button @click="handleDeletePlan(plan.id)" class="text-red-500 hover:text-red-700">Eliminar</button>
-                <button @click="handleUpdatePlan(plan)" class="ml-4 text-blue-500 hover:text-blue-700">Actualizar</button>
+                <button @click="handleDeletePlan(plan.id)" class="text-red-500 hover:text-red-700">
+                  Eliminar
+                </button>
+                <button
+                  @click="handleUpdatePlan(plan)"
+                  class="ml-4 text-blue-500 hover:text-blue-700"
+                >
+                  Actualizar
+                </button>
               </div>
             </div>
           </li>
@@ -50,61 +90,57 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue';
-import { getAllPlans, postPlan, deletePlan, updatePlan, getPlanByName } from '@/firescript';
+import { ref, onMounted, watch } from 'vue'
+import { getAllPlans, postPlan, deletePlan, updatePlan, getPlanByName } from '@/utils/firescript'
 
 export default {
   setup() {
-    const plans = ref([]);
+    const plans = ref([])
     const newPlan = ref({
       destination: '',
       startDate: '',
-      endDate: ''
-    });
-    const searchQuery = ref('');
+      endDate: '',
+    })
+    const searchQuery = ref('')
 
     const fetchPlans = async () => {
-      plans.value = await getAllPlans();
-    };
+      plans.value = await getAllPlans()
+    }
 
     const handleAddPlan = async () => {
-      await postPlan(newPlan.value);
-      newPlan.value = { destination: '', startDate: '', endDate: '' };
-      fetchPlans();
-    };
+      await postPlan(newPlan.value)
+      newPlan.value = { destination: '', startDate: '', endDate: '' }
+      fetchPlans()
+    }
 
     const handleDeletePlan = async (id) => {
-      await deletePlan(id);
-      fetchPlans();
-    };
+      await deletePlan(id)
+      fetchPlans()
+    }
 
     const handleUpdatePlan = async (plan) => {
-      const updatedPlan = { ...plan, actualizado: true };
-      await updatePlan(updatedPlan);
-      fetchPlans();
-    };
+      const updatedPlan = { ...plan, actualizado: true }
+      await updatePlan(updatedPlan)
+      fetchPlans()
+    }
 
     const searchPlans = async (name) => {
-
-      try{
+      try {
         plans.value = await getPlanByName(name)
+      } catch (error) {
+        console.log(error)
       }
-      catch(error) {
-        console.log(error);
-      }
-
-    };
+    }
 
     watch(searchQuery, (newQuery) => {
-
       if (newQuery) {
-        searchPlans(newQuery);
+        searchPlans(newQuery)
       } else {
-        fetchPlans();
+        fetchPlans()
       }
-    });
+    })
 
-    onMounted(fetchPlans);
+    onMounted(fetchPlans)
 
     return {
       plans,
@@ -112,10 +148,10 @@ export default {
       searchQuery,
       handleAddPlan,
       handleDeletePlan,
-      handleUpdatePlan
-    };
-  }
-};
+      handleUpdatePlan,
+    }
+  },
+}
 </script>
 
 <style>

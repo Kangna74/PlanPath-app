@@ -6,8 +6,9 @@ import CreateView from '@/views/CreateView.vue'
 import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
-import TestingScript from '@/views/TestingScript.vue'
-import { getCurrentUser } from 'vuefire';
+import ErrorView from '@/views/ErrorView.vue'
+// import TestMap from '@/views/TestMap.vue'
+import { getCurrentUser } from 'vuefire'
 
 const routes = [
   {
@@ -20,8 +21,8 @@ const routes = [
     name: 'Create',
     component: CreateView,
     beforeEnter: async () => {
-      return await isUserLoged()? true : '/login'
-    }
+      return (await isUserLoged()) ? true : '/login'
+    },
   },
   {
     path: '/itinerary/:id',
@@ -33,22 +34,27 @@ const routes = [
     name: 'MyPlans',
     component: MyPlansView,
     beforeEnter: async () => {
-      return await isUserLoged()? true: '/login'
-    }
+      return (await isUserLoged()) ? true : '/login'
+    },
   },
   {
     path: '/login',
     name: 'LogIn',
     component: LogIn,
     beforeEnter: async () => {
-      return await isUserLoged()? '/': true
-    }
+      return (await isUserLoged()) ? '/' : true
+    },
   },
   {
-    path: '/test',
-    name: 'TestingScript',
-    component: TestingScript,
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: ErrorView,
   },
+  // {
+  //   path: '/test',
+  //   name: 'TestMap',
+  //   component: TestMap,
+  // },
 ]
 
 const isUserLoged = async () => {
@@ -56,7 +62,7 @@ const isUserLoged = async () => {
   return currentUser
 }
 
-export function viewPlan (planId) {
+export function viewPlan(planId) {
   console.log(`Navegando al plan ${planId}`)
   router.push({ name: 'Itinerary', params: { id: planId.toString() } })
 }
@@ -67,5 +73,3 @@ const router = createRouter({
 })
 
 export default router
-
-
