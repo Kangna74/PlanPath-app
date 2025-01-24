@@ -1,6 +1,6 @@
 <script>
 import { CalendarIcon, MapPinIcon, ArrowLeft, EditIcon, TrashIcon } from 'lucide-vue-next'
-import { getPlanById, updatePlan } from '@/utils/firescript'
+import { getPlanById, updatePlan, getUser } from '@/utils/firescript'
 import router from '@/router'
 import {
   formatDateRange,
@@ -10,6 +10,7 @@ import {
 } from '@/utils'
 import EditActivityModal from '../components/EditActivityModal.vue'
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue'
+import ErrorItem from '../components/ErrorItem.vue'
 
 export default {
   components: {
@@ -20,6 +21,7 @@ export default {
     TrashIcon,
     EditActivityModal,
     ConfirmDeleteModal,
+    ErrorItem
   },
 
   data() {
@@ -29,6 +31,7 @@ export default {
       isEditModalOpen: false,
       isConfirmModalOpen: false,
       activityToDelete: null,
+      isOwner: false,
     }
   },
 
@@ -41,13 +44,22 @@ export default {
     },
   },
 
-  mounted() {
+  beforeMount(){
     this.fetchPlan()
+  },
+  mounted() {
   },
 
   methods: {
     async fetchPlan() {
       this.plan = await getPlanFromRoute(this.$route, getPlanById)
+      if (this.plan) {
+        getUser().then((user) => {
+          if (user.uid == this.plan.userId) {
+            this.isOwner = true
+          }
+        })
+      }
     },
 
     goBack() {
@@ -112,7 +124,7 @@ export default {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#fafafa]">
+  <div v-if="this.plan!=null" class="min-h-screen bg-[#fafafa]">
     <main class="container mx-auto px-4 py-8">
       <div v-if="plan" class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-between items-center mb-6">
@@ -147,7 +159,7 @@ export default {
                   <MapPinIcon class="h-5 w-5 text-blue-500 mr-1" />
                   <p class="text-sm text-gray-500">{{ activity.location }}</p>
                 </div>
-                <div class="flex space-x-2 mt-2">
+                <div v-if="isOwner" class="flex space-x-2 mt-2">
                   <button @click="editActivity(index)" class="text-blue-600 hover:text-blue-800">
                     <EditIcon class="h-5 w-5" />
                   </button>
@@ -177,4 +189,5 @@ export default {
       @confirm="deleteActivity"
     />
   </div>
+  <ErrorItem  v-else />
 </template>
