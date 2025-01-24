@@ -3,7 +3,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import router from '@/router'
-import { SearchIcon, TrashIcon, CalendarIcon, EditIcon, PlusCircleIcon } from 'lucide-vue-next'
+import { SearchIcon, TrashIcon, CalendarIcon, EditIcon, PlusCircleIcon, MapPinIcon } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
 import { getPlansByActualUser, deletePlan, updatePlan } from '@/utils/firescript'
 import AddActivityModal from '../components/AddActivityModal.vue'
@@ -171,6 +171,10 @@ onMounted(() => {
             <div class="flex justify-between items-start mb-4">
               <div>
                 <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
+                <div class="flex items-center text-[#828282] text-sm mt-1">
+                  <MapPinIcon class="h-4 w-4 mr-1" />
+                  <p>{{ plan.ubication }}</p>
+                </div>
                 <div class="flex items-center text-[#828282] text-sm mt-1">
                   <CalendarIcon class="h-4 w-4 mr-1" />
                   <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>

@@ -92,7 +92,7 @@ const close = () => {
         </div>
         <div>
           <label for="activityLocation" class="block text-sm font-medium text-gray-700"
-            >Ubicación</label
+            >Lugar</label
           >
           <input
             id="activityLocation"

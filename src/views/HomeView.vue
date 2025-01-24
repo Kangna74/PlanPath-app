@@ -4,6 +4,7 @@ import { formatTime } from '@/utils'
 import { viewPlan } from '@/router'
 import { Calendar } from 'lucide-vue-next'
 import { getAllPlans } from '@/utils/firescript'
+import { MapPinIcon } from 'lucide-vue-next'
 
 export default {
   components: {
@@ -73,6 +74,10 @@ export default {
           <div class="flex justify-between items-start mb-4">
             <div>
               <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
+              <div class="flex items-center text-[#828282] text-sm mt-1">
+                <MapPinIcon class="h-4 w-4 mr-1" />
+                <p>{{ plan.ubication }}</p>
+              </div>
               <div class="flex items-center text-[#828282] text-sm mt-1">
                 <Calendar class="h-4 w-4 mr-1" />
                 <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>

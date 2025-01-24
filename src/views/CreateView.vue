@@ -24,6 +24,7 @@ const dateError = ref('')
 const currentStep = ref(0)
 const formData = reactive({
   name: '',
+  ubication: '',
   startDate: '',
   endDate: '',
   activities: [],
@@ -107,6 +108,16 @@ const handleCreateItinerary = async () => {
               v-model="formData.name"
               type="text"
               placeholder="¿Qué plan tienes en mente?"
+              class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label for ="ubication" class="block text-sm font-medium text-gray-700">Ubicación</label>
+            <input
+              id="ubication"
+              v-model="formData.ubication"
+              type="text"
+              placeholder="¿Dónde se llevará a cabo?"
               class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
@@ -201,6 +212,10 @@ const handleCreateItinerary = async () => {
         <!-- Step 3: Visualizar -->
         <div v-if="currentStep === 2" class="space-y-6">
           <h2 class="text-xl font-semibold">Tu Plan para "{{ formData.name }}"</h2>
+          <div class="rounded-lg bg-gray-50 p-4">
+            <h3 class="mb-2 text-sm font-medium text-gray-700">Ubicación:</h3>
+            <p class="text-gray-600">{{ formData.ubication }}</p>
+          </div>
           <div class="rounded-lg bg-gray-50 p-4">
             <h3 class="mb-2 text-sm font-medium text-gray-700">Fechas del plan:</h3>
             <p class="text-gray-600">{{ formData.startDate }} - {{ formData.endDate }}</p>
