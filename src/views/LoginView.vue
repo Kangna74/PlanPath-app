@@ -85,7 +85,7 @@ export default {
         </div>
 
         <button
-          class="m-auto w-1/2 rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
+          class="m-auto w-1/2 rounded-md bg-blue-500 shadow-lg shadow-blue-500/50 px-6 py-2 text-white hover:bg-blue-600"
           @click="login"
         >
           Entrar

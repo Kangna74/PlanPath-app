@@ -103,7 +103,7 @@ export default {
           </div>
           <button
             @click="viewPlan(plan.id)"
-            class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-600/90 transition-colors mt-auto"
+            class="bg-blue-500 shadow-lg shadow-blue-500/50 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-600/90 transition-colors mt-auto"
           >
             Revisar Itinerario
           </button>

@@ -142,7 +142,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#fafafa] cursor-default">
+  <div class="min-h-screen bg-white cursor-default">
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-[#000000]">Mis Planes</h1>
@@ -236,7 +236,7 @@ onMounted(() => {
           <div class="flex justify-between items-center mt-4">
             <button
               @click="viewPlan(plan.id)"
-              class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors"
+              class="bg-blue-500 shadow-lg shadow-blue-500/50 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors"
             >
               Revisar Itinerario
             </button>

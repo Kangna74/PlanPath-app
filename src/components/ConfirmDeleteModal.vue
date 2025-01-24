@@ -35,14 +35,14 @@ export default {
         <button
           type="button"
           @click="$emit('close')"
-          class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          class="px-4 py-2 border border-gray-300 shadow-lg shadow-gray-200/50 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           Cancelar
         </button>
         <button
           type="button"
           @click="confirmDelete"
-          class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 shadow-lg shadow-red-500/50 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
         >
           Eliminar
         </button>

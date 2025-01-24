@@ -203,7 +203,7 @@ const handleCreateItinerary = async () => {
           </div>
           <button
             @click="showAddActivityModal = true"
-            class="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            class="w-full rounded-md bg-blue-500 shadow-lg shadow-blue-500/50 px-4 py-2 text-white hover:bg-blue-600"
           >
             Añadir Actividad
           </button>
@@ -255,21 +255,21 @@ const handleCreateItinerary = async () => {
         <button
           v-if="currentStep > 0"
           @click="previousStep"
-          class="rounded-md bg-gray-200 px-6 py-2 text-gray-700 hover:bg-gray-300"
+          class="rounded-md bg-gray-200 shadow-lg shadow-gray-200/50 px-6 py-2 text-gray-700 hover:bg-gray-300"
         >
           Volver
         </button>
         <button
           v-if="currentStep < steps.length - 1"
           @click="nextStep"
-          class="ml-auto rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
+          class="ml-auto rounded-md bg-blue-500 shadow-lg shadow-blue-500/50 px-6 py-2 text-white hover:bg-blue-600"
         >
           {{ currentStep === 0 ? 'Siguiente: Añadir Actividades' : 'Siguiente: Ver Itinerario' }}
         </button>
         <button
           v-else
           @click="handleCreateItinerary"
-          class="ml-auto rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-gray-800"
+          class="ml-auto rounded-md bg-blue-500 shadow-lg shadow-blue-500/50 px-6 py-2 text-white hover:bg-gray-800"
         >
           ¡Crea tu Plan!
         </button>
