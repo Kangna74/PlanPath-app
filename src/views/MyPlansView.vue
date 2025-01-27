@@ -124,6 +124,7 @@ import { formatDateRange, formatTime, filterByName } from '@/utils'
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
+import { toast } from 'vue3-toastify'
 
 const plans = ref([])
 const editingPlan = ref(null)
@@ -258,7 +259,7 @@ onMounted(() => {
 })
 
 const planId = ref(null)
-
+const toastId = ref(null)
 const handleFileUpload = async (event) => {
   const file = event.target.files[0]
   const formData = new FormData()
@@ -267,6 +268,13 @@ const handleFileUpload = async (event) => {
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
   formData.append('file', file)
   formData.append('upload_preset', uploadPreset)
+
+  toastId.value = toast.loading(
+    'Please wait...',
+    {
+      "position": "top-center",
+    },
+  );
 
   try {
     const response = await fetch(
@@ -283,9 +291,16 @@ const handleFileUpload = async (event) => {
     // Set the "capital" field of the city 'DC'
     await updateDoc(planRef, {
       image: result.secure_url
+
     });
-    console.log(result.secure_url)
+    fetchPlans()
+    toast.remove(toastId.value);
+    toast.success('Image uploaded successfully', {
+      "position": "top-center",
+      "autoClose": 1500,
+    });
   } catch (error) {
+    toast.remove(toastId.value);
     console.error('Upload failed', error)
   }
 }
