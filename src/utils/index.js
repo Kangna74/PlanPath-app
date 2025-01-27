@@ -128,5 +128,3 @@ export const createItinerary = async (formData, postPlan, router) => {
     return 'Error al crear el itinerario'
   }
 }
-
-

@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 import IconBurger from './icons/IconBurger.vue'
 import IconX from './icons/IconX.vue'
-import IconLogoPPSmall from './icons/IconLogoPPSmall.vue'
+import IconMiniPP from './icons/IconMiniPP.vue'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/firebase'
 
@@ -12,7 +12,7 @@ export default {
     RouterLink,
     IconBurger,
     IconX,
-    IconLogoPPSmall,
+    IconMiniPP,
   },
   data() {
     return {
@@ -68,12 +68,12 @@ export default {
       isSmallScreen ? (showNavBar ? 'fixed translate-y-0' : 'fixed -translate-y-full') : 'relative',
     ]"
   >
-    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-2">
+    <div class="ml-2 mr-2 max-w-8xl mx-auto px-4 sm:px-6 lg:px-2">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0">
           <RouterLink to="/">
-            <IconLogoPPSmall class="h-8" />
+            <IconMiniPP class="h-8" />
           </RouterLink>
         </div>
 

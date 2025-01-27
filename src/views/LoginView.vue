@@ -19,12 +19,12 @@ export default {
     async login() {
       try {
         await signInWithEmailAndPassword(auth, this.username.trim(), this.password)
-          this.$router.push({ name: 'Home' })
+        this.$router.push({ name: 'Home' })
 
-          toast('Inicio de sesión exitoso', {
-            type: 'success',
-            position: 'top-center',
-          })
+        toast('Inicio de sesión exitoso', {
+          type: 'success',
+          position: 'top-center',
+        })
       } catch (error) {
         console.log(error.code)
         let errorMessage = ''
@@ -50,7 +50,7 @@ export default {
     },
     navigateToRegister() {
       this.$router.push({ name: 'Register' })
-    }
+    },
   },
   mounted() {},
   beforeMount() {},
@@ -75,6 +75,7 @@ export default {
             type="text"
             v-model="username"
             placeholder="Correo electrónico"
+            autocomplete="email"
           />
         </div>
 
@@ -86,6 +87,7 @@ export default {
             type="password"
             v-model="password"
             placeholder="Contraseña"
+            autocomplete="current-password"
           />
         </div>
 
@@ -97,7 +99,7 @@ export default {
         </button>
 
         <button
-          class="m-auto w-1/2 rounded-md shadow-lg border border-blue-500  px-6 py-2 text-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-blue-500/50"
+          class="m-auto w-1/2 rounded-md shadow-lg border border-blue-500 px-6 py-2 text-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-blue-500/50"
           @click="navigateToRegister"
         >
           Todavía no tengo cuenta
@@ -107,5 +109,4 @@ export default {
   </div>
 </template>
 
-<style>
-</style>
+<style></style>

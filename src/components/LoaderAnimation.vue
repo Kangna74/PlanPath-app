@@ -1,11 +1,11 @@
 <template>
-<div  class="h-screen w-100 bg-gray-100 flex flex-col justify-center items-center">
-    <div class="max-w-md w-1/2 h-1/2 bg-white flex flex-col justify-center items-center shadow-lg rounded-lg">
-        <div class="loader"></div>
+  <div class="h-screen w-100 bg-gray-100 flex flex-col justify-center items-center">
+    <div
+      class="max-w-md w-1/2 h-1/2 bg-white flex flex-col justify-center items-center shadow-lg rounded-lg"
+    >
+      <div class="loader"></div>
+    </div>
   </div>
-</div>
-
-
 </template>
 
 <style>
@@ -19,8 +19,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 768px) {

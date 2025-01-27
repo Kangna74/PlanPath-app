@@ -35,35 +35,35 @@ const errors = reactive({
   name: '',
   date: '',
   ubication: '',
-});
+})
 
 const validateCurrentStep = () => {
-  let isValid = true;
+  let isValid = true
 
-  if (currentStep.value === 0){
+  if (currentStep.value === 0) {
     if (!formData.name.trim()) {
-      errors.name = 'El nombre del plan es requerido';
-      isValid = false;
+      errors.name = 'El nombre del plan es requerido'
+      isValid = false
     } else {
-      errors.name = '';
+      errors.name = ''
     }
 
     if (!formData.ubication.trim()) {
-      errors.ubication = 'La ubicación del plan es requerida';
-      isValid = false;
+      errors.ubication = 'La ubicación del plan es requerida'
+      isValid = false
     } else {
-      errors.ubication = '';
+      errors.ubication = ''
     }
 
-    if(!formData.startDate || !formData.endDate) {
-      errors.date = 'Las fechas de inicio y fin son requeridas';
-      isValid = false;
+    if (!formData.startDate || !formData.endDate) {
+      errors.date = 'Las fechas de inicio y fin son requeridas'
+      isValid = false
     } else {
-      errors.date = '';
+      errors.date = ''
     }
   }
 
-  return isValid;
+  return isValid
 }
 
 const handleAddActivity = (activity) => {
@@ -72,9 +72,8 @@ const handleAddActivity = (activity) => {
 
 const nextStep = () => {
   if (validateCurrentStep()) {
-    currentStep.value = handleStepNavigation(currentStep.value, steps.length, 'next');
+    currentStep.value = handleStepNavigation(currentStep.value, steps.length, 'next')
   }
-
 }
 
 const previousStep = () => {
@@ -152,7 +151,7 @@ const handleCreateItinerary = async () => {
             <p v-if="errors.name" class="text-red-500 text-sm mt-1">{{ errors.name }}</p>
           </div>
           <div>
-            <label for ="ubication" class="block text-sm font-medium text-gray-700">Ubicación</label>
+            <label for="ubication" class="block text-sm font-medium text-gray-700">Ubicación</label>
             <input
               id="ubication"
               v-model="formData.ubication"

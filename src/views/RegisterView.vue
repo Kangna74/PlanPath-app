@@ -17,7 +17,6 @@ export default {
   },
   methods: {
     async register() {
-
       if (this.username.trim() === '' || this.password === '') {
         toast('Por favor, llena todos los campos', {
           type: 'error',
@@ -59,8 +58,8 @@ export default {
     },
     navigateToLogin() {
       this.$router.push({ name: 'LogIn' })
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -71,9 +70,8 @@ export default {
     >
       <IconLogoPP class="h-30" />
 
-
       <h1 class="text-2xl font-bold text-blue-500 text-center mt-4">Organiza tus ideas</h1>
-      <h1 class="text-2xl font-bold text-blue-500 text-center mb-3"> ¡Construye grandes planes!</h1>
+      <h1 class="text-2xl font-bold text-blue-500 text-center mb-3">¡Construye grandes planes!</h1>
 
       <form class="flex flex-col justify-center items-center w-full py-6 gap-4" @submit.prevent>
         <div class="flex flex-col w-full items-center">
@@ -83,6 +81,7 @@ export default {
             type="text"
             v-model="username"
             placeholder="Correo electrónico"
+            autocomplete="email"
           />
         </div>
 
@@ -94,6 +93,7 @@ export default {
             type="password"
             v-model="password"
             placeholder="Contraseña"
+            autocomplete="password"
           />
         </div>
 
@@ -105,8 +105,8 @@ export default {
         </button>
 
         <button
-        class="m-auto w-1/2 rounded-md shadow-lg border border-blue-500  px-6 py-2 text-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-blue-500/50"
-        @click="navigateToLogin"
+          class="m-auto w-1/2 rounded-md shadow-lg border border-blue-500 px-6 py-2 text-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-blue-500/50"
+          @click="navigateToLogin"
         >
           Ya tengo cuenta
         </button>
@@ -115,5 +115,4 @@ export default {
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
