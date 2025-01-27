@@ -8,10 +8,8 @@ export default {
   emits: ['close', 'update'],
 
   methods: {
-    handleSubmit() {
-      this.$emit('update', this.formData)
-      console.log('Activity updated:', this.formData)
-      this.close()
+    update() {
+      this.$emit('confirm')
     },
 
     close() {
@@ -39,7 +37,8 @@ export default {
           Cancelar
         </button>
         <button
-          type="submit"
+          type="button"
+          @click="update"
           class="px-4 py-2 text-sm font-medium text-white bg-blue-600 shadow-lg shadow-blue-600/50 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           Confirmar

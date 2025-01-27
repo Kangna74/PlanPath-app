@@ -66,7 +66,6 @@ const isUserLoged = async () => {
 }
 
 export function viewPlan(planId) {
-  console.log(`Navegando al plan ${planId}`)
   router.push({ name: 'Itinerary', params: { id: planId.toString() } })
 }
 

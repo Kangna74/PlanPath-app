@@ -56,22 +56,7 @@ export default {
 
     groupedActivities() {
       if (this.plan && this.plan.activities) {
-        // Step 1: Sort activities by date and time
-        const sortedActivities = [...this.plan.activities].sort((a, b) => {
-          const dateA = new Date(`${a.date}T${a.time}`)
-          const dateB = new Date(`${b.date}T${b.time}`)
-          return dateA - dateB
-        })
-
-        // Step 2: Group activities by date
-        return sortedActivities.reduce((groups, activity) => {
-          const activityDate = activity.date
-          if (!groups[activityDate]) {
-            groups[activityDate] = []
-          }
-          groups[activityDate].push(activity)
-          return groups
-        }, {})
+        return this.groupAndSortActivities(this.plan.activities)
       }
       return {}
     },
@@ -92,6 +77,25 @@ export default {
         })
       }
       this.isLoading = false
+    },
+
+    sortActivities(activities) {
+      return activities.sort((a, b) => {
+        const dateA = new Date(`${a.date}T${a.time}`)
+        const dateB = new Date(`${b.date}T${b.time}`)
+        return dateA - dateB
+      })
+    },
+    groupAndSortActivities(activities) {
+      const sortedActivities = this.sortActivities(activities)
+      return sortedActivities.reduce((groups, activity) => {
+        const activityDate = activity.date
+        if (!groups[activityDate]) {
+          groups[activityDate] = []
+        }
+        groups[activityDate].push(activity)
+        return groups
+      }, {})
     },
 
     goBack() {
@@ -144,8 +148,6 @@ export default {
     },
 
     async updateActivity(updatedActivity) {
-      console.log('updatedActivity', updatedActivity)
-
       if (this.currentEditingIndex !== null && this.plan) {
         const updatedActivities = [...this.plan.activities]
         updatedActivities[this.currentEditingIndex] = updatedActivity
@@ -155,7 +157,6 @@ export default {
           activities: updatedActivities,
         }
 
-        console.log('updatedPlan', updatedPlan)
         try {
           await updatePlan(updatedPlan)
           this.plan = updatedPlan
@@ -204,7 +205,16 @@ export default {
       return dateString
     },
     changeVisibility() {
-      console.log('cambiando visibilidad')
+      console.log('Changing visibility')
+      this.plan.public = true
+
+      try {
+        updatePlan(this.plan)
+      } catch (error) {
+        console.error('Error al actualizar la visibilidad:', error)
+      }
+
+      this.isPublicModalOpen = false
     },
   },
 }

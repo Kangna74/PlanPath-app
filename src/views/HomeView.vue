@@ -33,7 +33,7 @@ export default {
       this.plans = await getAllPlans()
       this.filteredPlans = this.plans // Inicializa filteredPlans con todos los planes
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   },
   watch: {
@@ -56,7 +56,7 @@ export default {
       </h1>
     </div>
     <div class="container mx-auto px-4 py-8">
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex flex-row justify-between items-center mb-6">
         <SearchBar v-model="searchQuery" />
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
