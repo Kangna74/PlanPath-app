@@ -1,12 +1,6 @@
 <template>
   <div class="min-h-screen bg-white cursor-default">
-    <input
-      ref="fileInput"
-      type="file"
-      @change="handleFileUpload"
-      accept="image/*"
-      style="display: none"
-    />
+    <input ref="fileInput" type="file" @change="handleFileUpload" accept="image/*" style="display: none" />
     <main class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-[#000000]">Mis Planes</h1>
@@ -20,29 +14,18 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-if="plans.length === 0" class="col-span-full text-center py-12">
           <p class="text-[#828282] mb-8">No tienes ningún plan creado</p>
-          <button
-            @click="createNewPlan"
-            class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors"
-          >
+          <button @click="createNewPlan"
+            class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-[#0b64ad]/90 transition-colors">
             ¡Crea tu primer plan!
           </button>
         </div>
 
-        <div
-          v-else
-          v-for="plan in filteredPlans"
-          :key="plan.id"
-          class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between"
-        >
+        <div v-else v-for="plan in filteredPlans" :key="plan.id"
+          class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-start mb-4">
               <div>
-                <img
-                  v-if="plan.image"
-                  :src="plan.image"
-                  alt=""
-                  class="w-40 h-40 object-cover rounded-lg mb-4"
-                />
+                <img v-if="plan.image" :src="plan.image" alt="" class="w-40 h-40 object-cover rounded-lg mb-4" />
                 <img v-else src="/img/placeholderimg.webp" class="h-40 w-40 rounded-lg mb-4" />
 
                 <h2 class="text-xl font-semibold text-[#000000]">{{ plan.name }}</h2>
@@ -56,22 +39,15 @@
                 </div>
               </div>
               <div class="flex flex-col items-end gap-2">
-                <button
-                  @click="triggerFileInput(plan.id)"
-                  class="text-[#828282] hover:text-[#3b964b] transition-colors"
-                >
+                <button @click="triggerFileInput(plan.id)"
+                  class="text-[#828282] hover:text-[#3b964b] transition-colors">
                   <ImageUp class="h-5 w-5" />
                 </button>
-                <button
-                  @click="editPlan(plan)"
-                  class="text-[#828282] hover:text-[#0b64ad]/80 transition-colors"
-                >
+                <button @click="editPlan(plan)" class="text-[#828282] hover:text-[#0b64ad]/80 transition-colors">
                   <Edit class="h-5 w-5" />
                 </button>
-                <button
-                  @click="openConfirmDeleteModal(plan)"
-                  class="text-[#828282] hover:text-[#812727] transition-colors"
-                >
+                <button @click="openConfirmDeleteModal(plan)"
+                  class="text-[#828282] hover:text-[#812727] transition-colors">
                   <Trash2 class="h-5 w-5" />
                 </button>
               </div>
@@ -82,19 +58,14 @@
                 <h3 class="font-medium text-[#000000]">
                   {{ plan.activities.length }} actividades planificadas
                 </h3>
-                <button
-                  @click="openAddActivityModal(plan)"
-                  class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors"
-                >
+                <button @click="openAddActivityModal(plan)"
+                  class="text-[#0b64ad] hover:text-[#0b64ad]/80 transition-colors">
                   <PlusCircleIcon class="h-5 w-5" />
                 </button>
               </div>
               <ul class="space-y-2">
-                <li
-                  v-for="(activity, index) in plan.activities.slice(0, 2)"
-                  :key="index"
-                  class="text-[#828282] text-sm"
-                >
+                <li v-for="(activity, index) in plan.activities.slice(0, 2)" :key="index"
+                  class="text-[#828282] text-sm">
                   {{ activity.name }} - {{ formatTime(activity.date, activity.time) }}
                 </li>
                 <li v-if="plan.activities.length > 2" class="text-[#4d4949] text-sm font-medium">
@@ -104,35 +75,25 @@
             </div>
           </div>
           <div class="flex justify-between items-center mt-4">
-            <button
-              @click="viewPlan(plan.id)"
-              class="bg-blue-500 shadow-lg shadow-blue-500/50 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors"
-            >
+            <button @click="viewPlan(plan.id)"
+              class="bg-blue-500 shadow-lg shadow-blue-500/50 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors">
               Revisar Itinerario
             </button>
             <div class="flex items-center mt-4">
               <span class="text-sm text-gray-600 mr-2">{{
                 plan.public ? 'Público' : 'Privado'
               }}</span>
-              <button
-                @click="togglePlanVisibility(plan)"
+              <button @click="togglePlanVisibility(plan)"
                 class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                :class="plan.public ? 'bg-blue-600' : 'bg-gray-200'"
-              >
-                <span
-                  class="inline-block w-4 h-4 transform transition-transform bg-white rounded-full"
-                  :class="plan.public ? 'translate-x-6' : 'translate-x-1'"
-                />
-                <component
-                  :is="plan.public ? GlobeIcon : LockIcon"
+                :class="plan.public ? 'bg-blue-600' : 'bg-gray-200'">
+                <span class="inline-block w-4 h-4 transform transition-transform bg-white rounded-full"
+                  :class="plan.public ? 'translate-x-6' : 'translate-x-1'" />
+                <component :is="plan.public ? GlobeIcon : LockIcon"
                   class="absolute left-0.5 top-0.5 w-5 h-5 text-white transition-opacity"
-                  :class="plan.public ? 'opacity-100' : 'opacity-0'"
-                />
-                <component
-                  :is="plan.public ? LockIcon : GlobeIcon"
+                  :class="plan.public ? 'opacity-100' : 'opacity-0'" />
+                <component :is="plan.public ? LockIcon : GlobeIcon"
                   class="absolute right-0.5 top-0.5 w-5 h-5 text-gray-400 transition-opacity"
-                  :class="plan.public ? 'opacity-0' : 'opacity-100'"
-                />
+                  :class="plan.public ? 'opacity-0' : 'opacity-100'" />
               </button>
             </div>
           </div>
@@ -141,26 +102,11 @@
     </main>
 
     <!-- Modal de edición -->
-    <EditPlanModal
-      v-if="editingPlan"
-      :plan="editingPlan"
-      @close="closeEditModal"
-      @update="handleUpdatePlan"
-    />
-    <AddActivityModal
-      v-if="showAddActivityModal"
-      :is-open="showAddActivityModal"
-      :plan="selectedPlan"
-      @close="closeAddActivityModal"
-      @submit="handleAddActivity"
-    />
-    <ConfirmDeleteModal
-      v-if="showConfirmDeleteModal"
-      :is-open="showConfirmDeleteModal"
-      :plan="deletingPlan"
-      @close="closeDeleteModal"
-      @confirm="handleDeletePlan"
-    />
+    <EditPlanModal v-if="editingPlan" :plan="editingPlan" @close="closeEditModal" @update="handleUpdatePlan" />
+    <AddActivityModal v-if="showAddActivityModal" :is-open="showAddActivityModal" :plan="selectedPlan"
+      @close="closeAddActivityModal" @submit="handleAddActivity" />
+    <ConfirmDeleteModal v-if="showConfirmDeleteModal" :is-open="showConfirmDeleteModal" :plan="deletingPlan"
+      @close="closeDeleteModal" @confirm="handleDeletePlan" />
   </div>
 </template>
 
@@ -313,6 +259,14 @@ const planId = ref(null)
 const toastId = ref(null)
 const handleFileUpload = async (event) => {
   const file = event.target.files[0]
+  const maxFileSize = 1 * 1024 * 1024
+  if (file.size > maxFileSize) {
+    toast.error('File size is too large. Max file size is 5MB', {
+      position: 'top-center',
+      autoClose: 3000,
+    })
+    return
+  }
   const formData = new FormData()
 
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
