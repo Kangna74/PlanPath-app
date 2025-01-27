@@ -45,7 +45,6 @@ export default {
     cerrarSesion() {
       signOut(auth)
         .then(() => {
-          alert('Sesión cerrada')
           this.$router.push('/login')
         })
         .catch((error) => {

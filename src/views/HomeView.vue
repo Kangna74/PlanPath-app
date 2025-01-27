@@ -50,7 +50,7 @@ export default {
       </h1>
     </div>
 
-    <SearchBar v-model="searchQuery" class=" mt-10 ml-8 mr-8" />
+    <SearchBar v-model="searchQuery" class=" mt-10 ml-14 mr-14" />
 
     <div class="flex flex-col items-center">
       <h2 class="text-3xl font-bold text-blue-500 text-left m-10">Planes Populares</h2>

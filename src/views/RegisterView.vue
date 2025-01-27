@@ -1,6 +1,6 @@
 <script>
 import IconLogoPP from '@/components/icons/IconLogoPP.vue'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/firebase'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
@@ -16,27 +16,36 @@ export default {
     }
   },
   methods: {
-    async login() {
-      try {
-        await signInWithEmailAndPassword(auth, this.username.trim(), this.password)
-          this.$router.push({ name: 'Home' })
+    async register() {
 
-          toast('Inicio de sesión exitoso', {
-            type: 'success',
-            position: 'top-center',
-          })
+      if (this.username.trim() === '' || this.password === '') {
+        toast('Por favor, llena todos los campos', {
+          type: 'error',
+          position: 'top-center',
+        })
+        return
+      }
+
+      try {
+        await createUserWithEmailAndPassword(auth, this.username.trim(), this.password)
+
+        toast('Regsitro exitoso', {
+          type: 'success',
+          position: 'top-center',
+        })
+
+        this.$router.push({ name: 'LogIn' })
       } catch (error) {
-        console.log(error.code)
         let errorMessage = ''
         switch (error.code) {
-          case 'auth/invalid-credential':
-            errorMessage = 'Usuario o contraseña incorrectos'
+          case 'auth/email-already-in-use':
+            errorMessage = 'El correo electrónico ya está en uso'
             break
           case 'auth/invalid-email':
             errorMessage = 'Correo electrónico inválido'
             break
-          case 'auth/missing-password':
-            errorMessage = 'Falta la contraseña'
+          case 'auth/weak-password':
+            errorMessage = 'La contraseña es débil'
             break
           default:
             errorMessage = 'Error desconocido'
@@ -48,13 +57,10 @@ export default {
         })
       }
     },
-    navigateToRegister() {
-      this.$router.push({ name: 'Register' })
+    navigateToLogin() {
+      this.$router.push({ name: 'LogIn' })
     }
-  },
-  mounted() {},
-  beforeMount() {},
-  afterMount() {},
+  }
 }
 </script>
 
@@ -65,7 +71,9 @@ export default {
     >
       <IconLogoPP class="h-30" />
 
-      <h1 class="text-2xl font-bold text-blue-500 text-center m-4">¿Qué planeas hacer hoy?</h1>
+
+      <h1 class="text-2xl font-bold text-blue-500 text-center mt-4">Organiza tus ideas</h1>
+      <h1 class="text-2xl font-bold text-blue-500 text-center mb-3"> ¡Construye grandes planes!</h1>
 
       <form class="flex flex-col justify-center items-center w-full py-6 gap-4" @submit.prevent>
         <div class="flex flex-col w-full items-center">
@@ -91,16 +99,16 @@ export default {
 
         <button
           class="m-auto w-1/2 rounded-md bg-blue-500 shadow-lg shadow-blue-500/50 px-6 py-2 text-white hover:bg-blue-600"
-          @click="login"
+          @click="register"
         >
-          Entrar
+          Registrarse
         </button>
 
         <button
-          class="m-auto w-1/2 rounded-md shadow-lg border border-blue-500  px-6 py-2 text-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-blue-500/50"
-          @click="navigateToRegister"
+        class="m-auto w-1/2 rounded-md shadow-lg border border-blue-500  px-6 py-2 text-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-blue-500/50"
+        @click="navigateToLogin"
         >
-          Todavía no tengo cuenta
+          Ya tengo cuenta
         </button>
       </form>
     </div>
