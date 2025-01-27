@@ -21,10 +21,12 @@ export default {
     async login() {
       try {
         await signInWithEmailAndPassword(auth, this.username.trim(), this.password)
-        toast('Inicio de sesión exitoso', {
-          type: 'success',
-          position: 'top-center',
-        })
+          this.$router.push({ name: 'Home' })
+
+          toast('Inicio de sesión exitoso', {
+            type: 'success',
+            position: 'top-center',
+          })
       } catch (error) {
         console.log(error.code)
         let errorMessage = ''
