@@ -5,6 +5,7 @@ import router from '@/router'
 import { formatDateRange, formatDateTime, getPlanFromRoute, updatePlanActivity } from '@/utils'
 import EditActivityModal from '../components/EditActivityModal.vue'
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue'
+import PublicModal from '../components/PublicModal.vue'
 import ErrorItem from '../components/ErrorItem.vue'
 import LoaderAnimation from '@/components/LoaderAnimation.vue'
 import { toast } from 'vue3-toastify'
@@ -21,7 +22,8 @@ export default {
     ConfirmDeleteModal,
     ErrorItem,
     LoaderAnimation,
-    SquareArrowOutUpRight
+    SquareArrowOutUpRight,
+    PublicModal
   },
 
   data() {
@@ -33,6 +35,7 @@ export default {
       activityToDelete: null,
       isOwner: false,
       isLoading: true,
+      isPublicModalOpen: false
     }
   },
 
@@ -89,20 +92,27 @@ export default {
     },
 
     shareItinerary(){
-      const url = `${window.location.origin}/itinerary/${this.plan.id}`
 
-      navigator.clipboard.writeText(url).then(() => {
-        toast("Enlace copiado al portapapeles", {
-            type: 'success',
-            position: 'top-center',
-          })
-      }).catch((error) => {
-        console.error('Error al copiar el enlace:', error)
-        toast("Error al copiar el enlace", {
-            type: 'error',
-            position: 'top-center',
-          })
-      })
+      if(this.plan.public){
+        const url = `${window.location.origin}/itinerary/${this.plan.id}`
+
+        navigator.clipboard.writeText(url).then(() => {
+          toast("Enlace copiado al portapapeles", {
+              type: 'success',
+              position: 'top-center',
+            })
+        }).catch((error) => {
+          console.error('Error al copiar el enlace:', error)
+          toast("Error al copiar el enlace", {
+              type: 'error',
+              position: 'top-center',
+            })
+        })
+      }else{
+        this.isPublicModalOpen = true;
+
+      }
+
     },
 
     editActivity(index) {
@@ -113,6 +123,10 @@ export default {
     closeEditModal() {
       this.isEditModalOpen = false;
       this.currentEditingIndex = null;
+    },
+
+    closePublicModal() {
+      this.isPublicModalOpen = false;
     },
 
     async updateActivity(updatedActivity) {
@@ -165,6 +179,9 @@ export default {
       }
       return dateString;
     },
+    changeVisibility(){
+      console.log('cambiando visibilidad')
+    }
   },
 };
 </script>
@@ -244,6 +261,8 @@ export default {
       @update="updateActivity" />
     <ConfirmDeleteModal :is-open="isConfirmModalOpen" :plan="activityToDelete" @close="closeConfirmModal"
       @confirm="deleteActivity" />
+    <PublicModal :is-open="isPublicModalOpen"  @close="closePublicModal"
+    @confirm="changeVisibility" />
   </div>
   <ErrorItem v-else />
 </div>
