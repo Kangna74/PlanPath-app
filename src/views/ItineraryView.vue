@@ -35,7 +35,7 @@ export default {
       activityToDelete: null,
       isOwner: false,
       isLoading: true,
-      isPublicModalOpen: false
+      isPublicModalOpen: false,
     }
   },
 
@@ -225,7 +225,7 @@ export default {
                     </p>
                   </div>
 
-                  <div class="flex space-x-2">
+                  <div   v-if="isOwner" class="flex space-x-2">
                     <button @click="editActivity(index)" class="text-blue-600 hover:text-blue-800">
                       <EditIcon class="h-5 w-5" />
                     </button>
