@@ -313,6 +313,14 @@ const planId = ref(null)
 const toastId = ref(null)
 const handleFileUpload = async (event) => {
   const file = event.target.files[0]
+  const maxFileSize = 1 * 1024 * 1024
+  if (file.size > maxFileSize) {
+    toast.error('File size is too large. Max file size is 5MB', {
+      position: 'top-center',
+      autoClose: 3000,
+    })
+    return
+  }
   const formData = new FormData()
 
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
