@@ -2,7 +2,7 @@
 import { CalendarIcon, MapPinIcon, ArrowLeft, EditIcon, TrashIcon, SquareArrowOutUpRight  } from 'lucide-vue-next'
 import { getPlanById, updatePlan, getUser } from '@/utils/firescript'
 import router from '@/router'
-import { formatDateRange, formatDateTime, getPlanFromRoute, updatePlanActivity } from '@/utils'
+import { formatDateRange, getPlanFromRoute } from '@/utils'
 import EditActivityModal from '../components/EditActivityModal.vue'
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal.vue'
 import PublicModal from '../components/PublicModal.vue'
@@ -115,8 +115,14 @@ export default {
 
     },
 
-    editActivity(index) {
-      this.currentEditingIndex = index;
+    editActivity(date, index) {
+      const allActivities = Object.values(this.groupedActivities).flat();
+
+      const globalIndex = allActivities.findIndex(activity =>
+        activity.date === date && activity.id === this.groupedActivities[date][index].id
+      );
+
+      this.currentEditingIndex = globalIndex;
       this.isEditModalOpen = true;
     },
 
@@ -130,14 +136,25 @@ export default {
     },
 
     async updateActivity(updatedActivity) {
-      const updatedPlan = await updatePlanActivity(
-        this.plan,
-        this.currentEditingIndex,
-        updatedActivity,
-        updatePlan
-      );
-      if (updatedPlan) {
-        this.plan = updatedPlan;
+
+      console.log('updatedActivity', updatedActivity)
+
+      if (this.currentEditingIndex !== null && this.plan) {
+        const updatedActivities = [...this.plan.activities];
+        updatedActivities[this.currentEditingIndex] = updatedActivity;
+
+        const updatedPlan = {
+          ...this.plan,
+          activities: updatedActivities,
+        };
+
+        console.log('updatedPlan', updatedPlan)
+        try {
+          await updatePlan(updatedPlan)
+          this.plan = updatedPlan;
+        } catch (error) {
+          console.error('Error al actualizar la actividad:', error);
+        }
       }
       this.closeEditModal();
     },
@@ -226,7 +243,7 @@ export default {
                   </div>
 
                   <div v-if="isOwner" class="flex space-x-2">
-                    <button @click="editActivity(index)" class="text-blue-600 hover:text-blue-800">
+                    <button @click="editActivity(activity.date ,index)" class="text-blue-600 hover:text-blue-800">
                       <EditIcon class="h-5 w-5" />
                     </button>
                     <button @click="confirmDeleteActivity(index)" class="text-red-600 hover:text-red-800">
@@ -261,8 +278,7 @@ export default {
       @update="updateActivity" />
     <ConfirmDeleteModal :is-open="isConfirmModalOpen" :plan="activityToDelete" @close="closeConfirmModal"
       @confirm="deleteActivity" />
-    <PublicModal :is-open="isPublicModalOpen"  @close="closePublicModal"
-    @confirm="changeVisibility" />
+    <PublicModal :is-open="isPublicModalOpen"  @close="closePublicModal" @confirm="changeVisibility" />
   </div>
   <ErrorItem v-else />
 </div>
@@ -272,3 +288,4 @@ export default {
 </div>
 
 </template>
+

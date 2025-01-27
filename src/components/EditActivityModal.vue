@@ -36,7 +36,6 @@ export default {
   methods: {
     handleSubmit() {
       this.$emit('update', this.formData)
-      console.log('Activity updated:', this.formData)
       this.close()
     },
 
