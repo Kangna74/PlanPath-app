@@ -7,7 +7,7 @@ import ItineraryView from '@/views/ItineraryView.vue'
 import MyPlansView from '@/views/MyPlansView.vue'
 import LogIn from '@/views/LoginView.vue'
 import ErrorView from '@/views/ErrorView.vue'
-// import TestMap from '@/views/TestMap.vue'
+import RegisterView from '@/views/RegisterView.vue'
 import { getCurrentUser } from 'vuefire'
 
 const routes = [
@@ -46,15 +46,18 @@ const routes = [
     },
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: RegisterView,
+    beforeEnter: async () => {
+      return (await isUserLoged()) ? '/' : true
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
-    name: 'NotFound',
+    name: 'Error404',
     component: ErrorView,
   },
-  // {
-  //   path: '/test',
-  //   name: 'TestMap',
-  //   component: TestMap,
-  // },
 ]
 
 const isUserLoged = async () => {
