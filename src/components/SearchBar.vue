@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mb-8">
+  <div class="relative w-full mb-8">
     <input
       v-model="localSearchQuery"
       @input="updateSearchQuery"

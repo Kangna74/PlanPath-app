@@ -58,7 +58,7 @@ export default {
   methods: {
     onGeocoderResult(event) {
       const coordinates = event.result.geometry.coordinates
-      console.log('SearchMap, onGeocoderResult, coordinates:', coordinates)
+      console.error('SearchMap, onGeocoderResult, coordinates:', coordinates)
       this.$emit('update-coords', coordinates)
     },
   },
