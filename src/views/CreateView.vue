@@ -31,12 +31,50 @@ const formData = reactive({
   public: false,
 })
 
+const errors = reactive({
+  name: '',
+  date: '',
+  ubication: '',
+});
+
+const validateCurrentStep = () => {
+  let isValid = true;
+
+  if (currentStep.value === 0){
+    if (!formData.name.trim()) {
+      errors.name = 'El nombre del plan es requerido';
+      isValid = false;
+    } else {
+      errors.name = '';
+    }
+
+    if (!formData.ubication.trim()) {
+      errors.ubication = 'La ubicación del plan es requerida';
+      isValid = false;
+    } else {
+      errors.ubication = '';
+    }
+
+    if(!formData.startDate || !formData.endDate) {
+      errors.date = 'Las fechas de inicio y fin son requeridas';
+      isValid = false;
+    } else {
+      errors.date = '';
+    }
+  }
+
+  return isValid;
+}
+
 const handleAddActivity = (activity) => {
   formData.activities = addActivityToForm(formData, activity).activities
 }
 
 const nextStep = () => {
-  currentStep.value = handleStepNavigation(currentStep.value, steps.length, 'next')
+  if (validateCurrentStep()) {
+    currentStep.value = handleStepNavigation(currentStep.value, steps.length, 'next');
+  }
+
 }
 
 const previousStep = () => {
@@ -107,9 +145,11 @@ const handleCreateItinerary = async () => {
               id="name"
               v-model="formData.name"
               type="text"
+              required
               placeholder="¿Qué plan tienes en mente?"
               class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
+            <p v-if="errors.name" class="text-red-500 text-sm mt-1">{{ errors.name }}</p>
           </div>
           <div>
             <label for ="ubication" class="block text-sm font-medium text-gray-700">Ubicación</label>
@@ -117,9 +157,11 @@ const handleCreateItinerary = async () => {
               id="ubication"
               v-model="formData.ubication"
               type="text"
+              required
               placeholder="¿Dónde se llevará a cabo?"
               class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
+            <p v-if="errors.ubication" class="text-red-500 text-sm mt-1">{{ errors.ubication }}</p>
           </div>
           <div>
             <label for="dates" class="block text-sm font-medium text-gray-700"
@@ -132,6 +174,7 @@ const handleCreateItinerary = async () => {
                   id="startDate"
                   v-model="formData.startDate"
                   type="date"
+                  required
                   :min="getCurrentDate()"
                   @change="dateError = validateDate(formData.startDate, formData.endDate)"
                   class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -143,6 +186,7 @@ const handleCreateItinerary = async () => {
                   id="endDate"
                   v-model="formData.endDate"
                   type="date"
+                  required
                   :min="formData.startDate || getCurrentDate()"
                   @change="dateError = validateDate(formData.startDate, formData.endDate)"
                   class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -150,6 +194,7 @@ const handleCreateItinerary = async () => {
               </div>
             </div>
             <p v-if="dateError" class="text-red-500 text-sm mt-1">{{ dateError }}</p>
+            <p v-if="errors.date" class="text-red-500 text-sm mt-1">{{ errors.date }}</p>
           </div>
           <div>
             <label for="visibility" class="block text-sm font-medium text-gray-700"
