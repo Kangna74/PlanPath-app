@@ -105,8 +105,12 @@ export default {
       })
     },
 
-    editActivity(index) {
-      this.currentEditingIndex = index;
+    editActivity(date, index) {
+      const allActivities = Object.values(this.groupedActivities).flat();
+      const globalIndex = allActivities.findIndex(activity =>
+        activity.date === date && activity.id === this.groupedActivities[date][index].id
+      );
+      this.currentEditingIndex = globalIndex;
       this.isEditModalOpen = true;
     },
 
@@ -116,14 +120,21 @@ export default {
     },
 
     async updateActivity(updatedActivity) {
-      const updatedPlan = await updatePlanActivity(
-        this.plan,
-        this.currentEditingIndex,
-        updatedActivity,
-        updatePlan
-      );
-      if (updatedPlan) {
-        this.plan = updatedPlan;
+      if (this.currentEditingIndex !== null && this.plan) {
+        const updatedActivities = [...this.plan.activities];
+        updatedActivities[this.currentEditingIndex] = updatedActivity;
+
+        const updatedPlan = {
+          ...this.plan,
+          activities: updatedActivities,
+        };
+
+        try {
+          await updatePlan(updatedPlan);
+          this.plan = updatedPlan;
+        } catch (error) {
+          console.error('Error al actualizar la actividad:', error);
+        }
       }
       this.closeEditModal();
     },
@@ -209,7 +220,7 @@ export default {
                   </div>
 
                   <div class="flex space-x-2">
-                    <button @click="editActivity(index)" class="text-blue-600 hover:text-blue-800">
+                    <button @click="editActivity(date, index)" class="text-blue-600 hover:text-blue-800">
                       <EditIcon class="h-5 w-5" />
                     </button>
                     <button @click="confirmDeleteActivity(index)" class="text-red-600 hover:text-red-800">
@@ -253,3 +264,4 @@ export default {
 </div>
 
 </template>
+
