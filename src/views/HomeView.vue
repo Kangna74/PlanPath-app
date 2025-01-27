@@ -4,11 +4,12 @@ import { formatTime } from '@/utils'
 import { viewPlan } from '@/router'
 import { Calendar } from 'lucide-vue-next'
 import { getAllPlans } from '@/utils/firescript'
-import { MapPinIcon } from 'lucide-vue-next'
+import SearchBar from '@/components/SearchBar.vue'
 
 export default {
   components: {
     Calendar,
+    SearchBar
   },
   data() {
     return {
@@ -52,14 +53,7 @@ export default {
       </h1>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-2 m-10 justify-center items-center">
-      <input
-        v-model="searchQuery"
-        type="text"
-        class="w-64 sm:w-2/4 p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        placeholder="Busca un plan"
-      />
-    </div>
+    <SearchBar v-model="searchQuery" class=" mt-10 ml-8 mr-8" />
 
     <div>
       <h2 class="text-3xl font-bold text-blue-500 text-left m-10">Planes Populares</h2>

@@ -8,11 +8,7 @@
       </div>
 
       <!-- Barra de búsqueda -->
-      <div class="relative mb-8">
-        <input v-model="searchQuery" type="text" placeholder="Buscar planes..."
-          class="z-10 w-full px-12 py-3 border border-[#d9d9d9] rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#0b64ad]" />
-        <Search class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#828282] h-5 w-5" />
-      </div>
+      <SearchBar v-model="searchQuery" class="mb-8" />
 
       <!-- Lista de planes -->
       <!-- subir img aqui -->
@@ -126,13 +122,13 @@
 <script setup>
 import { ref, watch, onMounted, useTemplateRef } from 'vue'
 import router from '@/router'
-import { SearchIcon, TrashIcon, CalendarIcon, EditIcon, PlusCircleIcon, MapPinIcon } from 'lucide-vue-next'
-import { Search, Trash2, Calendar, Edit, PlusCircle, ImageUp } from 'lucide-vue-next'
+import {CalendarIcon, PlusCircleIcon, MapPinIcon, Trash2, Edit, ImageUp } from 'lucide-vue-next'
 import EditPlanModal from '../components/EditPlanModal.vue'
 import { getPlansByActualUser, deletePlan, updatePlan } from '@/utils/firescript'
 import AddActivityModal from '../components/AddActivityModal.vue'
 import { formatDateRange, formatTime, filterByName } from '@/utils'
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue'
+import SearchBar from '@/components/SearchBar.vue'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 
@@ -142,19 +138,18 @@ const showAddActivityModal = ref(false)
 const selectedPlan = ref(null)
 const deletingPlan = ref(null)
 const showConfirmDeleteModal = ref(false)
-
 const fileInput = useTemplateRef('fileInput')
-
 const searchQuery = ref('')
 const filteredPlans = ref([])
 
-watch(searchQuery, (searchQuery) => {
-  if (!searchQuery || searchQuery === '') {
+watch(searchQuery, (newQuery) => {
+  console.log('Nueva búsqueda:', newQuery)
+  if (!newQuery || newQuery === '') {
     filteredPlans.value = plans.value
     return
   }
 
-  filteredPlans.value = filterByName(plans.value, searchQuery)
+  filteredPlans.value = filterByName(plans.value, newQuery)
 })
 
 const fetchPlans = async () => {
@@ -305,8 +300,9 @@ const triggerFileInput = (id) => {
   planId.value = id
 }
 onMounted(() => {
-fetchPlans()
+  fetchPlans()
 })
+
 </script>
 
 
