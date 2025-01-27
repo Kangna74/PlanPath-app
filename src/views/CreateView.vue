@@ -12,6 +12,7 @@ import {
   togglePublic,
   createItinerary,
 } from '@/utils'
+import Breadcrumbs from '@/components/BreadCrumbs.vue'
 
 const steps = [
   { name: 'Planificar', icon: MapPinIcon },
@@ -94,7 +95,10 @@ const handleCreateItinerary = async () => {
 </script>
 
 <template>
+
   <div class="min-96 bg-white p-4 cursor-default">
+    <div class="mt-4">
+      <Breadcrumbs class="m-5" />
     <div class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg">
       <!-- Header -->
       <h1 class="mb-8 text-center text-3xl font-bold">Comienza tu aventura</h1>
@@ -331,5 +335,6 @@ const handleCreateItinerary = async () => {
         @submit="handleAddActivity"
       />
     </div>
+  </div>
   </div>
 </template>

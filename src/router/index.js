@@ -15,11 +15,13 @@ const routes = [
     path: '/',
     name: 'Home',
     component: HomeView,
+    meta: { breadcrumb: "Inicio" },
   },
   {
     path: '/create',
     name: 'Create',
     component: CreateView,
+    meta: { breadcrumb: "Crear Plan" },
     beforeEnter: async () => {
       return (await isUserLoged()) ? true : '/login'
     },
@@ -28,11 +30,13 @@ const routes = [
     path: '/itinerary/:id',
     name: 'Itinerary',
     component: ItineraryView,
+    meta: { breadcrumb: "Revisar Itinerario" },
   },
   {
-    path: '/my-plans',
+    path: '/myplans',
     name: 'MyPlans',
     component: MyPlansView,
+    meta: { breadcrumb: "Mis Planes" },
     beforeEnter: async () => {
       return (await isUserLoged()) ? true : '/login'
     },
@@ -41,6 +45,7 @@ const routes = [
     path: '/login',
     name: 'LogIn',
     component: LogIn,
+    meta: { breadcrumb: "Iniciar Sesión" },
     beforeEnter: async () => {
       return (await isUserLoged()) ? '/' : true
     },
@@ -49,6 +54,7 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: RegisterView,
+    meta: { breadcrumb: "Registrarse" },
     beforeEnter: async () => {
       return (await isUserLoged()) ? '/' : true
     },

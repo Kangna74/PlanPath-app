@@ -8,9 +8,12 @@
       style="display: none"
     />
     <main class="container mx-auto px-4 py-8">
+      <div class="MyPlans">
+        <Breadcrumbs class="m-5" />
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-[#000000]">Mis Planes</h1>
         <p class="text-[#828282]">{{ plans.length }} planes</p>
+      </div>
       </div>
 
       <!-- Barra de búsqueda -->
@@ -177,6 +180,7 @@ import SearchBar from '@/components/SearchBar.vue'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { toast } from 'vue3-toastify'
+import Breadcrumbs from '@/components/BreadCrumbs.vue'
 
 const plans = ref([])
 const editingPlan = ref(null)

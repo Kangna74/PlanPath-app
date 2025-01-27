@@ -82,7 +82,7 @@ export default {
           <RouterLink to="/" class="text-blue-500 hover:bg-gray-100 hover: rounded-md"
             >Inicio</RouterLink
           >
-          <RouterLink to="/my-plans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md"
+          <RouterLink to="/myplans" class="text-blue-500 hover:bg-gray-100 hover: rounded-md"
             >Mis Planes</RouterLink
           >
           <RouterLink to="/create" class="text-blue-500 hover:bg-gray-100 hover: rounded-md"
