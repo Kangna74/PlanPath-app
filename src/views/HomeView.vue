@@ -44,7 +44,7 @@ export default {
 <template>
   <div class="cursor-default">
     <div
-      class="bg-smpath w-screen min-h-96 bg-cover bg-center flex items-center justify-center sm:bg-path bg-no-repeat"
+      class="bg-smpath w-full min-h-96 bg-cover bg-center flex items-center justify-center sm:bg-path bg-no-repeat"
     >
       <h1
         class="text-white text-2xl md:text-4xl lg:text-5xl text-center font-extrabold font-merienda"

@@ -68,7 +68,7 @@ export default {
       isSmallScreen ? (showNavBar ? 'fixed translate-y-0' : 'fixed -translate-y-full') : 'relative',
     ]"
   >
-    <div class="ml-2 mr-2 max-w-8xl mx-auto px-4 sm:px-6 lg:px-2">
+    <div class=" max-w-8xl mx-auto px-4 sm:px-6 lg:px-2">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0">
