@@ -11,7 +11,6 @@
       <SearchBar v-model="searchQuery" class="mb-8" />
 
       <!-- Lista de planes -->
-      <!-- subir img aqui -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-if="plans.length === 0" class="col-span-full text-center py-12">
           <p class="text-[#828282] mb-8">No tienes ningún plan creado</p>
@@ -76,35 +75,25 @@
             </div>
           </div>
           <div class="flex justify-between items-center mt-4">
-            <button
-              @click="viewPlan(plan.id)"
-              class="bg-blue-500 shadow-lg shadow-blue-500/50 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors"
-            >
+            <button @click="viewPlan(plan.id)"
+              class="bg-blue-500 shadow-lg shadow-blue-500/50 text-white px-6 py-2 rounded-full text-sm hover:bg-[#0b64ad]/90 transition-colors">
               Revisar Itinerario
             </button>
             <div class="flex items-center mt-4">
-            <span class="text-sm text-gray-600 mr-2">{{ plan.public ? 'Público' : 'Privado' }}</span>
-            <button
-              @click="togglePlanVisibility(plan)"
-              class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              :class="plan.public ? 'bg-blue-600' : 'bg-gray-200'"
-            >
-              <span
-                class="inline-block w-4 h-4 transform transition-transform bg-white rounded-full"
-                :class="plan.public ? 'translate-x-6' : 'translate-x-1'"
-              />
-              <component
-                :is="plan.public ? GlobeIcon : LockIcon"
-                class="absolute left-0.5 top-0.5 w-5 h-5 text-white transition-opacity"
-                :class="plan.public ? 'opacity-100' : 'opacity-0'"
-              />
-              <component
-                :is="plan.public ? LockIcon : GlobeIcon"
-                class="absolute right-0.5 top-0.5 w-5 h-5 text-gray-400 transition-opacity"
-                :class="plan.public ? 'opacity-0' : 'opacity-100'"
-              />
-            </button>
-          </div>
+              <span class="text-sm text-gray-600 mr-2">{{ plan.public ? 'Público' : 'Privado' }}</span>
+              <button @click="togglePlanVisibility(plan)"
+                class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                :class="plan.public ? 'bg-blue-600' : 'bg-gray-200'">
+                <span class="inline-block w-4 h-4 transform transition-transform bg-white rounded-full"
+                  :class="plan.public ? 'translate-x-6' : 'translate-x-1'" />
+                <component :is="plan.public ? GlobeIcon : LockIcon"
+                  class="absolute left-0.5 top-0.5 w-5 h-5 text-white transition-opacity"
+                  :class="plan.public ? 'opacity-100' : 'opacity-0'" />
+                <component :is="plan.public ? LockIcon : GlobeIcon"
+                  class="absolute right-0.5 top-0.5 w-5 h-5 text-gray-400 transition-opacity"
+                  :class="plan.public ? 'opacity-0' : 'opacity-100'" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -131,6 +120,7 @@ import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
+import { toast } from 'vue3-toastify'
 
 const plans = ref([])
 const editingPlan = ref(null)
@@ -264,36 +254,50 @@ onMounted(() => {
 })
 
 const planId = ref(null)
-
+const toastId = ref(null)
 const handleFileUpload = async (event) => {
-const file = event.target.files[0]
-const formData = new FormData()
+  const file = event.target.files[0]
+  const formData = new FormData()
 
-const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
-const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-formData.append('file', file)
-formData.append('upload_preset', uploadPreset)
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+  formData.append('file', file)
+  formData.append('upload_preset', uploadPreset)
 
-try {
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+  toastId.value = toast.loading(
+    'Please wait...',
     {
-      method: 'POST',
-      body: formData
-    }
-  )
+      "position": "top-center",
+    },
+  );
 
-  const result = await response.json()
-  const planRef = doc(db, "plans", planId.value);
+  try {
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      {
+        method: 'POST',
+        body: formData
+      }
+    )
 
-  // Set the "capital" field of the city 'DC'
-  await updateDoc(planRef, {
-    image: result.secure_url
-  });
-  console.log(result.secure_url)
-} catch (error) {
-  console.error('Upload failed', error)
-}
+    const result = await response.json()
+    const planRef = doc(db, "plans", planId.value);
+
+    // Set the "capital" field of the city 'DC'
+    await updateDoc(planRef, {
+      image: result.secure_url
+
+    });
+    fetchPlans()
+    toast.remove(toastId.value);
+    toast.success('Image uploaded successfully', {
+      "position": "top-center",
+      "autoClose": 1500,
+    });
+  } catch (error) {
+    toast.remove(toastId.value);
+    console.error('Upload failed', error)
+  }
 }
 const triggerFileInput = (id) => {
   fileInput.value?.click()
@@ -304,5 +308,3 @@ onMounted(() => {
 })
 
 </script>
-
-
