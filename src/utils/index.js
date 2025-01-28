@@ -119,7 +119,7 @@ export const togglePublic = (isPublic) => {
 export const createItinerary = async (formData, postPlan, router) => {
   try {
     await postPlan(formData)
-    router.push('/my-plans')
+    router.push('/myplans')
   } catch (error) {
     console.error(error)
     // You might want to handle the error more gracefully here
