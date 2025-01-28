@@ -14,9 +14,11 @@
           <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
           </svg>
-          <RouterLink v-if="index !== breadcrumbs.length - 1" :to="crumb.path" class="ml-1 text-gray-700 hover:text-blue-600 md:ml-2">
+          <a v-if="index !== breadcrumbs.length - 1"
+             @click="navigateTo(crumb)"
+             class="ml-1 text-gray-700 hover:text-blue-600 md:ml-2 cursor-pointer">
             {{ crumb.name }}
-          </RouterLink>
+          </a>
           <span v-else class="ml-1 text-gray-500 md:ml-2">{{ crumb.name }}</span>
         </template>
       </li>
@@ -26,12 +28,19 @@
 
 <script>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
-  name: 'Bread-crumbs',
-  setup() {
+  name: 'Breadcrumbs',
+  props: {
+    customName: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props) {
     const route = useRoute()
+    const router = useRouter()
 
     const breadcrumbs = computed(() => {
       let pathArray = route.path.split('/')
@@ -45,17 +54,33 @@ export default {
       let path = ''
       for (let i = 0; i < pathArray.length; i++) {
         path += `/${pathArray[i]}`
-        breadcrumbs.push({
-          path: path,
-          name: route.matched[i + 1]?.meta?.breadcrumb || pathArray[i].charAt(0).toUpperCase() + pathArray[i].slice(1)
-        })
+        if (i === pathArray.length - 1 && props.customName) {
+          breadcrumbs.push({
+            path: path,
+            name: props.customName
+          })
+        } else {
+          breadcrumbs.push({
+            path: path,
+            name: route.matched[i + 1]?.meta?.breadcrumb || pathArray[i].charAt(0).toUpperCase() + pathArray[i].slice(1)
+          })
+        }
       }
 
       return breadcrumbs
     })
 
+    const navigateTo = (crumb) => {
+      if (crumb.name === 'Itinerary') {
+        router.go(-1) // Vuelve a la página anterior
+      } else {
+        router.push(crumb.path)
+      }
+    }
+
     return {
-      breadcrumbs
+      breadcrumbs,
+      navigateTo
     }
   }
 }
