@@ -17,6 +17,7 @@ import ErrorItem from '../components/ErrorItem.vue'
 import LoaderAnimation from '@/components/LoaderAnimation.vue'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
+import Breadcrumbs from '@/components/BreadCrumbs.vue'
 
 export default {
   components: {
@@ -31,6 +32,7 @@ export default {
     LoaderAnimation,
     SquareArrowOutUpRight,
     PublicModal,
+    Breadcrumbs,
   },
 
   data() {
@@ -222,6 +224,8 @@ export default {
 
 <template>
   <div v-if="!isLoading">
+    <div v-if="plan" class="itinerary-view mt-4">
+      <Breadcrumbs :customName="plan.name" class="m-5" />
     <div v-if="this.plan != null" class="min-h-screen bg-[#fafafa]">
       <main class="container mx-auto px-4 py-8">
         <div v-if="plan" class="bg-white rounded-lg shadow-md p-6">
@@ -320,6 +324,7 @@ export default {
       />
     </div>
     <ErrorItem v-else />
+  </div>
   </div>
 
   <div v-else class="min-96 py-20 container mx-auto flex justify-center align-center">

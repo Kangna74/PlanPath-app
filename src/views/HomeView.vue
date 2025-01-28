@@ -5,11 +5,13 @@ import { viewPlan } from '@/router'
 import { getAllPlans } from '@/utils/firescript'
 import SearchBar from '@/components/SearchBar.vue'
 import HomePlansItem from '@/components/HomePlansItem.vue'
+import Breadcrumbs from '@/components/BreadCrumbs.vue'
 
 export default {
   components: {
     SearchBar,
     HomePlansItem,
+    Breadcrumbs,
   },
   data() {
     return {
@@ -45,6 +47,7 @@ export default {
 </script>
 
 <template>
+
   <div class="cursor-default">
     <div
       class="bg-smpath w-screen min-h-96 bg-cover bg-center flex items-center justify-center sm:bg-path bg-no-repeat"
@@ -55,6 +58,8 @@ export default {
         Bienvenido a PlanPath
       </h1>
     </div>
+    <div class="mt-4">
+      <Breadcrumbs class="m-5" />
     <div class="container mx-auto px-4 py-8">
       <div class="flex flex-row justify-between items-center mb-6">
         <SearchBar v-model="searchQuery" />
@@ -74,5 +79,6 @@ export default {
     >
       Crear Nuevo Plan
     </button>
+  </div>
   </div>
 </template>
