@@ -47,7 +47,6 @@ export default {
 </script>
 
 <template>
-
   <div class="cursor-default">
     <div
       class="bg-smpath w-screen min-h-96 bg-cover bg-center flex items-center justify-center sm:bg-path bg-no-repeat"

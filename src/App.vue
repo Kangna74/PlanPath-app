@@ -3,7 +3,7 @@ import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '@/firebase'
-import FooterComponent from './components/FooterComponent.vue';
+import FooterComponent from './components/FooterComponent.vue'
 
 export default {
   components: {

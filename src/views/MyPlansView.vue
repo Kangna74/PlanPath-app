@@ -9,10 +9,10 @@
     />
     <main class="container mx-auto px-4 py-8">
       <div class="MyPlans">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-[#000000]">Mis Planes</h1>
-        <p class="text-[#828282]">{{ plans.length }} planes</p>
-      </div>
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-3xl font-bold text-[#000000]">Mis Planes</h1>
+          <p class="text-[#828282]">{{ plans.length }} planes</p>
+        </div>
       </div>
       <div class="flex flex-row justify-between items-center mb-6">
         <Breadcrumbs :items="Breadcrumbs" />
