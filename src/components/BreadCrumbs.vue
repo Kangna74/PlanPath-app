@@ -31,7 +31,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export default {
-  name: 'Breadcrumbs',
+  name: 'BreadCrumbsComponent',
   props: {
     customName: {
       type: String,

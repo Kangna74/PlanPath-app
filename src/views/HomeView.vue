@@ -35,7 +35,7 @@ export default {
       this.plans = await getAllPlans()
       this.filteredPlans = this.plans // Inicializa filteredPlans con todos los planes
     } catch (error) {
-      console.error(error)
+      console.log(error)
     }
   },
   watch: {
@@ -58,10 +58,11 @@ export default {
         Bienvenido a PlanPath
       </h1>
     </div>
-    <div class="mt-4">
-      <Breadcrumbs class="m-5" />
     <div class="container mx-auto px-4 py-8">
       <div class="flex flex-row justify-between items-center mb-6">
+        <Breadcrumbs :items="breadcrumbs" />
+      </div>
+      <div class="flex justify-between items-center mb-6">
         <SearchBar v-model="searchQuery" />
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -79,6 +80,5 @@ export default {
     >
       Crear Nuevo Plan
     </button>
-  </div>
   </div>
 </template>
