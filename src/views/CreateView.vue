@@ -95,12 +95,11 @@ const handleCreateItinerary = async () => {
 </script>
 
 <template>
-
   <div class="min-96 bg-white p-4 cursor-default">
     <div class="flex flex-row justify-between items-center mb-6">
       <Breadcrumbs :items="Breadcrumbs" />
     </div>
-    <div class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg">
+    <div class="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow-lg md:mb-20">
       <!-- Header -->
       <h1 class="mb-8 text-center text-3xl font-bold">Comienza tu aventura</h1>
 

@@ -226,105 +226,105 @@ export default {
   <div v-if="!isLoading">
     <div v-if="plan" class="mt-4">
       <Breadcrumbs :customName="plan.name" class="m-5" />
-    <div v-if="this.plan != null" class="min-h-screen">
-      <main class="container mx-auto px-4 py-8">
-        <div v-if="plan" class="bg-white rounded-lg shadow-md p-6">
-          <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-[#000000]">{{ plan.name }}</h1>
-            <button @click="goBack" class="text-blue-500 hover:text-[#094a80] transition-colors">
-              <ArrowLeft class="h-6 w-6" />
-            </button>
-          </div>
-          <div class="flex items-center text-[#828282] text-sm mb-6">
-            <CalendarIcon class="h-5 w-5 mr-2" />
-            <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
-          </div>
-          <h2 class="text-xl font-semibold mb-4">Tus Actividades:</h2>
-          <!-- Grouped Activities -->
-          <ul class="space-y-6">
-            <template v-for="(activities, date) in groupedActivities" :key="date">
-              <!-- Day Header -->
-              <li class="bg-blue-100 rounded-md p-4">
-                <h2 class="text-lg font-bold text-[#000000]">{{ formatDateTime(date) }}</h2>
-              </li>
+      <div v-if="this.plan != null" class="min-h-screen">
+        <main class="container mx-auto px-4 py-8">
+          <div v-if="plan" class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-6">
+              <h1 class="text-3xl font-bold text-[#000000]">{{ plan.name }}</h1>
+              <button @click="goBack" class="text-blue-500 hover:text-[#094a80] transition-colors">
+                <ArrowLeft class="h-6 w-6" />
+              </button>
+            </div>
+            <div class="flex items-center text-[#828282] text-sm mb-6">
+              <CalendarIcon class="h-5 w-5 mr-2" />
+              <p>{{ formatDateRange(plan.startDate, plan.endDate) }}</p>
+            </div>
+            <h2 class="text-xl font-semibold mb-4">Tus Actividades:</h2>
+            <!-- Grouped Activities -->
+            <ul class="space-y-6">
+              <template v-for="(activities, date) in groupedActivities" :key="date">
+                <!-- Day Header -->
+                <li class="bg-blue-100 rounded-md p-4">
+                  <h2 class="text-lg font-bold text-[#000000]">{{ formatDateTime(date) }}</h2>
+                </li>
 
-              <!-- Activities for the Day -->
-              <li
-                v-for="(activity, index) in activities"
-                :key="activity.id"
-                class="flex flex-col bg-gray-100 rounded-md p-4"
-              >
-                <div class="flex flex-col space-y-4">
-                  <!-- Top section with title and actions -->
-                  <div class="flex justify-between items-start">
-                    <div>
-                      <h3 class="font-medium text-[#000000]">{{ activity.name }}</h3>
-                      <p class="text-sm text-gray-500">
-                        {{ formatDateTime(activity.date, activity.time) }}
+                <!-- Activities for the Day -->
+                <li
+                  v-for="(activity, index) in activities"
+                  :key="activity.id"
+                  class="flex flex-col bg-gray-100 rounded-md p-4"
+                >
+                  <div class="flex flex-col space-y-4">
+                    <!-- Top section with title and actions -->
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <h3 class="font-medium text-[#000000]">{{ activity.name }}</h3>
+                        <p class="text-sm text-gray-500">
+                          {{ formatDateTime(activity.date, activity.time) }}
+                        </p>
+                      </div>
+
+                      <div v-if="isOwner" class="flex space-x-2">
+                        <button
+                          @click="editActivity(activity.date, index)"
+                          class="text-blue-600 hover:text-blue-800"
+                        >
+                          <EditIcon class="h-5 w-5" />
+                        </button>
+                        <button
+                          @click="confirmDeleteActivity(index)"
+                          class="text-red-600 hover:text-red-800"
+                        >
+                          <TrashIcon class="h-5 w-5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Location section -->
+                    <div class="flex items-center">
+                      <MapPinIcon class="h-5 w-5 text-blue-500 mr-1" />
+                      <p class="text-sm text-gray-500">{{ activity.location }}</p>
+                    </div>
+
+                    <!-- Notes section -->
+                    <div v-if="activity.notes">
+                      <p class="text-xs text-gray-600">
+                        <strong>Notas: </strong> {{ activity.notes }}
                       </p>
                     </div>
-
-                    <div v-if="isOwner" class="flex space-x-2">
-                      <button
-                        @click="editActivity(activity.date, index)"
-                        class="text-blue-600 hover:text-blue-800"
-                      >
-                        <EditIcon class="h-5 w-5" />
-                      </button>
-                      <button
-                        @click="confirmDeleteActivity(index)"
-                        class="text-red-600 hover:text-red-800"
-                      >
-                        <TrashIcon class="h-5 w-5" />
-                      </button>
-                    </div>
                   </div>
-
-                  <!-- Location section -->
-                  <div class="flex items-center">
-                    <MapPinIcon class="h-5 w-5 text-blue-500 mr-1" />
-                    <p class="text-sm text-gray-500">{{ activity.location }}</p>
-                  </div>
-
-                  <!-- Notes section -->
-                  <div v-if="activity.notes">
-                    <p class="text-xs text-gray-600">
-                      <strong>Notas: </strong> {{ activity.notes }}
-                    </p>
-                  </div>
-                </div>
-              </li>
-            </template>
-          </ul>
-          <button
-            @click="shareItinerary"
-            class="text-blue-500 hover:text-[#094a80] transition-colors flex flex-row gap-3 pt-4"
-          >
-            <p>Compartir itinerario</p>
-            <SquareArrowOutUpRight class="h-6 w-6" />
-          </button>
-        </div>
-      </main>
-      <EditActivityModal
-        :is-open="isEditModalOpen"
-        :activity="currentEditingActivity"
-        @close="closeEditModal"
-        @update="updateActivity"
-      />
-      <ConfirmDeleteModal
-        :is-open="isConfirmModalOpen"
-        :plan="activityToDelete"
-        @close="closeConfirmModal"
-        @confirm="deleteActivity"
-      />
-      <PublicModal
-        :is-open="isPublicModalOpen"
-        @close="closePublicModal"
-        @confirm="changeVisibility"
-      />
+                </li>
+              </template>
+            </ul>
+            <button
+              @click="shareItinerary"
+              class="text-blue-500 hover:text-[#094a80] transition-colors flex flex-row gap-3 pt-4"
+            >
+              <p>Compartir itinerario</p>
+              <SquareArrowOutUpRight class="h-6 w-6" />
+            </button>
+          </div>
+        </main>
+        <EditActivityModal
+          :is-open="isEditModalOpen"
+          :activity="currentEditingActivity"
+          @close="closeEditModal"
+          @update="updateActivity"
+        />
+        <ConfirmDeleteModal
+          :is-open="isConfirmModalOpen"
+          :plan="activityToDelete"
+          @close="closeConfirmModal"
+          @confirm="deleteActivity"
+        />
+        <PublicModal
+          :is-open="isPublicModalOpen"
+          @close="closePublicModal"
+          @confirm="changeVisibility"
+        />
+      </div>
+      <ErrorItem v-else />
     </div>
-    <ErrorItem v-else />
-  </div>
   </div>
 
   <div v-else class="min-96 py-20 container mx-auto flex justify-center align-center">
